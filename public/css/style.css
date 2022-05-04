@@ -17,6 +17,9 @@ body {
   width: calc(100% - 240px);
   margin-left: 240px;
 }
+.content {
+  margin-bottom: 40px;
+}
 
 .app-header {
   height: 80px;
@@ -89,4 +92,30 @@ body {
 }
 .status-box .stat-param .forms .separator {
   padding: 0 5px;
+}
+
+.authorization-box {
+  padding: 40px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+.authorization-box .auth-item {
+  border: 1px solid #eee;
+  min-width: 250px;
+  text-align: center;
+}
+.authorization-box .auth-item .position {
+  font-weight: 700;
+}
+.authorization-box .auth-item .date {
+  font-size: 80%;
+  color: #999;
+}
+.authorization-box .auth-item .signature {
+  height: 100px;
+}
+.authorization-box .auth-item .name {
+  font-weight: 500;
 }

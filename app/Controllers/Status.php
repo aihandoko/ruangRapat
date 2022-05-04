@@ -7,10 +7,14 @@ use App\Controllers\BaseController;
 class Status extends BaseController
 {
     protected $db;
+    protected $db2;
+    protected $db3;
 
     public function __construct()
     {
-        $this->db = \Config\Database::connect($group = null, true);
+        $this->db = \Config\Database::connect($group = null);
+        $this->db2 = \Config\Database::connect($group = null);
+        $this->db3 = \Config\Database::connect($group = 'nls');
     }
 
     public function index()
@@ -73,17 +77,58 @@ class Status extends BaseController
         ]);
     }
 
-    public function tes()
+    public function detail($id)
     {
-        $model = new \App\Models\StatusModel;
-        $var1 = '020';
-        $var2 = '020';
-        $var3 = '123';
-        $var4 = '999';
-        $var5 = '';
-        $var6 = '';
-        $var7 = '';
-        
-        $model->execute_sp($var1, $var2, $var3, $var4, $var5, $var6, $var7);
+        $route_query = "select Route, DeptId from SPMB_ACC where SPMBNo='".$id."'";
+        $exc_route_query = $this->db->simpleQuery($route_query);
+        do {
+            $route_res = [];
+            while($route_row = sqlsrv_fetch_array($exc_route_query, SQLSRV_FETCH_ASSOC)) {
+                $route_res[] = $route_row;
+            }
+        } while (sqlsrv_next_result($exc_route_query));
+
+        $dept_query = "select DeptName from SPMB_DEPT where DeptId='".$route_res[0]['DeptId']."'";
+        $exc_dept_query = $this->db->simpleQuery($dept_query);
+        do {
+            while($dept_row = sqlsrv_fetch_array($exc_dept_query, SQLSRV_FETCH_ASSOC)) {
+                $dept_res = $dept_row;
+            }
+        } while (sqlsrv_next_result($exc_dept_query));
+
+        $data = "select distinct a.ReqNo, a.ReqDate, a.CompId, a.DeptId, a.ReqDescription, a.AttachmentPath, b.AuthRoute, b.ReqSeqNo, b.ItemId, b.ItemQty, b.TargetDate, b.ReqNote, c.ItemName, d.UnitCode, b.AccountNo from Request_H a, Request_D b, Item c, Units d where a.ReqType='PR' and a.ReqType=b.ReqType and a.CompId=b.CompId  and a.ReqNo=b.ReqNo and b.ItemId=c.ItemId and c.CompId=rtrim(a.CompId) and c.UnitId=d.UnitId and rtrim(a.CompId)+'-'+CONVERT(VARCHAR,a.ReqNo) = '".$id."'";
+        $query = $this->db3->simpleQuery($data);
+        do {
+            $results = [];
+            while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
+                $results[] = $row;
+            }
+        } while (sqlsrv_next_result($query));
+
+        $route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";
+        $exc_route_auth = $this->db->simpleQuery($route_auth);
+        do {
+            $auth_res = [];
+            while($auth_row = sqlsrv_fetch_array($exc_route_auth, SQLSRV_FETCH_ASSOC)) {
+                $auth_res[] = $auth_row;
+            }
+        } while (sqlsrv_next_result($exc_route_auth));
+
+        $otorisasi_query = "select a.Acc, b.Nama, a.TglAcc, a.Posisi, isnull(a.Tolak,0) Tolak, isnull(a.Batal,0) Batal from SPMB_ACC a, SPMB_ACC_USER b where a.Acc is not null and a.SPMBNo='".$id."' and b.NIK=a.Acc";
+        $exc_otorisasi_query = $this->db->simpleQuery($otorisasi_query);
+        do {
+            $otorisasi_res = [];
+            while($otorisasi_row = sqlsrv_fetch_array($exc_otorisasi_query, SQLSRV_FETCH_ASSOC)) {
+                $otorisasi_res[] = $otorisasi_row;
+            }
+        } while (sqlsrv_next_result($exc_otorisasi_query));
+
+        return view('Status/detail', [
+            'data' => $results,
+            'routes' => $route_res,
+            'DeptName' => $dept_res['DeptName'],
+            'otorisasi' => $otorisasi_res,
+            'route_otorisasi' => implode(' > ', $auth_res[0])
+        ]);
     }
 }
