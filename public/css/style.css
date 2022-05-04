@@ -1,0 +1,92 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap);
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #fff;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+#page {
+  min-height: 100vh;
+  display: flex;
+}
+
+.main-wrapper {
+  width: calc(100% - 240px);
+  margin-left: 240px;
+}
+
+.app-header {
+  height: 80px;
+}
+
+.sidebar {
+  position: fixed;
+  width: 240px;
+  background-color: #cadbf7;
+  height: 100%;
+}
+
+.page-title {
+  margin: 0 0 20px 0;
+  font-size: 24px;
+  font-weight: 900;
+}
+.subtitle {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.app-title-box {
+  background-color: #729be9;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #fff;
+}
+.app-title-box .app-title {
+  font-weight: 900;
+  margin: 0;
+  padding: 0;
+  font-size: 32px;
+  color: #fff;
+}
+
+.login-wrapper {
+  width: 400px;
+  margin: 0 0 0 30px;
+}
+
+.non-login-menu {
+  margin: 40px 0 0 0;
+  padding: 0 30px;
+}
+.non-login-menu ul {
+  list-style: none;
+  padding: 0;
+}
+.non-login-menu ul li a {
+  color: #222;
+  font-weight: 500;
+}
+
+.status-box {
+  background-color: #cadbf7;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.status-box .stat-param {
+  padding: 25px 20px 25px 20px;
+}
+.status-box .stat-param .forms {
+  display: flex;
+  align-items: center;
+}
+.status-box .stat-param .forms .form-control {
+  font-size: 14px;
+}
+.status-box .stat-param .forms .separator {
+  padding: 0 5px;
+}
