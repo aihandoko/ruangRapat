@@ -4,82 +4,90 @@
 
 <h3 class="page-title">ACC SPMB</h3>
 
-<div class="status-box mb-4 pt-3 pb-3">
-    <div class="row mb-2">
-        <div class="col-5 text-right">
-            Site
-        </div>
-        <div class="col-7">
-            &nbsp;
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-5 text-right">
-            Request No
-        </div>
-        <div class="col-7">
-            <?= $data[0]['ReqNo'];?>
-        </div>
-    </div>
+<div class="status-box mb-4 p-4">
     <div class="row">
-        <div class="col-5 text-right">
-            Request Date
+        <div class="col-5">
+            <div class="row mb-2">
+                <div class="col-5">
+                    Site
+                </div>
+                <div class="col-7">
+                    : &nbsp;
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Request No
+                </div>
+                <div class="col-7">
+                    : <?= $data[0]['ReqNo'];?>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Request Date
+                </div>
+                <div class="col-7">
+                    : <?= $data[0]['ReqDate'];?>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Comp Id
+                </div>
+                <div class="col-7">
+                    : <?= $data[0]['CompId'];?>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Cost Ctr
+                </div>
+                <div class="col-7">
+                    : <?= $DeptName;?> (<?= $routes[0]['DeptId'];?>)
+                </div>
+            </div>
         </div>
         <div class="col-7">
-            <?= $data[0]['ReqDate'];?>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Req Dept
+                </div>
+                <div class="col-7">
+                    : <?= $DeptName;?> (<?= $routes[0]['DeptId'];?>)
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Description
+                </div>
+                <div class="col-7">
+                    : <?= $data[0]['ReqDescription'];?>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Route Otorisasi
+                </div>
+                <div class="col-7">
+                    : <?= $route_otorisasi;?>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5">
+                    Attachment
+                </div>
+                <div class="col-7">
+                    : &nbsp;
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-5 text-right">
-            Comp Id
-        </div>
-        <div class="col-7">
-            <?= $data[0]['CompId'];?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-5 text-right">
-            Cost Ctr
-        </div>
-        <div class="col-7">
-            <?= $DeptName;?> (<?= $routes[0]['DeptId'];?>)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-5 text-right">
-            Req Dept
-        </div>
-        <div class="col-7">
-            <?= $DeptName;?> (<?= $routes[0]['DeptId'];?>)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-5 text-right">
-            Description
-        </div>
-        <div class="col-7">
-            <?= $data[0]['ReqDescription'];?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-5 text-right">
-            Route Otorisasi
-        </div>
-        <div class="col-7">
-            <?= $route_otorisasi;?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-5 text-right">
-            Attachment
-        </div>
-        <div class="col-7">
-            &nbsp;
-        </div>
-    </div>
+
+    
 </div>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped mb-5">
     <thead>
         <tr>
             <th>No Item</th>
@@ -104,7 +112,28 @@
     </tbody>
 </table>
 
-<h3 class="">Otorisasi</h3>
+<h3 class="subtitle">Catatan-catatan</h3>
+<div class="notes-box mb-5">
+    <?php
+    if(count($notes) > 0) {
+        foreach($notes as $key => $note) {
+            $mb = ($key !== count($notes) - 1) ? ' mb-4' : '';
+            ?>
+            <div class="note-item<?= $mb;?>">
+                <div class="position"><?= $note['Posisi'];?></div>
+                <?php if($note['Catatan'] != null || $note['Catatan'] != '') : ?>
+                    <div class="detail-notes">
+                        <?= $note['Catatan'];?>
+                    </div>
+                <?php endif;?>
+            </div>
+            <?php
+        }
+    }
+    ?>
+</div>
+
+<h3 class="subtitle">Otorisasi</h3>
 
 <div class="authorization-box">
     <?php foreach($otorisasi as $auth_item) :

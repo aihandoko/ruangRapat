@@ -85,13 +85,41 @@
                 <td><?= $key + 1;?></td>
                 <td><a href="<?= site_url('status/detail/'.$row['SPMBNo']);?>"><?= $row['SPMBNo'];?></a></td>
                 <td><?= $row['Site'];?></td>
-                <td><?= $row['Step1'];?></td>
-                <td><?= $row['Step2'];?></td>
-                <td><?= $row['Step3'];?></td>
-                <td><?= $row['Step4'];?></td>
-                <td><?= $row['Step5'];?></td>
-                <td><?= $row['Step6'];?></td>
-                <td><?= $row['Step7'];?></td>
+                <td>
+                    <?= $row['Step1'];
+                    echo ($row['DateConverted'][0] != null) ? '<div class="acc-date">' . $row['DateConverted'][0] . '</div>' : '';
+                    ?>
+                </td>
+                <td>
+                    <?= $row['Step2'];
+                    echo ($row['DateConverted'][1] != null) ? '<div class="acc-date">' . $row['DateConverted'][1] . '</div>' : '';
+                    ?>
+                </td>
+                <td>
+                    <?= $row['Step3'];
+                    echo ($row['DateConverted'][2] != null) ? '<div class="acc-date">' . $row['DateConverted'][2] . '</div>' : '';
+                    ?>
+                </td>
+                <td>
+                    <?= $row['Step4'];
+                    echo ($row['DateConverted'][3] != null) ? '<div class="acc-date">' . $row['DateConverted'][3] . '</div>' : '';
+                    ?>
+                </td>
+                <td>
+                    <?= $row['Step5'];
+                    echo ($row['DateConverted'][4] != null) ? '<div class="acc-date">' . $row['DateConverted'][4] . '</div>' : '';
+                    ?>
+                </td>
+                <td>
+                    <?= $row['Step6'];
+                    echo ($row['DateConverted'][5] != null) ? '<div class="acc-date">' . $row['DateConverted'][5] . '</div>' : '';
+                    ?>
+                </td>
+                <td>
+                    <?= $row['Step7'];
+                    echo ($row['DateConverted'][7] != null) ? '<div class="acc-date">' . $row['DateConverted'][7] . '</div>' : '';
+                    ?>
+                </td>
             </tr>
         <?php endforeach;?>
     </tbody>
