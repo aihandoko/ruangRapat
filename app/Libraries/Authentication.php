@@ -2,25 +2,54 @@
 
 namespace App\Libraries;
 
-class Authentication {
+class Authentication
+{
+    protected $db;
+    protected $db2;
+    protected $db3;
 
-    private $user;
+    public function __construct()
+    {
+        $this->db = \Config\Database::connect($group = null);
+        $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
+        $this->db3 = \Config\Database::connect($group = 'nls');
+    }
 
-    public function login($email, $password) {
-        $model = new \App\Models\UsersModel;
-        $user = $model->findByEmail($email);
+    public function login($nik, $password)
+    {
+        $query = "spGetPwdValidation '".$nik."', '".$password."'";
+        $exc_query = $this->db2->simpleQuery($query);
+        do {
+            $result = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC);
+        } while (sqlsrv_next_result($exc_query));
 
-        if($user === null) {
+        if(!is_array($result) || $result[''] === 'NA') {
             return false;
         }
 
-        if(!$user->verifyPassword($password)) {
+        $user_query = "select * from SPMB_ACC_USER where NIK='".$nik."'";
+        $exc_user_query = $this->db->simpleQuery($user_query);
+        if(sqlsrv_num_rows($exc_user_query) > 0) {
+            do {
+                $results = [];
+                while($row = sqlsrv_fetch_array($exc_user_query, SQLSRV_FETCH_ASSOC)) {
+                    $results[] = $row;
+                }
+            } while (sqlsrv_next_result($exc_user_query));
+
+            $session = session();
+            $session->regenerate();
+            $session->set('selected_key', 0);
+            $session->set('NIK', $nik);
+            $session->set('Nama', $results[0]['Nama']);
+            $session->set('Fungsi', $results[0]['Fungsi']);
+            $session->set('Site', $results[0]['Site']);
+            $session->set('KodeSPMB', $results[0]['KodeSPMB']);
+            $session->set('DeptId', $results[0]['DeptId']);
+            $session->set('CompId', $results[0]['CompId']);
+        } else {
             return false;
         }
-
-        $session = session();
-        $session->regenerate();
-        $session->set('user_id', $user->id);
 
         return true;
     }
@@ -34,17 +63,17 @@ class Authentication {
             return null;
         }
 
-        if($this->user === null) {
-            $model = new \App\Models\UsersModel;
+        // if($this->user === null) {
+        //     $model = new \App\Models\UsersModel;
 
-            $this->user = $model->find(session()->get('user_id'));
-        }
+        //     $this->user = $model->find(session()->get('user_id'));
+        // }
 
         return $this->user;
     }
 
     public function isLoggedIn() {
-        return session()->has('user_id');
+        return session()->has('NIK');
     }
 
     public function api($json_data, $token_exp, $access_token = true)

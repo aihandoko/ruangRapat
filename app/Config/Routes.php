@@ -34,6 +34,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->add('login', 'Auth::login');
 $routes->add('logout', 'Auth::logout');
+$routes->add('switch', 'Fungsi::switch');
 
 /*
  * --------------------------------------------------------------------

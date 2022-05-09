@@ -22,8 +22,49 @@ body {
   padding: 0 20px;
 }
 
+.header-wrapper {
+  padding: 0 35px;
+}
 .app-header {
-  height: 80px;
+  border-top: 3px solid #729be9;
+  display: flex;
+  justify-content: flex-end;
+}
+.app-header .top-nav {
+  background-color: #729be9;
+  padding: 5px 10px;
+  color: #fff;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.top-right-nav {
+  text-align: right;
+  display: flex;
+  justify-content: right;
+}
+.top-right-nav.show .dropdown-toggle {
+  background-color: #e8edff;
+}
+.top-right-nav .dropdown-toggle {
+  border: 1px solid transparent;
+  background-color: transparent;
+  display: flex;
+  padding: 7px 15px;
+  border-radius: 5px;
+  color: #fff;
+}
+.top-right-nav .dropdown-toggle:after {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.top-right-nav .dropdown-toggle:hover {
+  border: 1px solid #fff;
+}
+.top-right-nav .dropdown-toggle .icon {
+  margin: 0 10px 0 0;
+}
+.top-right-nav .dropdown-toggle .name {
+  font-weight: 700;
 }
 
 .sidebar {
@@ -63,17 +104,39 @@ body {
   margin: 0 0 0 30px;
 }
 
-.non-login-menu {
+.main-menu {
   margin: 40px 0 0 0;
-  padding: 0 30px;
+  padding: 0 25px;
 }
-.non-login-menu ul {
+.main-menu ul {
   list-style: none;
   padding: 0;
 }
-.non-login-menu ul li a {
+.main-menu ul li a {
   color: #222;
   font-weight: 500;
+  display: block;
+  padding: 3px 0 3px 20px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.main-menu ul li a:before {
+  font-family: "Font Awesome 5 Free";
+  position: absolute;
+  font-weight: 900;
+  left: 0;
+  top: 0;
+  opacity: .6;
+  content: "\f054";
+  transition: all 0.3s ease;
+}
+.main-menu ul li a:hover {
+  text-decoration: none;
+  padding: 3px 0 3px 25px;
+  opacity: .7;
+}
+.main-menu ul li a:hover:before {
+  left: 5px;
 }
 
 .status-box {
@@ -128,4 +191,10 @@ body {
 }
 .authorization-box .auth-item .name {
   font-weight: 500;
+}
+
+.boxed-el {
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 10px;
 }

@@ -70,7 +70,6 @@ class Filters extends BaseConfig
         'guest' => [
             'before' => [
                 'login',
-                'status'
             ]
         ],
         'login' => [

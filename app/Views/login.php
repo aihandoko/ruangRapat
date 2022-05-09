@@ -41,12 +41,12 @@
                                 <div class="col-12">
                                     <input type="text" name="nik" placeholder="NIK"
                                         class="form-control <?= (session()->has('error')) ? 'border-danger' : '';?>"
-                                        value="<?= old('email') ?>" />
+                                        value="dummy" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-12">
-                                    <input type="password" placeholder="Password" name="password"
+                                    <input type="password" placeholder="Password" name="password" value="dummy"
                                         class="form-control <?= (session()->has('error')) ? 'border-danger' : '';?>" />
                                 </div>
                             </div>

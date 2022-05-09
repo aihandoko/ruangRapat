@@ -21,8 +21,26 @@
     <div id="page">
 
         <div class="main-wrapper">
-            <header class="app-header">
-                &nbsp;
+            <header class="header-wrapper">
+                <div class="app-header">
+                        <div class="top-nav">
+                            <div class="top-right-nav dropdown">
+                                <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+                                    <div class="icon">
+                                        <i class="far fa-user-circle"></i>
+                                    </div>
+                                    <div class="name">
+                                        <?= session()->get('Nama');?>
+                                    </div>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="<?= site_url('myprofile'); ?>" class="dropdown-item">Profil</a>
+                                    <a href="<?= site_url('logout'); ?>" onclick="return confirm('Anda yakin untuk Logout?')"
+                                        class="dropdown-item">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
             </header>
 
             <div class="content">
@@ -46,15 +64,38 @@
                 </h1>
             </div>
 
-            <div class="non-login-menu">
-                <ul>
-                    <li class="active">
-                        <a href="<?= site_url('login');?>">Login</a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url('status');?>">Status SPMB</a>
-                    </li>
-                </ul>
+            <div class="main-menu">
+                <?php if($auth->isLoggedIn()) : ?>
+                    <ul>
+                        <li>
+                            <a href="<?= site_url('/');?>">Dashbor</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('switch');?>">Switch fungsi</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('queue');?>">Antrian SPMB</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('status');?>">Status SPMB</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('users');?>">Users</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('logout');?>">Logout</a>
+                        </li>
+                    </ul>
+                <?php else : ?>
+                    <ul>
+                        <li class="active">
+                            <a href="<?= site_url('login');?>">Login</a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('status');?>">Status SPMB</a>
+                        </li>
+                    </ul>
+                <?php endif;?>
             </div>
         </section>
 
@@ -62,8 +103,9 @@
 
     <!-- SCRIPTS -->
 
-    <script>
-    </script>
+    <script src="<?= site_url('third-party/jquery/jquery.min.js'); ?>"></script>
+    <script src="<?= site_url('third-party/bootstrap/js/popper.min.js'); ?>"></script>
+    <script src="<?= site_url('third-party/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <!-- -->
 
