@@ -6,17 +6,119 @@ use App\Controllers\BaseController;
 
 class Status extends BaseController
 {
-    protected $db;
-    protected $db2;
-    protected $db3;
-    protected $auth;
+    // protected $db;
+    // protected $db2;
+    // protected $db3;
+    // protected $auth;
 
-    public function __construct()
+    // public function __construct()
+    // {
+    //     $this->db = \Config\Database::connect($group = null);
+    //     $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
+    //     $this->db3 = \Config\Database::connect($group = 'nls');
+    //     $this->auth = service('auth');
+    // }
+
+    public function tes()
     {
-        $this->db = \Config\Database::connect($group = null);
-        $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
-        $this->db3 = \Config\Database::connect($group = 'nls');
-        $this->auth = service('auth');
+        return view('Status/dummy', [
+        ]);
+    }
+
+    public function tes2()
+    {
+        return view('login', [
+        ]);
+    }
+
+    public function apiGetAll()
+    {
+        if( ! $dataStatus = cache('dataStatus')) {
+            $data = "spReadSPMBStatus2014";
+            $query = $this->db->simpleQuery($data);
+            do {
+                $results = [];
+                while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
+                    // echo print_r($row, true);
+                    $row['DateConverted'] = [
+                        ($row['ACC1'] != null) ? $this->dateConverter($row['ACC1']) : null,
+                        ($row['ACC2'] != null) ? $this->dateConverter($row['ACC2']) : null,
+                        ($row['ACC3'] != null) ? $this->dateConverter($row['ACC3']) : null,
+                        ($row['ACC4'] != null) ? $this->dateConverter($row['ACC4']) : null,
+                        ($row['ACC5'] != null) ? $this->dateConverter($row['ACC5']) : null,
+                        ($row['ACC6'] != null) ? $this->dateConverter($row['ACC6']) : null,
+                        ($row['ACC7'] != null) ? $this->dateConverter($row['ACC7']) : null,
+                        ($row['ACC8'] != null) ? $this->dateConverter($row['ACC8']) : null,
+                        ($row['ACC9'] != null) ? $this->dateConverter($row['ACC9']) : null,
+                        ($row['ACC10'] != null) ? $this->dateConverter($row['ACC10']) : null
+                    ];
+                    $results[] = $row;
+                }
+            } while (sqlsrv_next_result($query));
+
+            $dataStatus = $results;
+
+            cache()->save('dataStatus', $dataStatus, 1200);
+        }
+
+        $limit = $this->request->getPost('length');
+        $offset = $this->request->getPost('start');
+
+        if($this->request->getPost('order')) {
+            $sort = $this->request->getPost('order')['0']['dir'];
+            switch ($this->request->getPost('order')['0']['column']) {
+                case 1:
+                    $column = 'SPMBNo';
+                    break;
+                 case 2:
+                    $column = 'Site';
+                    break;
+                case 3:
+                    $column = 'Step1';
+                    break;
+                case 4:
+                    $column = 'Step2';
+                    break;
+                case 5:
+                    $column = 'Step3';
+                    break;
+                case 6:
+                    $column = 'Step4';
+                    break;
+                case 7:
+                    $column = 'Step5';
+                    break;
+                case 8:
+                    $column = 'Step6';
+                    break;
+                case 9:
+                    $column = 'Step7';
+                    break;
+                default:
+                    $column = 'SPMBNo';
+            }
+            usort($dataStatus, function($a, $b) use ($sort, $column) {
+                if($sort == 'desc') {
+                    return $b[$column] <=> $a[$column];
+                } else {
+                    return $a[$column] <=> $b[$column];
+                }
+            });
+        }
+
+        $data = array_slice($dataStatus, $offset, $limit);
+
+        $response = [
+            'draw' => ($this->request->getPost('draw') != null) ? $this->request->getPost('draw') : 0,
+            'recordsTotal' => count($data),
+            'recordsFiltered' => count($dataStatus),
+            // 'datadraw' => $this->request->getPost('draw'),
+            // 'limit' => $limit,
+            // 'offset' => $offset,
+            'data' => $data,
+        ];
+
+        return $this->response->setJSON($response);
     }
 
     public function index()
@@ -48,6 +150,7 @@ class Status extends BaseController
         }
 
         return view('Status/main', [
+            'functions' => $this->getFungsi(),
             'data' => $results,
             'auth' => $this->auth
         ]);
@@ -63,8 +166,8 @@ class Status extends BaseController
         $unit2 = $this->request->getPost('unit2');
         $no = $this->request->getPost('no');
         $no2 = $this->request->getPost('no2');
-        $tahun = $this->request->getPost('tahun');
-        $tahun2 = $this->request->getPost('tahun2');
+        $tahun = '';
+        $tahun2 = '';
         $deptId = $this->request->getPost('deptId');
 
         try {
@@ -79,18 +182,40 @@ class Status extends BaseController
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-        return view('Status/params',[
-            'data' => $results,
-            'dataPost' => [
-                'unit' => $unit,
-                'unit2' => $unit2,
-                'no' => $no,
-                'no2' => $no2,
-                'tahun' => $tahun,
-                'tahun2' => $tahun2,
-                'deptId' => $deptId
-            ]
-        ]);
+
+        // dd($results);
+
+        $response = [
+            'success' => true,
+            'data' => $results
+        ];
+
+        // $limit = $this->request->getPost('length');
+        // $offset = $this->request->getPost('start');
+
+        // $data = array_slice($results, $offset, $limit);
+
+        // $response = [
+        //     'draw' => 1,
+        //     'recordsTotal' => count($data),
+        //     'recordsFiltered' => count($results),
+        //     'data' => $data,
+        // ];
+
+        return $this->response->setJSON($response);
+
+        // return view('Status/params',[
+        //     'data' => $results,
+        //     'dataPost' => [
+        //         'unit' => $unit,
+        //         'unit2' => $unit2,
+        //         'no' => $no,
+        //         'no2' => $no2,
+        //         'tahun' => $tahun,
+        //         'tahun2' => $tahun2,
+        //         'deptId' => $deptId
+        //     ]
+        // ]);
     }
 
     public function detail($id)
@@ -166,6 +291,8 @@ class Status extends BaseController
 
         if(count($results) > 0) {
             return view('Status/detail', [
+                'functions' => $this->getFungsi(),
+                'auth' => $this->auth,
                 'data' => $results,
                 'routes' => $route_res,
                 'DeptName' => $DeptName,
@@ -250,6 +377,7 @@ class Status extends BaseController
         } while (sqlsrv_next_result($exc_notes_query));
 
         return view('Status/acc', [
+            'functions' => $this->getFungsi(),
             'auth' => $this->auth,
             'data' => $results,
             'routes' => $route_res,

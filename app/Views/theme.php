@@ -20,9 +20,38 @@
 
     <div id="page">
 
-        <div class="main-wrapper">
-            <header class="header-wrapper">
+        <div class="overlay"></div>
+        <div class="floating-msg">
+            <div class="alert alert-success">Data berhasil diubah</div>
+        </div>
+
+        <header class="header-wrapper">
+            <div class="container">
+
                 <div class="app-header">
+                    <div class="sidebar-nav-btn">
+                        <span title="Klik untuk menghilangkan sidebar" class="active"><i class="fas fa-bars"></i></span>
+                    </div>
+                    <?php if($auth->isLoggedIn()) : ?>
+                    <div class="switch-wrapper">
+                        <div class="caption">Switch fungsi</div>
+                        <div class="switch-nav dropdown">
+                            <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+                                <div class="fungsi">
+                                    <?= session()->get('Site') . ' - ' .session()->get('Fungsi');?>
+                                </div>
+                                <div class="dropdown-menu">
+                                    <?php foreach ($functions as $key => $value) :
+                                        $selected = ($key == session()->get('selected_key')) ? ' selected' : '';
+
+                                        $active = ($value['Site'] == session()->get('Site') && $value['Fungsi'] == session()->get('Fungsi')) ? ' active' : '';
+                                            ?>
+                                        <a href="#" data-key="<?= $key;?>" class="dropdown-item<?= $active;?>"><?= $value['Site'] . ' - ' . $value['Fungsi'];?></a>
+                                    <?php endforeach;?>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                         <div class="top-nav">
                             <div class="top-right-nav dropdown">
                                 <button type="button" class="dropdown-toggle" data-toggle="dropdown">
@@ -40,9 +69,16 @@
                                 </div>
                             </div>
                         </div>
+                <?php endif;?>
                 </div>
+                </div>
+
             </header>
 
+        <div class="main-wrapper">
+            <?php if(url_is('login')) :
+                echo $this->renderSection('content');
+            else : ?>
             <div class="content">
                 <div class="container">
                     <div class="row">
@@ -52,9 +88,7 @@
                     </div>
                 </div>
             </div>
-
-            <footer>
-            </footer>
+        <?php endif;?>
         </div>
 
         <section class="sidebar">
@@ -71,19 +105,18 @@
                             <a href="<?= site_url('/');?>">Dashbor</a>
                         </li>
                         <li>
-                            <a href="<?= site_url('switch');?>">Switch fungsi</a>
-                        </li>
-                        <li>
                             <a href="<?= site_url('queue');?>">Antrian SPMB</a>
                         </li>
                         <li>
                             <a href="<?= site_url('status');?>">Status SPMB</a>
                         </li>
+                        <?php if(session()->get('Fungsi') === 'Admin') : ?>
+                            <li>
+                                <a href="<?= site_url('users');?>">Users</a>
+                            </li>
+                        <?php endif;?>
                         <li>
-                            <a href="<?= site_url('users');?>">Users</a>
-                        </li>
-                        <li>
-                            <a href="<?= site_url('logout');?>">Logout</a>
+                            <a href="<?= site_url('logout');?>" onclick="return confirm('Anda yakin untuk Logout?')">Logout</a>
                         </li>
                     </ul>
                 <?php else : ?>
@@ -99,14 +132,27 @@
             </div>
         </section>
 
+        <footer class="app-footer">
+            <div class="copyright">
+                &copy; 2022 KG of Manufacture
+            </div>
+        </footer>
+
     </div>
 
     <!-- SCRIPTS -->
 
     <script src="<?= site_url('third-party/jquery/jquery.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?= site_url('third-party/DataTables/datatables.min.js');?>"></script>
+    <script type="text/javascript"
+        src="<?= site_url('third-party/DataTables/DataTables-1.11.3/js/dataTables.bootstrap4.min.js');?>"></script>
     <script src="<?= site_url('third-party/bootstrap/js/popper.min.js'); ?>"></script>
     <script src="<?= site_url('third-party/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
+    <?php if(url_is('status/acc/*')) : ?>
+        <script src="<?= site_url('js/MaxLength.min.js');?>"></script>
+    <?php endif;?>
+    <script src="<?= site_url('js/custom.js'); ?>"></script>
     <!-- -->
 
 </body>

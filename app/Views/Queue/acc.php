@@ -5,7 +5,7 @@
 <h1 class="page-title">Antrian</h1>
 
 <div class="subtitle">
-	Daftar SPMB Untuk Diproses
+	Daftar SPMB Untuk Diproses <?= session()->get('Fungsi');?>
 </div>
 
 <table class="table table-striped table-bordered">

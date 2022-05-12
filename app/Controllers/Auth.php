@@ -6,11 +6,26 @@ namespace App\Controllers;
 // use CodeIgniter\I18n\Time;
 // use Exception;
 
-class Auth extends BaseController {
+class Auth extends BaseController
+{
+    protected $db;
+    protected $db2;
+    protected $db3;
+    protected $auth;
+
+    public function __construct()
+    {
+        $this->db = \Config\Database::connect($group = null);
+        $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
+        $this->db3 = \Config\Database::connect($group = 'nls');
+        $this->auth = service('auth');
+    }
 
     public function login()
     {
-        return view('login');
+        return view('login', [
+            'auth' => $this->auth
+        ]);
     }
 
     public function checkLogin()

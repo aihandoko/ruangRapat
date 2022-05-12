@@ -5,7 +5,7 @@
 <h1 class="page-title">Antrian</h1>
 
 <div class="subtitle">
-	Daftar SPMB Untuk Diproses
+	Daftar SPMB Untuk Diproses <?= session()->get('Fungsi');?>
 </div>
 
 <table class="table table-striped table-bordered">
@@ -20,13 +20,16 @@
 	</thead>
 	<tbody>
 		<?php if(count($data) > 0) :
-			foreach ($data as $key => $value) : ?>
+			$arr_fungsi = ['PPSU', 'Perbekalan', 'CFM'];
+			foreach ($data as $key => $value) :
+				$show_link = (in_array(session()->get('Fungsi'), $arr_fungsi) || substr(session()->get('Fungsi'), 0, 4) === 'Log ') ? 'detail' : 'acc';
+				?>
 				<tr>
 					<td><?= $key + 1;?></td>
 					<td><?= $value['Site'];?></td>
 					<td><?= $value['SPMBNo'];?></td>
 					<td><?= $value['Unit'];?></td>
-					<td><a href="<?= site_url('status/acc/'.$value['SPMBNo']);?>">Tampilkan</td>
+					<td><a href="<?= site_url('status/'.$show_link.'/'.$value['SPMBNo']);?>">Tampilkan</td>
 				</tr>
 			<?php endforeach;?>
 		<?php else : ?>

@@ -11,11 +11,48 @@ body {
 #page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
+}
+
+#page > .overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 599;
+  background-color: rgba(255,255,255,.82);
+  display: none;
+}
+#page > .overlay.show {
+  display: block;
+}
+#page > .floating-msg {
+  position: fixed;
+  width: 100%;
+  z-index: 499;
+  display: none;
+  justify-content: center;
+}
+#page > .floating-msg.show {
+  display: flex;
 }
 
 .main-wrapper {
   width: calc(100% - 240px);
   margin-left: 240px;
+  position: relative;
+  flex: 1;
+}
+.main-wrapper:not(.fixed-to-header) {
+  transition: margin-left .3s ease, width .3s ease;
+}
+.main-wrapper.to-sidebar-hide {
+  margin-left: 0;
+  width: 100%;
+}
+.main-wrapper.fixed-to-header {
+  margin-top: 103px;
 }
 .content {
   margin-bottom: 40px;
@@ -23,13 +60,119 @@ body {
 }
 
 .header-wrapper {
-  padding: 0 35px;
+  padding: 0 20px 0 260px;
+  position: relative;
+  margin: 0 0 40px 0;
+  transition: padding .3s ease;
 }
-.app-header {
-  border-top: 3px solid #729be9;
+.header-wrapper.to-sidebar-hide {
+  padding: 0 35px 0 35px;
+}
+.header-wrapper.fixed {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  top: 0;
+  left: 0;
+  animation: sticky .5s;
+}
+@keyframes sticky {
+  from {
+    top: -60px;
+  }
+  to {
+    top: 0;
+  }
+}
+.header-wrapper .app-header {
+  background-color: #729be9;
+  color: #fff;
+  padding: 10px 20px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
 }
+.header-wrapper.fixed .app-header {
+  box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+}
+.app-header .sidebar-nav-btn {
+  margin: 0 20px 0 0;
+}
+.app-header .sidebar-nav-btn span {
+  cursor: pointer;
+}
+.app-header .sidebar-nav-btn .active {
+  color: rgba(255,255,255,.5);
+}
+.app-header .switch-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.app-header .switch-wrapper .caption {
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+  font-weight: 500;
+  font-size: 85%;
+  margin: 0 10px 0 0;
+}
+.app-header .switch-wrapper .switch-nav {
+  text-align: right;
+  display: flex;
+  justify-content: right;
+}
+.switch-wrapper .switch-nav.show .dropdown-toggle {
+  background-color: rgba(255,255,255,.7);
+  border: 1px solid rgba(255,255,255,.7);
+  color: #222;
+}
+.switch-wrapper .switch-nav .dropdown-toggle {
+  border: 1px solid rgba(255,255,255,.3);
+  background-color: transparent;
+  display: flex;
+  padding: 4px 10px;
+  border-radius: 3px;
+  color: #fff;
+}
+.switch-wrapper .switch-nav .dropdown-toggle:after {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.switch-wrapper .switch-nav .dropdown-toggle:hover {
+  border: 1px solid rgba(255,255,255,.7);
+}
+.switch-wrapper .switch-nav .dropdown-toggle .icon {
+  margin: 0 10px 0 0;
+}
+.switch-wrapper .switch-nav .dropdown-toggle .fungsi {
+  font-weight: 700;
+}
+.switch-wrapper .switch-nav .dropdown-toggle .dropdown-menu.show .dropdown-item {
+  transition: all .5s ease;
+}
+.switch-wrapper .switch-nav .dropdown-toggle .dropdown-menu.show .dropdown-item.active {
+  background-color: transparent;
+  color: inherit;
+  font-weight: 700;
+  padding-left: 40px;
+  position: relative;
+}
+.switch-wrapper .switch-nav .dropdown-toggle .dropdown-menu.show .dropdown-item.active:before {
+  font-family: "Font Awesome 5 Free";
+  position: absolute;
+  font-weight: 900;
+  left: 7px;
+  top: 3px;
+  content: "\f00c";
+}
+.switch-wrapper .switch-nav .dropdown-toggle .dropdown-menu.show .dropdown-item:hover {
+  background-color: transparent;
+  color: rgba(0,0,0,.5);
+}
+
 .app-header .top-nav {
   background-color: #729be9;
   padding: 5px 10px;
@@ -43,14 +186,14 @@ body {
   justify-content: right;
 }
 .top-right-nav.show .dropdown-toggle {
-  background-color: #e8edff;
+  color: rgba(255,255,255,.3);
 }
 .top-right-nav .dropdown-toggle {
   border: 1px solid transparent;
   background-color: transparent;
   display: flex;
-  padding: 7px 15px;
-  border-radius: 5px;
+  padding: 4px 10px;
+  border-radius: 0;
   color: #fff;
 }
 .top-right-nav .dropdown-toggle:after {
@@ -58,7 +201,7 @@ body {
   margin-left: 10px;
 }
 .top-right-nav .dropdown-toggle:hover {
-  border: 1px solid #fff;
+  border: 1px solid transparent;
 }
 .top-right-nav .dropdown-toggle .icon {
   margin: 0 10px 0 0;
@@ -69,13 +212,46 @@ body {
 
 .sidebar {
   position: fixed;
+  z-index: 199;
+  left: 0;
+  top: 0;
   width: 240px;
   background-color: #cadbf7;
   height: 100%;
+  transition: left .3s ease;
+}
+.sidebar.hide {
+  left: -240px;
+}
+
+.login-wrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+}
+.login-box {
+  width: 450px;
+  border: 1px solid #eee;
+  padding: 35px;
+  border-radius: 5px;
+}
+.login-box .title {
+  margin: 0 0 30px 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .page-title {
-  margin: 0 0 20px 0;
+  margin: 0 0 40px 0;
+  padding: 0 0 15px 0;
+  border-bottom: 1px solid #eee;
   font-size: 24px;
   font-weight: 900;
 }
@@ -87,21 +263,16 @@ body {
 
 .app-title-box {
   background-color: #729be9;
-  text-align: center;
-  padding: 20px 0;
-  border-bottom: 1px solid #fff;
+  border-bottom: 2px solid #fff;
+  padding: 40px 0 0 20px;
+  overflow: hidden;
 }
 .app-title-box .app-title {
   font-weight: 900;
-  margin: 0;
+  margin: 0 0 -14px 0;
   padding: 0;
-  font-size: 32px;
+  font-size: 48px;
   color: #fff;
-}
-
-.login-wrapper {
-  width: 400px;
-  margin: 0 0 0 30px;
 }
 
 .main-menu {
@@ -146,6 +317,11 @@ body {
 }
 .status-box .stat-param {
   padding: 25px 20px 25px 20px;
+}
+.status-box .stat-param button[name="submit"]:disabled {
+  background-color: #ccc;
+  color: #999;
+  border-color: #999;
 }
 .status-box .stat-param .forms {
   display: flex;
@@ -197,4 +373,20 @@ body {
   border: 1px solid #eee;
   padding: 20px;
   border-radius: 10px;
+}
+
+.app-footer {
+  width: calc(100% - 240px);
+  margin-left: 240px;
+  margin-top: 60px;
+  padding: 0 40px;
+}
+.app-footer.to-sidebar-hide {
+  margin-left: 0;
+}
+.app-footer .copyright {
+  border-top: 1px solid #eee;
+  padding: 30px 0;
+  font-size: 85%;
+  color: rgba(0,0,0,.5);
 }

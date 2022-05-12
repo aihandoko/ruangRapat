@@ -65,4 +65,43 @@ class Fungsi extends BaseController
             return redirect()->back()->with('error', 'Terjadi kesalahan');
         }
 	}
+
+    public function changeFungsi()
+    {
+        $fungsi = (int)$this->request->getPost('key');
+
+        $user_query = "select * from SPMB_ACC_USER where NIK='".session()->get('NIK')."'";
+        $exc_user_query = $this->db->simpleQuery($user_query);
+        if(sqlsrv_num_rows($exc_user_query) > 0) {
+            do {
+                $results = [];
+                while($row = sqlsrv_fetch_array($exc_user_query, SQLSRV_FETCH_ASSOC)) {
+                    $results[] = $row;
+                }
+            } while (sqlsrv_next_result($exc_user_query));
+
+            $session = session();
+            $session->regenerate();
+            $session->set('selected_key', $fungsi);
+            $session->set('Fungsi', $results[$fungsi]['Fungsi']);
+            $session->set('Site', $results[$fungsi]['Site']);
+            $session->set('KodeSPMB', $results[$fungsi]['KodeSPMB']);
+            $session->set('DeptId', $results[$fungsi]['DeptId']);
+            $session->set('CompId', $results[$fungsi]['CompId']);
+
+            $res = [
+                'success' => true,
+                'selected_key' => $fungsi,
+                'Fungsi' => $results[$fungsi]['Fungsi'],
+                'Site' => $results[$fungsi]['Site']
+            ];
+        } else {
+            $res = [
+                'success' => false,
+                'key' => $fungsi
+            ];
+        }
+
+        return $this->response->setJSON($res);
+    }
 }

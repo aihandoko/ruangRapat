@@ -158,4 +158,36 @@
     <?php endforeach;?>
 </div>
 
+<h3 class="subtitle mt-5">Catatan</h3>
+
+<div class="notes-box">
+    <div class="row">
+        <div class="col-6">
+            <textarea name="acc_notes" id="acc_notes" class="form-control" rows="5"></textarea>
+            <div id="display_count"></div>
+        </div>
+        <div class="col-6">
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="radio" name="approval" id="approval_acc" value="acc" checked>
+                <label class="form-check-label" for="approval_acc">
+                    ACC
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="approval" id="approval_tolak" value="tolak">
+                <label class="form-check-label" for="approval_tolak">
+                    Tolak
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="approval" id="approval_batal" value="batal">
+                <label class="form-check-label" for="approval_batal">
+                    Batal
+                </label>
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary mt-3">Proses</button>
+        </div>
+    </div>
+</div>
+
 <?= $this->endSection()?>

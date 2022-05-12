@@ -25,6 +25,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'login'         => \App\Filters\LoginFilter::class,
         'guest'         => \App\Filters\GuestFilter::class,
+        'admin'         => \App\Filters\AdminFilter::class,
     ];
 
     /**
@@ -75,7 +76,15 @@ class Filters extends BaseConfig
         'login' => [
             'before' => [
                 '/',
+                'queue',
+                'status/detail/*',
+                'status/acc/*',
             ]
         ],
+        'admin' => [
+            'before' => [
+                'users',
+            ]
+        ]
     ];
 }

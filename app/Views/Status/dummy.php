@@ -4,8 +4,7 @@
 
 <h3 class="page-title">Status SPMB</h3>
 
-<?php // echo form_open('status/withParams');?>
-<form name="spmb_filter">
+<?= form_open('status/withParams');?>
 <div class="status-box mb-4">
     <div class="stat-param">
         <div class="row align-items-end">
@@ -54,8 +53,11 @@
                 </div>
             </div>
             <div class="col-3">
-                <button type="submit" name="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                     Tampilkan
+                </button>
+                <button type="button" class="btn btn-outline-primary">
+                    Clear
                 </button>
             </div>
         </div>

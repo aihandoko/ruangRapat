@@ -37,6 +37,11 @@ class BaseController extends Controller
      */
     protected $helpers = ['form', 'auth', 'url'];
 
+    protected $auth;
+    protected $db;
+    protected $db2;
+    protected $db3;
+
     /**
      * Constructor.
      */
@@ -48,5 +53,23 @@ class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+        $this->auth = service('auth');
+        $this->db = \Config\Database::connect($group = null);
+        $this->db2 = \Config\Database::connect($group = null);
+        $this->db3 = \Config\Database::connect($group = 'nls');
+    }
+
+    protected function getFungsi()
+    {
+        $query = "select * from SPMB_ACC_USER where NIK = '" . session()->get('NIK') . "'";
+        $exc_query = $this->db->simpleQuery($query);
+        do {
+            $results = [];
+            while($row = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC)) {
+                $results[] = $row;
+            }
+        } while (sqlsrv_next_result($exc_query));
+
+        return $results;
     }
 }
