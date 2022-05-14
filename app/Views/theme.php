@@ -135,7 +135,7 @@
         <footer class="app-footer">
             <div class="container">
                 <div class="copyright">
-                    &copy; 2022 KG of Manufacture
+                    &copy; <?= date("Y") ?> KG of Manufacture
                 </div>
             </div>
         </footer>

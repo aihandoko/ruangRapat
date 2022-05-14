@@ -7,6 +7,9 @@ body {
   font-size: 0.9rem;
   line-height: 1.6;
 }
+body.common-page {
+  background-color: #f9f9f9;
+}
 
 .form-control::-webkit-input-placeholder {
   /* Edge */
@@ -69,6 +72,48 @@ body {
 .content {
   margin-bottom: 40px;
   padding: 0 20px;
+}
+
+.common-header {
+  background-color: #729be9;
+  color: #fff;
+  border-bottom: 3px solid #fff;
+}
+.not-found-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.not-found-wrapper .not-found {
+  width: 550px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+.not-found-wrapper .not-found .giant-icon {
+  text-align: center;
+  line-height: 0;
+  font-size: 6rem;
+  margin: 0 0 20px 0;
+  color: rgba(0,0,0,.3);
+}
+.not-found-wrapper .not-found .title {
+  font-weight: 700;
+  font-size: 24px;
+  margin: 0 0 20px 0;
+}
+
+.app-title {
+  margin: 0 0 -14px 0;
+  font-weight: 900;
+  padding: 40px 0 0 20px;
+  font-size: 48px;
 }
 
 .header-wrapper {
