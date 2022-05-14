@@ -4,7 +4,7 @@
 
 <h3 class="page-title">Status SPMB</h3>
 
-<?= form_open('status/withParams');?>
+<form name="dummyShowForm">
 <div class="status-box mb-4">
     <div class="stat-param">
         <div class="row align-items-end">
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="col-3">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" name="submit" class="btn btn-primary">
                     Tampilkan
                 </button>
                 <button type="button" class="btn btn-outline-primary">
@@ -67,7 +67,7 @@
 
 <h3 class="subtitle pt-2">Status SPMB Dalam Proses ACC</h3>
 
-<table id="statusList" class="table table-bordered table-striped" style="width: 100%">
+<table id="dummyStatusList" class="table table-bordered table-striped" style="width: 100%">
     <thead>
         <tr>
             <th width="40">#</th>

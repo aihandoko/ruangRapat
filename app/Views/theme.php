@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SPMB</title>
+    <title><?= $this->renderSection('title'); ?> :: SPMB</title>
     <meta name="description" content="SPMB app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
@@ -101,17 +101,17 @@
             <div class="main-menu">
                 <?php if($auth->isLoggedIn()) : ?>
                     <ul>
-                        <li>
+                        <li class="<?= (current_url() == site_url()) ? 'active' : '' ?>">
                             <a href="<?= site_url('/');?>">Dashbor</a>
                         </li>
-                        <li>
+                        <li class="<?= (current_url() == site_url('queue')) ? 'active' : '' ?>">
                             <a href="<?= site_url('queue');?>">Antrian SPMB</a>
                         </li>
-                        <li>
+                        <li class="<?= (current_url() == site_url('status') || url_is('status/detail/*')) ? 'active' : '' ?>">
                             <a href="<?= site_url('status');?>">Status SPMB</a>
                         </li>
                         <?php if(session()->get('Fungsi') === 'Admin') : ?>
-                            <li>
+                            <li class="<?= (current_url() == site_url('users')) ? 'active' : '' ?>">
                                 <a href="<?= site_url('users');?>">Users</a>
                             </li>
                         <?php endif;?>
@@ -133,8 +133,10 @@
         </section>
 
         <footer class="app-footer">
-            <div class="copyright">
-                &copy; 2022 KG of Manufacture
+            <div class="container">
+                <div class="copyright">
+                    &copy; 2022 KG of Manufacture
+                </div>
             </div>
         </footer>
 

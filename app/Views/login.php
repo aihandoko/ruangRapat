@@ -1,5 +1,9 @@
 <?= $this->extend('theme')?>
 
+<?= $this->section('title')?>
+Login
+<?php $this->endSection();?>
+
 <?= $this->section('content')?>
 
 
@@ -16,13 +20,12 @@
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <input type="text" name="nik" placeholder="NIK"
-                                        class="form-control form-control-lg <?= (session()->has('error')) ? 'border-danger' : '';?>"
-                                        value="dummy" />
+                                        class="form-control form-control-lg <?= (session()->has('error')) ? 'border-danger' : '';?>" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-12">
-                                    <input type="password" placeholder="Password" name="password" value="dummy"
+                                    <input type="password" placeholder="Password" name="password"
                                         class="form-control form-control-lg <?= (session()->has('error')) ? 'border-danger' : '';?>" />
                                 </div>
                             </div>

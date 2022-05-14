@@ -7,18 +7,18 @@ namespace App\Controllers;
  */
 class Fungsi extends BaseController
 {
-	protected $auth;
-    protected $db;
-    protected $db2;
-    protected $db3;
+	// protected $auth;
+ //    protected $db;
+ //    protected $db2;
+ //    protected $db3;
 
-	public function __construct()
-	{
-		$this->auth = service('auth');
-        $this->db = \Config\Database::connect($group = null);
-        $this->db2 = \Config\Database::connect($group = null);
-        $this->db3 = \Config\Database::connect($group = 'nls');
-	}
+	// public function __construct()
+	// {
+	// 	$this->auth = service('auth');
+ //        $this->db = \Config\Database::connect($group = null);
+ //        $this->db2 = \Config\Database::connect($group = null);
+ //        $this->db3 = \Config\Database::connect($group = 'nls');
+	// }
 
 	public function switch()
 	{
@@ -93,7 +93,8 @@ class Fungsi extends BaseController
                 'success' => true,
                 'selected_key' => $fungsi,
                 'Fungsi' => $results[$fungsi]['Fungsi'],
-                'Site' => $results[$fungsi]['Site']
+                'Site' => $results[$fungsi]['Site'],
+                'current_url' => current_url()
             ];
         } else {
             $res = [

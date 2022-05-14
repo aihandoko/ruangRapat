@@ -1,10 +1,25 @@
 <?= $this->extend('theme')?>
 
+<?= $this->section('title')?>
+<?= $page_title;?>
+<?= $this->endSection();?>
+
 <?= $this->section('content')?>
 
-<h3 class="page-title">Status SPMB</h3>
+<h3 class="page-title"><?= $page_title;?></h3>
 
-<?php // echo form_open('status/withParams');?>
+<?php if(session()->has('success')) : ?>
+<div class="alert alert-success"><?= session()->get('success');?></div>
+<?php endif;?>
+
+<?php if(session()->has('error')) : ?>
+<div class="alert alert-danger"><?= session()->get('error');?></div>
+<?php endif;?>
+
+<?php if(session()->has('warning')) : ?>
+<div class="alert alert-warning"><?= session()->get('warning');?></div>
+<?php endif;?>
+
 <form name="spmb_filter">
 <div class="status-box mb-4">
     <div class="stat-param">

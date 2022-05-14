@@ -1,8 +1,12 @@
 <?= $this->extend('theme')?>
 
+<?= $this->section('title')?>
+<?= $page_title;?>
+<?= $this->endSection();?>
+
 <?= $this->section('content')?>
 
-<h3 class="page-title">ACC SPMB</h3>
+<h3 class="page-title"><?= $page_title;?></h3>
 
 <div class="status-box mb-4 p-4">
     <div class="row">

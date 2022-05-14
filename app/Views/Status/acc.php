@@ -1,8 +1,12 @@
 <?= $this->extend('theme')?>
 
+<?= $this->section('title')?>
+<?= $page_title;?>
+<?= $this->endSection();?>
+
 <?= $this->section('content')?>
 
-<h3 class="page-title">ACC SPMB</h3>
+<h3 class="page-title"><?= $page_title;?></h3>
 
 <div class="status-box mb-4 p-4">
     <div class="row">
@@ -161,10 +165,15 @@
 <h3 class="subtitle mt-5">Catatan</h3>
 
 <div class="notes-box">
+    <?= form_open('status/accProcess');?>
     <div class="row">
         <div class="col-6">
             <textarea name="acc_notes" id="acc_notes" class="form-control" rows="5"></textarea>
             <div id="display_count"></div>
+            <input type="hidden" name="reqno" value="<?= $data[0]['ReqNo'];?>" />
+            <input type="hidden" name="compid" value="<?= $data[0]['CompId'];?>" />
+            <input type="hidden" name="spmbno" value="<?= $id;?>" />
+            <input type="hidden" name="kode_route" value="<?= $route_kode;?>" />
         </div>
         <div class="col-6">
             <div class="form-check mt-3">
@@ -176,18 +185,19 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="approval" id="approval_tolak" value="tolak">
                 <label class="form-check-label" for="approval_tolak">
-                    Tolak
+                    Tolak <span class="font-italic text-danger">(perlu follow up)</span>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="approval" id="approval_batal" value="batal">
                 <label class="form-check-label" for="approval_batal">
-                    Batal
+                    Batal <span class="font-italic text-danger">(tidak perlu follow up)</span>
                 </label>
             </div>
             <button type="submit" name="submit" class="btn btn-primary mt-3">Proses</button>
         </div>
     </div>
+    </form>
 </div>
 
 <?= $this->endSection()?>

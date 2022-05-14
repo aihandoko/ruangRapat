@@ -7,6 +7,7 @@ class Users extends BaseController
 	public function index()
 	{
 		return view('Users/main', [
+            'page_title' => 'Users',
 			'functions' => $this->getFungsi(),
 			'auth' => $this->auth
 		]);
@@ -29,54 +30,86 @@ class Users extends BaseController
             cache()->save('dataUsers', $dataUsers, 1200);
         }
 
-        $limit = $this->request->getGet('length');
-        $offset = $this->request->getGet('start');
-
-        if($this->request->getGet('order')) {
-            $sort = $this->request->getGet('order')['0']['dir'];
-            switch ($this->request->getGet('order')['0']['column']) {
-                case 1:
-                    $column = 'NIK';
-                    break;
-                 case 2:
-                    $column = 'Nama';
-                    break;
-                case 3:
-                    $column = 'Fungsi';
-                    break;
-                case 4:
-                    $column = 'Site';
-                    break;
-                case 5:
-                    $column = 'Kode SPMB';
-                    break;
-                case 6:
-                    $column = 'CompId';
-                    break;
-                case 7:
-                    $column = 'DeptId';
-                    break;
-                default:
-                    $column = 'NIK';
-            }
-            usort($dataUsers, function($a, $b) use ($sort, $column) {
-                if($sort == 'desc') {
-                    return $b[$column] <=> $a[$column];
-                } else {
-                    return $a[$column] <=> $b[$column];
-                }
-            });
+        $arrData = [];
+        foreach ($dataUsers as $key => $val) {
+            $arrData[] = [
+                $key + 1,
+                $val['NIK'],
+                $val['Nama'],
+                $val['Fungsi'],
+                $val['Site'],
+                '<div class="kodespmb-wrapper">' . $val['KodeSPMB'] . '</div>',
+                '<div class="dept-id-wrapper">' . $val['DeptId'] . '</div>',
+                '<div class="comp-id-wrapper">' . $val['CompId'] . '</div>',
+            ];
         }
 
-        $data = array_slice($dataUsers, $offset, $limit);
+        $response = $arrData;
+
+        return $this->response->setJSON($response);
+	}
+
+    public function addProcess()
+    {
+        if($this->request->getMethod() != 'post') {
+            return redirect()->to('/');
+        }
+
+        $data = [
+            'NIK' => $this->request->getPost('nik'),
+            'Nama' => $this->request->getPost('nama'),
+            'Fungsi' => $this->request->getPost('fungsi'),
+            'Site' => $this->request->getPost('site'),
+            'KodeSPMB' => $this->request->getPost('kode_spmb'),
+            'DeptId' => $this->request->getPost('deptid'),
+            'compid' => $this->request->getPost('compid')
+        ];
+
+        $spmb_acc_user_tbl = $this->db->table('SPMB_ACC_USER');
+        if($spmb_acc_user_tbl->insert($data)) {
+            $response = [
+                'success' => true,
+            ];
+        } else {
+            $response = [
+                'success' => false,
+                'msg' => 'Silahkan periksa kembali'
+            ];
+        }
+    }
+
+    public function getUsersFungsi()
+    {
+        $spmb_acc_user_tbl = $this->db->table('SPMB_ACC_USER');
+        $query = $spmb_acc_user_tbl->select('Fungsi')
+                                    ->where('Fungsi !=', NULL)
+                                    ->orderBy('Fungsi', 'asc')
+                                    ->distinct()
+                                    ->get();
+        $query_site = $spmb_acc_user_tbl->select('Site')
+                                    ->where('Site !=', NULL)
+                                    ->orderBy('Site', 'asc')
+                                    ->distinct()
+                                    ->get();
+        $data = [];
+        if($query->getNumRows() > 0) {
+            foreach($query->getResult() as $row) {
+                $data[] = $row->Fungsi;
+            }
+        }
+        $sites = [];
+        if($query_site->getNumRows() > 0) {
+            foreach($query_site->getResult() as $row) {
+                $sites[] = $row->Site;
+            }
+        }
 
         $response = [
-            'draw' => ($this->request->getGet('draw') != null) ? $this->request->getGet('draw') : 0,
-            'recordsTotal' => count($data),
-            'recordsFiltered' => count($dataUsers),
-            'data' => $data,
+            'success' => true,
+            'fungsi' => $data,
+            'sites' => $sites
         ];
 
         return $this->response->setJSON($response);
-	}	
+    }
 }

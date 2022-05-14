@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 // use App\Libraries\Common;
 // use CodeIgniter\I18n\Time;
-// use Exception;
+use Exception;
 
 class Auth extends BaseController
 {

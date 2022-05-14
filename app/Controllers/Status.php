@@ -3,25 +3,15 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\I18n\Time;
 
 class Status extends BaseController
 {
-    // protected $db;
-    // protected $db2;
-    // protected $db3;
-    // protected $auth;
-
-    // public function __construct()
-    // {
-    //     $this->db = \Config\Database::connect($group = null);
-    //     $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
-    //     $this->db3 = \Config\Database::connect($group = 'nls');
-    //     $this->auth = service('auth');
-    // }
-
     public function tes()
     {
         return view('Status/dummy', [
+            'functions' => $this->getFungsi(),
+            'auth' => $this->auth
         ]);
     }
 
@@ -61,62 +51,37 @@ class Status extends BaseController
             cache()->save('dataStatus', $dataStatus, 1200);
         }
 
-        $limit = $this->request->getPost('length');
-        $offset = $this->request->getPost('start');
-
-        if($this->request->getPost('order')) {
-            $sort = $this->request->getPost('order')['0']['dir'];
-            switch ($this->request->getPost('order')['0']['column']) {
-                case 1:
-                    $column = 'SPMBNo';
-                    break;
-                 case 2:
-                    $column = 'Site';
-                    break;
-                case 3:
-                    $column = 'Step1';
-                    break;
-                case 4:
-                    $column = 'Step2';
-                    break;
-                case 5:
-                    $column = 'Step3';
-                    break;
-                case 6:
-                    $column = 'Step4';
-                    break;
-                case 7:
-                    $column = 'Step5';
-                    break;
-                case 8:
-                    $column = 'Step6';
-                    break;
-                case 9:
-                    $column = 'Step7';
-                    break;
-                default:
-                    $column = 'SPMBNo';
-            }
-            usort($dataStatus, function($a, $b) use ($sort, $column) {
-                if($sort == 'desc') {
-                    return $b[$column] <=> $a[$column];
-                } else {
-                    return $a[$column] <=> $b[$column];
-                }
-            });
+        $arrData = [];
+        foreach ($dataStatus as $key => $val) {
+            $step1 = ($val['Step1'] != null) ? $val['Step1'] : '';
+            $acc1 = ($val['DateConverted'][0] != null) ? '<div>' . $val['DateConverted'][0] . '</div>' : '';
+            $step2 = ($val['Step2'] != null) ? $val['Step2'] : '';
+            $acc2 = ($val['DateConverted'][1] != null) ? '<div>' . $val['DateConverted'][1] . '</div>' : '';
+            $step3 = ($val['Step3'] != null) ? $val['Step3'] : '';
+            $acc3 = ($val['DateConverted'][2] != null) ? '<div>' . $val['DateConverted'][2] . '</div>' : '';
+            $step4 = ($val['Step4'] != null) ? $val['Step4'] : '';
+            $acc4 = ($val['DateConverted'][3] != null) ? '<div>' . $val['DateConverted'][3] . '</div>' : '';
+            $step5 = ($val['Step5'] != null) ? $val['Step5'] : '';
+            $acc5 = ($val['DateConverted'][4] != null) ? '<div>' . $val['DateConverted'][4] . '</div>' : '';
+            $step6 = ($val['Step6'] != null) ? $val['Step6'] : '';
+            $acc6 = ($val['DateConverted'][5] != null) ? '<div>' . $val['DateConverted'][5] . '</div>' : '';
+            $step7 = ($val['Step7'] != null) ? $val['Step7'] : '';
+            $acc7 = ($val['DateConverted'][6] != null) ? '<div>' . $val['DateConverted'][6] . '</div>' : '';
+            $arrData[] = [
+                $key + 1,
+                '<a href="' . site_url('status/detail/'.$val['SPMBNo']) . '">' . $val['SPMBNo'] . '</a>',
+                $val['Site'],
+                $step1 . $acc1,
+                $step2 . $acc2,
+                $step3 . $acc3,
+                $step4 . $acc4,
+                $step5 . $acc5,
+                $step6 . $acc6,
+                $step7 . $acc7,
+            ];
         }
 
-        $data = array_slice($dataStatus, $offset, $limit);
-
-        $response = [
-            'draw' => ($this->request->getPost('draw') != null) ? $this->request->getPost('draw') : 0,
-            'recordsTotal' => count($data),
-            'recordsFiltered' => count($dataStatus),
-            // 'datadraw' => $this->request->getPost('draw'),
-            // 'limit' => $limit,
-            // 'offset' => $offset,
-            'data' => $data,
-        ];
+        $response = $arrData;
 
         return $this->response->setJSON($response);
     }
@@ -150,6 +115,7 @@ class Status extends BaseController
         }
 
         return view('Status/main', [
+            'page_title' => 'Status',
             'functions' => $this->getFungsi(),
             'data' => $results,
             'auth' => $this->auth
@@ -176,6 +142,18 @@ class Status extends BaseController
             do {
                 $results = [];
                 while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
+                    $row['DateConverted'] = [
+                        ($row['ACC1'] != null) ? $this->dateConverter($row['ACC1']) : null,
+                        ($row['ACC2'] != null) ? $this->dateConverter($row['ACC2']) : null,
+                        ($row['ACC3'] != null) ? $this->dateConverter($row['ACC3']) : null,
+                        ($row['ACC4'] != null) ? $this->dateConverter($row['ACC4']) : null,
+                        ($row['ACC5'] != null) ? $this->dateConverter($row['ACC5']) : null,
+                        ($row['ACC6'] != null) ? $this->dateConverter($row['ACC6']) : null,
+                        ($row['ACC7'] != null) ? $this->dateConverter($row['ACC7']) : null,
+                        ($row['ACC8'] != null) ? $this->dateConverter($row['ACC8']) : null,
+                        ($row['ACC9'] != null) ? $this->dateConverter($row['ACC9']) : null,
+                        ($row['ACC10'] != null) ? $this->dateConverter($row['ACC10']) : null
+                    ];
                     $results[] = $row;
                 }
             } while (sqlsrv_next_result($query));
@@ -183,39 +161,39 @@ class Status extends BaseController
             echo $e->getMessage();
         }
 
-        // dd($results);
+        $arrData = [];
+        foreach ($results as $key => $val) {
+            $step1 = ($val['Step1'] != null) ? $val['Step1'] : '';
+            $acc1 = ($val['DateConverted'][0] != null) ? '<div>' . $val['DateConverted'][0] . '</div>' : '';
+            $step2 = ($val['Step2'] != null) ? $val['Step2'] : '';
+            $acc2 = ($val['DateConverted'][1] != null) ? '<div>' . $val['DateConverted'][1] . '</div>' : '';
+            $step3 = ($val['Step3'] != null) ? $val['Step3'] : '';
+            $acc3 = ($val['DateConverted'][2] != null) ? '<div>' . $val['DateConverted'][2] . '</div>' : '';
+            $step4 = ($val['Step4'] != null) ? $val['Step4'] : '';
+            $acc4 = ($val['DateConverted'][3] != null) ? '<div>' . $val['DateConverted'][3] . '</div>' : '';
+            $step5 = ($val['Step5'] != null) ? $val['Step5'] : '';
+            $acc5 = ($val['DateConverted'][4] != null) ? '<div>' . $val['DateConverted'][4] . '</div>' : '';
+            $step6 = ($val['Step6'] != null) ? $val['Step6'] : '';
+            $acc6 = ($val['DateConverted'][5] != null) ? '<div>' . $val['DateConverted'][5] . '</div>' : '';
+            $step7 = ($val['Step7'] != null) ? $val['Step7'] : '';
+            $acc7 = ($val['DateConverted'][6] != null) ? '<div>' . $val['DateConverted'][6] . '</div>' : '';
+            $arrData[] = [
+                $key + 1,
+                '<a href="' . site_url('status/detail/'.$val['SPMBNo']) . '">' . $val['SPMBNo'] . '</a>',
+                $val['Site'],
+                $step1 . $acc1,
+                $step2 . $acc2,
+                $step3 . $acc3,
+                $step4 . $acc4,
+                $step5 . $acc5,
+                $step6 . $acc6,
+                $step7 . $acc7,
+            ];
+        }
 
-        $response = [
-            'success' => true,
-            'data' => $results
-        ];
-
-        // $limit = $this->request->getPost('length');
-        // $offset = $this->request->getPost('start');
-
-        // $data = array_slice($results, $offset, $limit);
-
-        // $response = [
-        //     'draw' => 1,
-        //     'recordsTotal' => count($data),
-        //     'recordsFiltered' => count($results),
-        //     'data' => $data,
-        // ];
+        $response = $arrData;
 
         return $this->response->setJSON($response);
-
-        // return view('Status/params',[
-        //     'data' => $results,
-        //     'dataPost' => [
-        //         'unit' => $unit,
-        //         'unit2' => $unit2,
-        //         'no' => $no,
-        //         'no2' => $no2,
-        //         'tahun' => $tahun,
-        //         'tahun2' => $tahun2,
-        //         'deptId' => $deptId
-        //     ]
-        // ]);
     }
 
     public function detail($id)
@@ -291,6 +269,7 @@ class Status extends BaseController
 
         if(count($results) > 0) {
             return view('Status/detail', [
+                'page_title' => 'ACC SPMB',
                 'functions' => $this->getFungsi(),
                 'auth' => $this->auth,
                 'data' => $results,
@@ -377,6 +356,7 @@ class Status extends BaseController
         } while (sqlsrv_next_result($exc_notes_query));
 
         return view('Status/acc', [
+            'page_title' => 'ACC SPMB',
             'functions' => $this->getFungsi(),
             'auth' => $this->auth,
             'data' => $results,
@@ -384,8 +364,115 @@ class Status extends BaseController
             'DeptName' => $DeptName,
             'otorisasi' => $otorisasi_res,
             'route_otorisasi' => implode(' > ', $route_otorisasi),
-            'notes' => $notes_res
+            'route_kode' => $results[0]['AuthRoute'],
+            'notes' => $notes_res,
+            'id' => $id
         ]);
+    }
+
+    public function accProcess()
+    {
+        $acc_notes = $this->request->getPost('acc_notes');
+        $approval = $this->request->getPost('approval');
+        $reqno = (int)$this->request->getPost('reqno');
+        $compid = (int)$this->request->getPost('compid');
+        $spmbno = (int)$this->request->getPost('spmbno');
+        $kode_route = (int)$this->request->getPost('kode_route');
+
+        if($approval == 'acc') {
+            $Tolak = 0;
+            $Batal = 0;
+        } elseif($approval == 'tolak') {
+            $Tolak = 1;
+            $Batal = 0;
+        } else {
+            $Tolak = 0;
+            $Batal = 1;
+        }
+
+        $now = (Time::now())->toDateTimeString();
+        $spmb_acc_tbl = $this->db->table('SPMB_ACC');
+        $data = [
+            'TglAcc' => $now,
+            'Acc' => session()->get('NIK'),
+            'Catatan' => $acc_notes,
+            'Tolak' => $Tolak,
+            'Batal' => $Batal,
+        ];
+        $upd_spmb_acc = $spmb_acc_tbl->where('SPMBNo', $spmbno)
+                            ->where('Acc', NULL)
+                            ->where('Posisi', session()->get('Fungsi'))
+                            ->set($data)
+                            ->update();
+
+        if(!$upd_spmb_acc) {
+            return redirect()->back()
+                            ->with('error', 'Gagal mengupdate SPMB_ACC');
+        }
+
+        // Jika radio-button tolak
+        if($approval == 'tolak') {
+            $query_no_urut = $spmb_acc_tbl->select('NoUrut')
+                                ->where('SPMBNo', 'U1117415')
+                                ->where('Acc', NULL)
+                                ->where('Posisi', 'CFM')
+                                ->get();
+            if($query_no_urut->getNumRows() > 0) {
+                $no_urut = null;
+                foreach ($query_no_urut->getResult() as $key => $val) {
+                    $no_urut = $val->NoUrut;
+                }
+            } else {
+                return redirect()->back()
+                                ->with('warning', 'Field NO_URUT tidak ditemukan');
+            }
+
+            $query_posisi = $spmb_acc_tbl->select('Posisi')
+                                        ->where('SPMBNo', 'U1117415')
+                                        ->where('NoUrut', $no_urut)
+                                        ->get();
+            if($query_posisi->getNumRows() > 0) {
+                $posisi = null;
+                foreach ($query_posisi->getResult() as $key => $val) {
+                    $posisi = $val->Posisi;
+                }
+            } else {
+                return redirect()->back()
+                                ->with('warning', 'Field POSISI tidak ditemukan');
+            }
+
+            $spmb_acc_back_tbl = $this->dbLocal->table('SPMB_ACC_BACK');
+            $data_acc_back = [
+                'NoSPMB' => $spmbno,
+                'BackTo' => $posisi
+            ];
+
+            if( ! $spmb_acc_tbl->insert($data)) {
+                return redirect()->back()
+                                ->with('error', 'Gagal meng-insert record pada SPMB_ACC_BACK');
+            }
+        }
+
+        // UPDATE DB NLS
+        if($approval == 'acc') {
+            if((session()->get('Fungsi') == 'GM Peminta' && $kode_route < 73) || (session()->get('Fungsi') == 'Director' && $kode_route > 72)) {
+                $statement = 'FINAL';
+            } else {
+                $statement = 'PROSES';
+            }
+        } elseif($approval == 'tolak') {
+            $statement = 'TOLAK';
+        } else {
+            $statement = 'BATAL';
+        }
+        $nls_query = "sp_AccSPMB '".$statement."', ".$reqno.", ".$comp_id.",'PR', ''";
+        if($this->db->simpleQuery($nls_query)) {
+            return redirect()->back()
+                            ->with('success', 'Antrian berhasil diupdate');
+        } else {
+            return redirect()->back()
+                            ->with('error', 'Gagal mengupdate NLS data');
+        }
     }
 
     private function dateConverter($date, $dateOnly = false)

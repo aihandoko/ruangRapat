@@ -8,6 +8,18 @@ body {
   line-height: 1.6;
 }
 
+.form-control::-webkit-input-placeholder {
+  /* Edge */
+  color: rgba(0, 0, 0, 0.3);
+}
+.form-control:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgba(0, 0, 0, 0.3);
+}
+.form-control::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
 #page {
   min-height: 100vh;
   display: flex;
@@ -301,12 +313,14 @@ body {
   content: "\f054";
   transition: all 0.3s ease;
 }
-.main-menu ul li a:hover {
+.main-menu ul li a:hover,
+.main-menu ul li.active a {
   text-decoration: none;
   padding: 3px 0 3px 25px;
   opacity: .7;
 }
-.main-menu ul li a:hover:before {
+.main-menu ul li a:hover:before,
+.main-menu ul li.active a:hover:before {
   left: 5px;
 }
 
@@ -369,6 +383,13 @@ body {
   font-weight: 500;
 }
 
+#usersList .comp-id-wrapper,
+#usersList .dept-id-wrapper,
+#usersList .kodespmb-wrapper {
+  inline-size: 150px;
+  overflow-wrap: break-word;
+}
+
 .boxed-el {
   border: 1px solid #eee;
   padding: 20px;
@@ -383,6 +404,7 @@ body {
 }
 .app-footer.to-sidebar-hide {
   margin-left: 0;
+  width: 100%;
 }
 .app-footer .copyright {
   border-top: 1px solid #eee;

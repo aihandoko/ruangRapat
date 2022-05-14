@@ -41,6 +41,7 @@ class BaseController extends Controller
     protected $db;
     protected $db2;
     protected $db3;
+    protected $dbLocal;
 
     /**
      * Constructor.
@@ -55,8 +56,9 @@ class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
         $this->auth = service('auth');
         $this->db = \Config\Database::connect($group = null);
-        $this->db2 = \Config\Database::connect($group = null);
+        $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
         $this->db3 = \Config\Database::connect($group = 'nls');
+        $this->dbLocal = \Config\Database::connect($group = 'local');
     }
 
     protected function getFungsi()

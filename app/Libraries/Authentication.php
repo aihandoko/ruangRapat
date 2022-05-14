@@ -17,6 +17,21 @@ class Authentication
 
     public function login($nik, $password)
     {
+        // if($nik === 'alfin' || $nik === '96462') {
+        //     $session = session();
+        //     $session->regenerate();
+        //     $session->set('selected_key', 0);
+        //     $session->set('NIK', '96462');
+        //     $session->set('Nama', 'ANTONIUS ISMI HANDOKO');
+        //     $session->set('Fungsi', 'Manager Peminta');
+        //     $session->set('Site', 'Bandung1');
+        //     $session->set('KodeSPMB', 'PBD#UBD');
+        //     $session->set('DeptId', '02071');
+        //     $session->set('CompId', '020');
+
+        //     return true;
+        // }
+
         $query = "spGetPwdValidation '".$nik."', '".$password."'";
         $exc_query = $this->db2->simpleQuery($query);
         do {

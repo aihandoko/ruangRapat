@@ -26,6 +26,7 @@ class Filters extends BaseConfig
         'login'         => \App\Filters\LoginFilter::class,
         'guest'         => \App\Filters\GuestFilter::class,
         'admin'         => \App\Filters\AdminFilter::class,
+        'dbcheck'         => \App\Filters\DBCheckFilter::class,
     ];
 
     /**
