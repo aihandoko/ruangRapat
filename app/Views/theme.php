@@ -30,7 +30,8 @@
 
                 <div class="app-header">
                     <div class="sidebar-nav-btn">
-                        <span title="Klik untuk menghilangkan sidebar" class="active"><i class="fas fa-bars"></i></span>
+                        <span data-toggle="tooltip" data-placement="bottom" class="burger-icon active"><i class="fas fa-bars"></i></span>
+                        <span data-toggle="tooltip" data-placement="bottom" class="burger-icon-mobile"><i class="fas fa-bars"></i></span>
                     </div>
                     <?php if($auth->isLoggedIn()) : ?>
                     <div class="switch-wrapper">
@@ -153,6 +154,10 @@
 
     <?php if(url_is('status/acc/*')) : ?>
         <script src="<?= site_url('js/MaxLength.min.js');?>"></script>
+    <?php endif;?>
+    <script src="<?= site_url('js/base.js'); ?>"></script>
+    <?php if(url_is('users') || url_is('users/create')) : ?>
+        <script src="<?= site_url('js/users.js');?>"></script>
     <?php endif;?>
     <script src="<?= site_url('js/custom.js'); ?>"></script>
     <!-- -->

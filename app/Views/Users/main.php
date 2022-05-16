@@ -8,6 +8,12 @@
 
 <h1 class="page-title"><?= $page_title;?></h1>
 
+<?php if(session()->has('success')) :?>
+<div class="alert alert-success"><?= session()->get('success');?></div>
+<?php endif;?>
+<?php if(session()->has('error')) :?>
+<div class="alert alert-danger"><?= session()->get('error');?></div>
+<?php endif;?>
 <table id="usersList" class="table table-bordered table-striped" style="width: 100%">
     <thead>
         <tr>
@@ -19,6 +25,7 @@
             <th>Kode SPMB</th>
             <th>CompId</th>
             <th>DeptId</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
 </table>
@@ -34,56 +41,113 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group row">
-                    <label for="nik" class="col-sm-3 col-form-label">NIK</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="nik" name="nik">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="nama" class="col-sm-3 col-form-label">Nama</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="nama" name="nama">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="fungsi" class="col-sm-3 col-form-label">Fungsi</label>
-                    <div class="col-sm-9">
-                        <select name="fungsi" id="fungsi" class="custom-select">
-                            <option value="">--</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="site" class="col-sm-3 col-form-label">Site</label>
-                    <div class="col-sm-9">
-                        <select name="site" id="site" class="custom-select">
-                            <option value="">------</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="kode_spmb" class="col-sm-3 col-form-label">Kode SPMB</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="kode_spmb" name="kode_spmb">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="compid" class="col-sm-3 col-form-label">CompId</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="compid" name="compid">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="deptid" class="col-sm-3 col-form-label">DeptId</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="deptid" name="deptid">
-                    </div>
-                </div>
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="nik" class="d-block text-right">NIK</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="nik" name="nik">
+                                    </div>
+                                </div>    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="nama" class="d-block text-right">Nama</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="nama" name="nama">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="d-block text-right" for="fungsi">Fungsi</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <select name="fungsi" id="fungsi" class="custom-select">
+                                            <option value="">--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="site" class="d-block text-right">Site</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <select name="site" id="site" class="custom-select">
+                                            <option value="">------</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="kode_spmb" class="d-block text-right">Kode SPMB</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="kode_spmb" name="kode_spmb">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="compid" class="d-block text-right">CompId</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="compid" name="compid">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="deptid" class="d-block text-right">DeptId</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="deptid" name="deptid">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>                    
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                <div style="width: 100%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="submit-indicator"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-right">
+                                <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                                <button type="button" name="cancel" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             </form>
         </div>

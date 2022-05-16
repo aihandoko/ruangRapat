@@ -80,11 +80,12 @@ class Filters extends BaseConfig
                 'queue',
                 'status/detail/*',
                 'status/acc/*',
+                'users/*',
             ]
         ],
         'admin' => [
             'before' => [
-                'users',
+                'users/*',
             ]
         ]
     ];

@@ -10,6 +10,9 @@ body {
 body.common-page {
   background-color: #f9f9f9;
 }
+body.hidescroll {
+  overflow: hidden;
+}
 
 .form-control::-webkit-input-placeholder {
   /* Edge */
@@ -158,6 +161,9 @@ body.common-page {
 .app-header .sidebar-nav-btn {
   margin: 0 20px 0 0;
 }
+.app-header .sidebar-nav-btn .burger-icon-mobile {
+  display: none;
+}
 .app-header .sidebar-nav-btn span {
   cursor: pointer;
 }
@@ -232,7 +238,7 @@ body.common-page {
 
 .app-header .top-nav {
   background-color: #729be9;
-  padding: 5px 10px;
+  padding: 0;
   color: #fff;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -249,7 +255,7 @@ body.common-page {
   border: 1px solid transparent;
   background-color: transparent;
   display: flex;
-  padding: 4px 10px;
+  padding: 0;
   border-radius: 0;
   color: #fff;
 }
@@ -326,9 +332,9 @@ body.common-page {
 }
 .app-title-box .app-title {
   font-weight: 900;
-  margin: 0 0 -14px 0;
+  margin: 0 0 -16px 0;
   padding: 0;
-  font-size: 48px;
+  font-size: 58px;
   color: #fff;
 }
 
@@ -377,7 +383,10 @@ body.common-page {
 .status-box .stat-param {
   padding: 25px 20px 25px 20px;
 }
-.status-box .stat-param button[name="submit"]:disabled {
+.status-box .stat-param button[name="submit"]:disabled,
+form[name="login"] button[name="submit"]:disabled,
+.addUserForm button[name="submit"]:disabled,
+.addUserForm button[name="cancel"]:disabled {
   background-color: #ccc;
   color: #999;
   border-color: #999;
@@ -428,10 +437,9 @@ body.common-page {
   font-weight: 500;
 }
 
-#usersList .comp-id-wrapper,
 #usersList .dept-id-wrapper,
 #usersList .kodespmb-wrapper {
-  inline-size: 150px;
+  inline-size: 130px;
   overflow-wrap: break-word;
 }
 
@@ -439,6 +447,24 @@ body.common-page {
   border: 1px solid #eee;
   padding: 20px;
   border-radius: 10px;
+}
+.btn-add:before {
+  font-family: "Font Awesome 5 Free";
+  position: absolute;
+  font-weight: 700;
+  font-size: 20px;
+  top: 0;
+  left: 10px;
+}
+.btn-add:before {
+  content: "\f055";
+}
+.btn-add {
+  position: relative;
+  text-transform: uppercase;
+  padding-left: 36px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .app-footer {
@@ -456,4 +482,55 @@ body.common-page {
   padding: 30px 0;
   font-size: 85%;
   color: rgba(0,0,0,.5);
+}
+
+@media only screen and (max-width: 1120px) {
+  .sidebar {
+    left: -240px;
+  }
+  .sidebar.on-mobile-show {
+    left: 0;
+    z-index: 699;
+  }
+  .header-wrapper {
+    padding: 0;
+  }
+  .main-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+  .app-header .sidebar-nav-btn .burger-icon {
+    display: none;
+  }
+  .app-header .sidebar-nav-btn .burger-icon-mobile {
+    display: inline-block;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .container {
+    max-width: 100%;
+  }
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  tbody tr td::before {
+    content: attr(data-label);
+    float: left;
+    text-transform: capitalize;
+    font-weight: 500;
+  }
+  tbody tr td {
+    display: block;
+    text-align: right;
+  }
 }

@@ -8,18 +8,18 @@ use Exception;
 
 class Auth extends BaseController
 {
-    protected $db;
-    protected $db2;
-    protected $db3;
-    protected $auth;
+    // protected $db;
+    // protected $db2;
+    // protected $db3;
+    // protected $auth;
 
-    public function __construct()
-    {
-        $this->db = \Config\Database::connect($group = null);
-        $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
-        $this->db3 = \Config\Database::connect($group = 'nls');
-        $this->auth = service('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->db = \Config\Database::connect($group = null);
+    //     $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
+    //     $this->db3 = \Config\Database::connect($group = 'nls');
+    //     $this->auth = service('auth');
+    // }
 
     public function login()
     {
@@ -37,14 +37,27 @@ class Auth extends BaseController
 
         if($auth->login($nik, $password)) {
             $redirect = session('redirect_url') ?? '/';
+            $success = true;
+            $msg = 'Login berhasil';
             unset($_SESSION['redirect_url']);
-            return redirect()->to($redirect)
-                            ->with('info', 'Login berhasil.');
+            // return redirect()->to($redirect)
+            //                 ->with('info', 'Login berhasil.');
         } else {
-            return redirect()->back()
-                            ->withInput()
-                            ->with('error', 'Email atau password salah.');
+            $redirect = '';
+            $success = false;
+            $msg = 'Email atau password salah';
+            // return redirect()->back()
+            //                 ->withInput()
+            //                 ->with('error', 'Email atau password salah.');
         }
+
+        $response = [
+            'success' => $success,
+            'redirect' => $redirect,
+            'msg' => $msg
+        ];
+
+        return $this->response->setJSON($response);
     }
 
     public function logout() {

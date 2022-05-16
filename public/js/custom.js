@@ -1,88 +1,123 @@
-const HOST = document.location.origin;
+// const HOST = document.location.origin;
 
 $(function () {
 
-  // let dummyData;
+  $('.sidebar-nav-btn .burger-icon').tooltip({
+    title: function() {
+      return ($(this).hasClass('active')) ? 'Hide sidebar' : 'Show sidebar'
+    },
+  });
+  $('.sidebar-nav-btn .burger-icon-mobile').tooltip({title: 'Show sidebar'});
 
-  // $("#dummyStatusList").DataTable({
-  //       data: dummyData,
-  //       columns: [
-  //           {
-  //             title: "No",
-  //           },
-  //           { title: "SPMB" },
-  //           { title: "Site" },
-  //           { title: "Step1" },
-  //           { title: "Step2" },
-  //           { title: "Step3" },
-  //           { title: "Step4" },
-  //           { title: "Step5" },
-  //           { title: "Step6" },
-  //           { title: "Step7" },
-  //       ],
-  //       columnDefs: [ {
-  //           "searchable": false,
-  //           "orderable": false,
-  //           "targets": 0
-  //       } ],
-  //       order: [[ 1, 'asc' ]]
-  // });
+  $('form[name="login"]').on('submit', function(e) {
+    e.preventDefault();
+    $('form[name="login"] input[name="nik"], form[name="login"] input[name="password"]').removeClass('border-danger')
+    const nik = $('input[name="nik"]').val();
+    const password = $('input[name="password"]').val();
 
-  // if(window.location.href == `${HOST}/status/tes`) {
-  //   $.ajax({
-  //     type: "POST",
-  //     url: `${HOST}/apis/status/getAll`,
-  //     beforeSend: function () {},
-  //     success: function (response) {
-  //       $('#dummyStatusList').DataTable().clear();
-  //       $('#dummyStatusList').DataTable().rows.add(response);
-  //       $('#dummyStatusList').DataTable().draw();
-  //     },
-  //     error: function () {},
-  //     complete: function () {}
-  //   })
-  // }
-  // $('#dummyStatusList').DataTable().on( 'order.dt search.dt', function () {
-  //       let i = 1;
+    $.ajax({
+      type: 'POST',
+      url: `${HOST}/auth/checkLogin`,
+      dataType: 'JSON',
+      data: {nik, password},
+      beforeSend: function() {
+        $('form[name="login"] button[name="submit"], form[name="login"] input[name="nik"], form[name="login"] input[name="password"]').attr('disabled', true);
+      },
+      success: function(response) {
+        if(response.success) {
+          window.location.href = response.redirect;
+        } else {
+          $('form[name="login"] input[name="nik"], form[name="login"] input[name="password"]').addClass('border-danger')
+        }
+      },
+      complete: function() {
+        $('form[name="login"] button[name="submit"], form[name="login"] input[name="nik"], form[name="login"] input[name="password"]').attr('disabled', false);
+      }
+    })
+  })
+
+
+  // STATUS DUMMY
+  let dummyData;
+
+  $("#dummyStatusList").DataTable({
+        data: dummyData,
+        columns: [
+            {
+              title: "No",
+            },
+            { title: "SPMB" },
+            { title: "Site" },
+            { title: "Step1" },
+            { title: "Step2" },
+            { title: "Step3" },
+            { title: "Step4" },
+            { title: "Step5" },
+            { title: "Step6" },
+            { title: "Step7" },
+        ],
+        columnDefs: [ {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+        } ],
+        order: [[ 1, 'asc' ]]
+  });
+
+  if(window.location.href == `${HOST}/status/tes`) {
+    $.ajax({
+      type: "POST",
+      url: `${HOST}/apis/status/getAll`,
+      beforeSend: function () {},
+      success: function (response) {
+        $('#dummyStatusList').DataTable().clear();
+        $('#dummyStatusList').DataTable().rows.add(response);
+        $('#dummyStatusList').DataTable().draw();
+      },
+      error: function () {},
+      complete: function () {}
+    })
+  }
+  $('#dummyStatusList').DataTable().on( 'order.dt search.dt', function () {
+        let i = 1;
  
-  //       $('#dummyStatusList').DataTable().cells(null, 0, {search:'applied', order:'applied'}).every( function (cell) {
-  //           this.data(i++);
-  //       } );
-  //   } ).draw();
+        $('#dummyStatusList').DataTable().cells(null, 0, {search:'applied', order:'applied'}).every( function (cell) {
+            this.data(i++);
+        } );
+    } ).draw();
 
-  // $('form[name="dummyShowForm"]').on('submit', function(e) {
-  //   e.preventDefault();
-  //   const unit = 2
-  //   const no = 1;
-  //   const deptId = 43
-  //   $.ajax({
-  //     type: "POST",
-  //     url: `${HOST}/apis/status/params`,
-  //     dataType: 'JSON',
-  //     data: {unit, no, deptId},
-  //     beforeSend: function () {
-  //       // setTimeout(() => {
-  //         $('.status-box .stat-param button[name="submit"]').attr('disabled', true)
-  //       // }, 3000)
-  //     },
-  //     success: function (response) {
-  //       $('#dummyStatusList').DataTable().clear();
-  //       $('#dummyStatusList').DataTable().rows.add(response);
-  //       $('#dummyStatusList').DataTable().draw();
-  //     },
-  //     error: function () {},
-  //     complete: function () {
-  //       setTimeout(() => {
-  //         $('.status-box .stat-param button[name="submit"]').attr('disabled', false)
-  //       }, 3000)
-  //     }
-  //   })
-  // })
+  $('form[name="dummyShowForm"]').on('submit', function(e) {
+    e.preventDefault();
+    const unit = 2
+    const no = 1;
+    const deptId = 43
+    $.ajax({
+      type: "POST",
+      url: `${HOST}/apis/status/params`,
+      dataType: 'JSON',
+      data: {unit, no, deptId},
+      beforeSend: function () {
+        // setTimeout(() => {
+          $('.status-box .stat-param button[name="submit"]').attr('disabled', true)
+        // }, 3000)
+      },
+      success: function (response) {
+        $('#dummyStatusList').DataTable().clear();
+        $('#dummyStatusList').DataTable().rows.add(response);
+        $('#dummyStatusList').DataTable().draw();
+      },
+      error: function () {},
+      complete: function () {
+        setTimeout(() => {
+          $('.status-box .stat-param button[name="submit"]').attr('disabled', false)
+        }, 3000)
+      }
+    })
+  })
 
   let statusData;
   let queueData;
   let queueDenyData;
-  let usersData;
 
   $("#statusList").DataTable({
         data: statusData,
@@ -233,98 +268,7 @@ $(function () {
         } );
     } ).draw();
 
-  $("#usersList").DataTable({
-        data: usersData,
-        columns: [
-            {title: "#"},
-            { title: "NIK" },
-            { title: "Nama" },
-            { title: "Fungsi" },
-            { title: "Site" },
-            { title: "Kode SPMB" },
-            { title: "CompId" },
-            { title: "DeptId" },
-        ],
-        columnDefs: [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
-        order: [[ 1, 'asc' ]],
-    initComplete: function () {
-      const btn = `<a href="#" class="btn btn-primary addUserBtn">Tambah User</a>`;
-      $("#usersList_wrapper .dataTables_length").prepend(btn);
-    },
-  });
-
-  if(window.location.href == `${HOST}/users`) {
-    $.ajax({
-      type: "POST",
-      url: `${HOST}/users/apiGetAll`,
-      beforeSend: function () {},
-      success: function (response) {
-        $('#usersList').DataTable().clear();
-        $('#usersList').DataTable().rows.add(response);
-        $('#usersList').DataTable().draw();
-      },
-      error: function () {},
-      complete: function () {}
-    })
-  }
-  $('#usersList').DataTable().on( 'order.dt search.dt', function () {
-        let i = 1;
- 
-        $('#usersList').DataTable().cells(null, 0, {search:'applied', order:'applied'}).every( function (cell) {
-            this.data(i++);
-        } );
-    } ).draw();
-
-	$('#usersList_wrapper').on('click', '.addUserBtn', function(e) {
-    e.preventDefault();
-    $.ajax({
-      type: "POST",
-      url: `${HOST}/users/getUsersFungsi`,
-      success: function (response) {
-        let options = [];
-        for(let i = 0;i < response.fungsi.length; i++) {
-          options.push('<option value="' + response.fungsi[i] + '">' + response.fungsi[i] + '</option>')
-        }
-        $('select[name="fungsi"]').html(options.join(''));
-        let options2 = [];
-        for(let x = 0;x < response.sites.length; x++) {
-          options2.push('<option value="' + response.sites[x] + '">' + response.sites[x] + '</option>')
-        }
-        $('select[name="site"]').html(options2.join(''));
-      },
-    })
-    $('#addUserModal').modal('show')
-  })
-
-  $('form[name="addUserForm"]').on('submit', function() {
-    const nik = $('input[name="nik"]').val(),
-        nama = $('input[name="nama"]').val(),
-        fungsi = $('input[name="fungsi"]').val(),
-        site = $('input[name="site"]').val(),
-        kode_spmb = $('input[name="kode_spmb"]').val(),
-        compid = $('input[name="compid"]').val(),
-        deptid = $('input[name="deptid"]').val();
-
-    $.ajax({
-      type: "POST",
-      url: `${HOST}/users/addProcess`,
-      data: { nik, nama, fungsi, site, kode_spmb, compid, deptid },
-      dataType: "JSON",
-      beforeSend: function () {
-        $('form[name="addUserForm"] button[name="submit"]').attr('disabled', true);
-      },
-      success: function (response) {
-      },
-      error: function () {},
-      complete: function () {
-        $('form[name="addUserForm"] button[name="submit"]').attr('disabled', false);
-      }
-    })
-  })
+  
 
   $(window).on('scroll', function() {
 		const position = $(this).scrollTop();
@@ -337,16 +281,21 @@ $(function () {
 		}
 	})
 
-	$('.sidebar-nav-btn').on('click', 'span', function() {
+	$('.sidebar-nav-btn').on('click', '.burger-icon', function() {
 		$(this).toggleClass('active');
-		if($(this).hasClass('active')) {
-			$(this).attr('title', 'Klik untuk menghilangkan sidebar')
-		} else {
-			$(this).attr('title', 'Klik untuk menampilkan sidebar')
-		}
 		$('.sidebar').toggleClass('hide');
 		$('.header-wrapper, .main-wrapper, .app-footer').toggleClass('to-sidebar-hide')
 	})
+  $('.sidebar-nav-btn').on('click', '.burger-icon-mobile', function() {
+    $('.sidebar').addClass('on-mobile-show');
+    $('.overlay').addClass('show sidebar-mobile');
+    $('body').addClass('hidescroll');
+  })
+  $('#page').on('click', '.overlay.sidebar-mobile', function() {
+    $(this).removeClass('show sidebar-mobile');
+    $('.sidebar').removeClass('on-mobile-show');
+    $('body').removeClass('hidescroll');
+  });
 
 	$('.switch-nav .dropdown-item').on('click', function(e) {
 		e.preventDefault();
