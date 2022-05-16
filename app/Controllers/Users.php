@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use App\Libraries\Breadcrumbs;
 
 class Users extends BaseController
 {
@@ -17,11 +18,16 @@ class Users extends BaseController
 
     public function create()
     {
+        $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
+        $this->breadcrumbs->add('Users', '/users');
+        $this->breadcrumbs->add('Create', '/users/create');
+
         return view('Users/create', [
             'page_title' => 'Tambah user',
             'user_fungsi' => $this->getUsersFungsi(),
             'functions' => $this->getFungsi(),
-            'auth' => $this->auth
+            'auth' => $this->auth,
+            'breadcrumbs' => $this->breadcrumbs->render(),
         ]);
     }
 

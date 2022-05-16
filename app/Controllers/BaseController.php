@@ -42,6 +42,8 @@ class BaseController extends Controller
     protected $db2;
     protected $db3;
     protected $dbLocal;
+    
+    protected $breadcrumbs;
 
     /**
      * Constructor.
@@ -59,6 +61,8 @@ class BaseController extends Controller
         $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
         $this->db3 = \Config\Database::connect($group = 'nls');
         $this->dbLocal = \Config\Database::connect($group = 'local');
+
+        $this->breadcrumbs = new \App\Libraries\Breadcrumbs;
     }
 
     protected function getFungsi()
