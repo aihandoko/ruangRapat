@@ -6,15 +6,68 @@
 	<meta name="robots" content="noindex">
 
 	<title><?= esc($title) ?></title>
-	<style type="text/css">
-		<?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'debug.css')) ?>
-	</style>
 
-	<script type="text/javascript">
-		<?= file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'debug.js') ?>
-	</script>
+	<?php if( $exception->getCode() == 8) : ?>
+		<link rel="stylesheet" href="<?= site_url('third-party/fontawesome/css/all.min.css'); ?>" />
+		<link rel="stylesheet" href="<?= site_url('third-party/bootstrap/css/bootstrap.min.css'); ?>" />
+		<link rel="stylesheet" type="text/css" href="<?= site_url('css/style.css'); ?>" />
+
+	<?php else : ?>
+		<style type="text/css">
+			<?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'debug.css')) ?>
+		</style>
+		<script type="text/javascript">
+			<?= file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'debug.js') ?>
+		</script>
+	<?php endif;?>
+
 </head>
 <body onload="init()">
+
+	<?php if( $exception->getCode() == 8) : ?>
+
+		<div id="page">
+        <header class="common-header">
+            <div class="container">
+                <div class="col-12">
+                    <h1 class="app-title">
+                        SPMB
+                    </h1>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-wrapper to-sidebar-hide">
+            <div class="not-found-wrapper">
+                <div class="not-found">
+                    <div class="giant-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="title">
+                        500. Gagal terhubung dengan database.
+                    </div>
+                    <p class="ctn">
+                        Aplikasi gagal terhubung dengan database.<br />
+                        Silahkan refresh kembali halaman atau hubungi IT Support.
+                    </p>
+                    <div class="db-err-exception-msg">
+                    	<?= nl2br(esc($exception->getMessage())) ?>		
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="app-footer to-sidebar-hide mt-0">
+            <div class="container">
+                <div class="copyright">
+                    &copy; <?= date("Y") ?> KG of Manufacture
+                </div>
+            </div>
+        </footer>
+
+    </div>
+		
+	<?php else : ?>
 
 	<!-- Header -->
 	<div class="header">
@@ -392,6 +445,8 @@
 
 		</div>
 	</div>
+
+<?php endif; ?>
 
 </body>
 </html>

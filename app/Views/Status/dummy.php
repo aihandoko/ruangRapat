@@ -2,7 +2,12 @@
 
 <?= $this->section('content')?>
 
-<h3 class="page-title">Status SPMB</h3>
+<div class="page-title-wrapper no-border mb-0">
+    <h3 class="page-title">Status SPMB</h3>
+    <div class="filter-icon">
+        <i class="fas fa-filter"></i>
+    </div>
+</div>
 
 <form name="dummyShowForm">
 <div class="status-box mb-4">
@@ -65,7 +70,7 @@
 </div>
 </form>
 
-<h3 class="subtitle pt-2">Status SPMB Dalam Proses ACC</h3>
+<h3 class="subtitle pt-2" id="subtitle">Status SPMB Dalam Proses ACC</h3>
 
 <table id="dummyStatusList" class="table table-bordered table-striped" style="width: 100%">
     <thead>

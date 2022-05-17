@@ -113,10 +113,10 @@ body.hidescroll {
 }
 
 .app-title {
-  margin: 0 0 -14px 0;
+  margin: 0 0 -16px 0;
   font-weight: 900;
   padding: 40px 0 0 20px;
-  font-size: 48px;
+  font-size: 58px;
 }
 
 .header-wrapper {
@@ -311,10 +311,34 @@ body.hidescroll {
   text-transform: uppercase;
 }
 
-.page-title {
+.page-title-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 0 0 40px 0;
-  padding: 0 0 15px 0;
+  padding: 0;
   border-bottom: 1px solid #eee;
+}
+.page-title-wrapper.no-border {
+  border: 0;
+}
+.page-title-wrapper .back-btn-icon {
+  display: block;
+  border: 1px solid #eee;
+  padding: 7px 15px;
+  color: #999;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.page-title-wrapper .back-btn-icon:hover {
+  text-decoration: none;
+  border: 1px solid #ddd;
+}
+.page-title {
+  flex: 1;
+  margin: 0;
+  padding: 0 0 15px 0;
   font-size: 24px;
   font-weight: 900;
 }
@@ -322,6 +346,26 @@ body.hidescroll {
   margin: 0 0 20px 0;
   font-size: 20px;
   font-weight: 700;
+}
+.filter-icon {
+  background-color: #cadbf7;
+  padding: 6px 15px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  border-top: 1px solid transparent;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  transition: all .3s ease;
+}
+.filter-icon.hide {
+  background-color: transparent;
+}
+.filter-icon.hide:hover {
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
 }
 
 .app-title-box {
@@ -375,10 +419,29 @@ body.hidescroll {
   left: 5px;
 }
 
+.dash__box {
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 0 0 20px 0;
+}
+.dash__box .title {
+  font-weight: 700;
+  padding: 0 0 10px 0;
+  margin: 0 0 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
 .status-box {
   background-color: #cadbf7;
-  border-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   overflow: hidden;
+  transition: max-height .3s ease;
+  max-height: 400px;
+}
+.status-box.hide {
+  max-height: 0;
 }
 .status-box .stat-param {
   padding: 25px 20px 25px 20px;
@@ -390,6 +453,9 @@ form[name="login"] button[name="submit"]:disabled,
   background-color: #ccc;
   color: #999;
   border-color: #999;
+}
+.addUserForm label {
+  text-align: right;
 }
 .status-box .stat-param .forms {
   display: flex;
@@ -482,6 +548,26 @@ form[name="login"] button[name="submit"]:disabled,
   color: rgba(0, 0, 0, 0.22);
 }
 
+.spinner-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spinner-icon span {
+  display: inline-block;
+}
+.spinner-icon .caption {
+  margin: 0 0 0 15px;
+  font-weight: 500;
+}
+
+.db-err-exception-msg {
+  height: 150px;
+  border: 1px solid #eee;
+  padding: 15px;
+  overflow-y: scroll;
+}
+
 .app-footer {
   width: calc(100% - 240px);
   margin-left: 240px;
@@ -547,5 +633,19 @@ form[name="login"] button[name="submit"]:disabled,
   tbody tr td {
     display: block;
     text-align: right;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .addUserForm label {
+    text-align: left;
+  }
+}
+@media only screen and (max-width: 680px) {
+  .not-found-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .not-found-wrapper .not-found {
+    width: 100%;
   }
 }

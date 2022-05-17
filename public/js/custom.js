@@ -38,6 +38,19 @@ $(function () {
 
 
   // STATUS DUMMY
+  $('.filter-icon').tooltip({
+    title: function() {
+      return ($(this).hasClass('hide')) ? 'Show filter' : 'Hide filter'
+    },
+    placement: 'left'
+  });
+  $('.filter-icon').on('click', function() {
+    $(this).tooltip("hide");
+    $(this).toggleClass('hide');
+    $('.status-box').toggleClass('hide')
+    $('.page-title-wrapper').toggleClass('no-border')
+  })
+
   let dummyData;
 
   $("#dummyStatusList").DataTable({
@@ -88,6 +101,9 @@ $(function () {
 
   $('form[name="dummyShowForm"]').on('submit', function(e) {
     e.preventDefault();
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#subtitle").offset().top
+    }, 500);
     const unit = 2
     const no = 1;
     const deptId = 43
@@ -97,6 +113,10 @@ $(function () {
       dataType: 'JSON',
       data: {unit, no, deptId},
       beforeSend: function () {
+        $('#dummyStatusList').DataTable().clear();
+        $('#dummyStatusList').DataTable().draw();
+        $('.dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
+        console.log($('#dummyStatusList').DataTable());
         // setTimeout(() => {
           $('.status-box .stat-param button[name="submit"]').attr('disabled', true)
         // }, 3000)
@@ -108,9 +128,7 @@ $(function () {
       },
       error: function () {},
       complete: function () {
-        setTimeout(() => {
-          $('.status-box .stat-param button[name="submit"]').attr('disabled', false)
-        }, 3000)
+        $('.status-box .stat-param button[name="submit"]').attr('disabled', false)
       }
     })
   })

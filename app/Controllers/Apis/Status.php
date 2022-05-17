@@ -313,7 +313,7 @@ class Status extends ResourceController
 
     public function params()
     {
-
+        sleep(10);
         $source = [
             [
                 'SPMBNo' => '10001',

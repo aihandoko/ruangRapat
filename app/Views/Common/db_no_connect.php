@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Error :: SPMB</title>
+    <title>500 Error | Gagal terhubung dengan database :: SPMB</title>
     <meta name="description" content="SPMB app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
@@ -15,6 +15,14 @@
 </head>
 
 <body class="common-page">
+
+    <?php
+    if(count($dbs) > 0) {
+        $db = '<code>' . implode('</code>, <code>', $dbs) . '</code>';
+    } else {
+        $db = '';
+    }
+    ?>
 
     <div id="page">
         <header class="common-header">
@@ -34,10 +42,14 @@
                         <i class="fas fa-exclamation-triangle"></i>
                     </div>
                     <div class="title">
-                        Error.
+                        500. Gagal terhubung dengan database.
                     </div>
                     <p class="ctn">
-                        Terjadi kesalahan pada aplikasi. Silahkan hubungi IT support untuk perbaikan.
+                        Aplikasi gagal terhubung dengan database <?= $db;?>.<br />
+                        Silahkan refresh kembali halaman atau hubungi IT Support.
+                    </p>
+                    <p>
+                        <?= anchor('/', 'Kembali ke halaman utama', ['class' => 'btn btn-primary']);?>
                     </p>
                 </div>
             </div>

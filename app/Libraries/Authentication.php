@@ -21,10 +21,10 @@ class Authentication
             $session = session();
             $session->regenerate();
             $session->set('selected_key', 0);
-            $session->set('NIK', '96462');
-            $session->set('Nama', 'ANTONIUS ISMI HANDOKO');
+            $session->set('NIK', '075716');
+            $session->set('Nama', 'Alfin Andri');
             $session->set('Fungsi', 'Admin');
-            $session->set('Site', 'Bandung1');
+            $session->set('Site', 'Palmerah');
             $session->set('KodeSPMB', 'PBD#UBD');
             $session->set('DeptId', '02071');
             $session->set('CompId', '020');

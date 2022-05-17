@@ -9,10 +9,14 @@ class Users extends BaseController
 {
 	public function index()
 	{
+        $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
+        $this->breadcrumbs->add('Users', '/users');
+
 		return view('Users/main', [
             'page_title' => 'Users',
 			'functions' => $this->getFungsi(),
-			'auth' => $this->auth
+			'auth' => $this->auth,
+            'breadcrumbs' => $this->breadcrumbs->render(),
 		]);
 	}
 
@@ -33,6 +37,10 @@ class Users extends BaseController
 
     public function edit()
     {
+        $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
+        $this->breadcrumbs->add('Users', '/users');
+        $this->breadcrumbs->add('Edit', '/users/edit');
+
         $nik = $this->base64urlDecode($this->request->getGet('nik'));
         $nama = $this->base64urlDecode($this->request->getGet('nama'));
         $fungsi = $this->base64urlDecode($this->request->getGet('fungsi'));
@@ -64,7 +72,8 @@ class Users extends BaseController
             'functions' => $this->getFungsi(),
             'auth' => $this->auth,
             'data' => $data,
-            'input_hidden' => $input_hidden
+            'input_hidden' => $input_hidden,
+            'breadcrumbs' => $this->breadcrumbs->render(),
         ]);
     }
 

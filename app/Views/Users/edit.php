@@ -6,7 +6,14 @@
 
 <?= $this->section('content')?>
 
-<h1 class="page-title"><?= $page_title;?></h1>
+<?= $breadcrumbs?>
+
+<div class="page-title-wrapper">
+    <h3 class="page-title"><?= $page_title;?></h3>
+    <a href="<?= site_url('users');?>" class="back-btn-icon">
+        <i class="fas fa-chevron-left"></i> Back
+    </a>
+</div>
 
 <?php if(session()->has('error')) :?>
 <div class="alert alert-danger"><?= session()->get('error');?></div>
@@ -20,10 +27,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
-                            <label for="nik" class="d-block text-right">NIK</label>
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label for="nik" class="d-block">NIK</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <input type="text" class="form-control<?= (session()->has('error')) ? ' border-danger' : '';?>" value="<?= old('nik') ?? $data['NIK'];?>" id="nik" name="nik" />
                         </div>
                     </div>
@@ -32,10 +39,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
-                            <label for="nama" class="d-block text-right">Nama</label>
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label for="nama" class="d-block">Nama</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <input type="text" class="form-control<?= (session()->has('error')) ? ' border-danger' : '';?>" value="<?= old('nama') ?? $data['Nama'];?>" id="nama" name="nama" />
                         </div>
                     </div>
@@ -44,10 +51,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
-                            <label class="d-block text-right" for="fungsi">Fungsi</label>
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label class="d-block" for="fungsi">Fungsi</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <select name="fungsi" id="fungsi" class="custom-select">
                                 <?php foreach ($user_fungsi['fungsi'] as $key => $func) :
                                     $selected = ($func == $data['Fungsi']) ? ' selected' : '';?>
@@ -61,10 +68,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
-                            <label for="site" class="d-block text-right">Site</label>
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label for="site" class="d-block">Site</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <select name="site" id="site" class="custom-select">
                                 <?php foreach ($user_fungsi['sites'] as $key => $func) :
                                     $selected = ($func == $data['Site']) ? ' selected' : '';?>
@@ -78,10 +85,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
-                            <label for="KodeSPMB" class="d-block text-right">Kode SPMB</label>
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label for="KodeSPMB" class="d-block">Kode SPMB</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <input type="text" value="<?= old('KodeSPMB') ?? $data['KodeSPMB'];?>" class="form-control" id="KodeSPMB" name="KodeSPMB">
                         </div>
                     </div>
@@ -90,10 +97,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
-                            <label for="compid" class="d-block text-right">CompId</label>
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label for="compid" class="d-block">CompId</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <input type="text" value="<?= old('compid') ?? $data['CompId'];?>" class="form-control" id="compid" name="compid">
                         </div>
                     </div>
@@ -102,10 +109,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
-                            <label for="deptid" class="d-block text-right">DeptId</label>
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label for="deptid" class="d-block">DeptId</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <input type="text" value="<?= old('deptid') ?? $data['DeptId'];?>" class="form-control" id="deptid" name="deptid">
                         </div>
                     </div>
@@ -114,10 +121,10 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-5 col-sm-12">
                             &nbsp;
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5 col-md-7 col-sm-12">
                             <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
                             <button type="button" name="cancel" class="btn btn-secondary">Batal</button>
                         </div>
