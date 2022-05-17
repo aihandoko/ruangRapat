@@ -54,24 +54,17 @@
                         </div>
                     </div>
                         <div class="top-nav">
-                            <div class="top-right-nav dropdown">
-                                <button type="button" class="dropdown-toggle" data-toggle="dropdown">
-                                    <div class="icon">
-                                        <i class="far fa-user-circle"></i>
-                                    </div>
-                                    <div class="name">
-                                        <?= session()->get('Nama');?>
-                                    </div>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a href="<?= site_url('myprofile'); ?>" class="dropdown-item">Profil</a>
-                                    <a href="<?= site_url('logout'); ?>" onclick="return confirm('Anda yakin untuk Logout?')"
-                                        class="dropdown-item">Logout</a>
+                            <div class="top-right-nav">
+                                <div class="icon">
+                                    <i class="far fa-user-circle"></i>
+                                </div>
+                                <div class="name">
+                                    <?= session()->get('Nama');?>
                                 </div>
                             </div>
                         </div>
                 <?php endif;?>
-                </div>
+                    </div>
                 </div>
 
             </header>
@@ -102,17 +95,14 @@
             <div class="main-menu">
                 <?php if($auth->isLoggedIn()) : ?>
                     <ul>
-                        <li class="<?= (current_url() == site_url()) ? 'active' : '' ?>">
-                            <a href="<?= site_url('/');?>">Dashbor</a>
-                        </li>
-                        <li class="<?= (current_url() == site_url('queue')) ? 'active' : '' ?>">
+                        <li class="<?= (url_is('/') || url_is('queue') || url_is('queue/*')) ? 'active' : '' ?>">
                             <a href="<?= site_url('queue');?>">Antrian SPMB</a>
                         </li>
-                        <li class="<?= (current_url() == site_url('status') || url_is('status/detail/*')) ? 'active' : '' ?>">
+                        <li class="<?= (url_is('status') || url_is('status/*')) ? 'active' : '' ?>">
                             <a href="<?= site_url('status');?>">Status SPMB</a>
                         </li>
                         <?php if(session()->get('Fungsi') === 'Admin') : ?>
-                            <li class="<?= (current_url() == site_url('users')) ? 'active' : '' ?>">
+                            <li class="<?= (url_is('users') || url_is('users/*')) ? 'active' : '' ?>">
                                 <a href="<?= site_url('users');?>">Users</a>
                             </li>
                         <?php endif;?>

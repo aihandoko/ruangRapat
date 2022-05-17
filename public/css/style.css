@@ -248,28 +248,10 @@ body.hidescroll {
   display: flex;
   justify-content: right;
 }
-.top-right-nav.show .dropdown-toggle {
-  color: rgba(255,255,255,.3);
-}
-.top-right-nav .dropdown-toggle {
-  border: 1px solid transparent;
-  background-color: transparent;
-  display: flex;
-  padding: 0;
-  border-radius: 0;
-  color: #fff;
-}
-.top-right-nav .dropdown-toggle:after {
-  margin-top: 10px;
-  margin-left: 10px;
-}
-.top-right-nav .dropdown-toggle:hover {
-  border: 1px solid transparent;
-}
-.top-right-nav .dropdown-toggle .icon {
+.top-right-nav .icon {
   margin: 0 10px 0 0;
 }
-.top-right-nav .dropdown-toggle .name {
+.top-right-nav .name {
   font-weight: 700;
 }
 
@@ -415,7 +397,7 @@ body.hidescroll {
   opacity: .7;
 }
 .main-menu ul li a:hover:before,
-.main-menu ul li.active a:hover:before {
+.main-menu ul li.active a:before {
   left: 5px;
 }
 
@@ -466,6 +448,18 @@ form[name="login"] button[name="submit"]:disabled,
 }
 .status-box .stat-param .forms .separator {
   padding: 0 5px;
+}
+.status-box button {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+}
+.status-box .clear {
+  background-color: #fff;
+}
+.status-box .clear:hover {
+  color: #007bff;
+  background-color: rgba(255,255,255,.5);
 }
 
 .notes-box,

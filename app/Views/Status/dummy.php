@@ -61,7 +61,7 @@
                 <button type="submit" name="submit" class="btn btn-primary">
                     Tampilkan
                 </button>
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-outline-primary clear">
                     Clear
                 </button>
             </div>
