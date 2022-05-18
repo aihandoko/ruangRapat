@@ -38,14 +38,24 @@ $(function () {
   });
 
   if(window.location.href == `${HOST}/users` || window.location.href == `${HOST}/users/`) {
-  	loadData({
-  		beforeSend: function() {},
-  		success: function (response) {
-  			$('#usersList').DataTable().clear();
-  			$('#usersList').DataTable().rows.add(response);
-  			$('#usersList').DataTable().draw();
-  		}
-  	});
+    setTimeout(() => {
+      $.ajax({
+      type: "POST",
+      url: `${HOST}/users/apiGetAll`,
+      beforeSend: function() {
+        $('#usersList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
+      },
+      success: function (response) {
+        $('#usersList').DataTable().clear();
+        $('#usersList').DataTable().rows.add(response);
+        $('#usersList').DataTable().draw();
+      },
+      error: function() {
+        $('#usersList .dataTables_empty').html('Data gagal di retrieve.')
+      },
+      complete: function () {}
+    })
+    }, 50)
   }
   $('#usersList').DataTable().on( 'order.dt search.dt', function () {
     let i = 1;
@@ -150,14 +160,3 @@ $(function () {
   })
 
 });
-
-function loadData(paramObj) {
-	$.ajax({
-      type: "POST",
-      url: `${HOST}/users/apiGetAll`,
-      beforeSend: paramObj.beforeSend,
-      success: paramObj.success,
-      error: function () {},
-      complete: function () {}
-    })
-}

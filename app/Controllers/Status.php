@@ -15,9 +15,12 @@ class Status extends BaseController
         ]);
     }
 
-    public function tes2()
+    public function index()
     {
-        return view('login', [
+        return view('Status/main', [
+            'page_title' => 'Status',
+            'functions' => $this->getFungsi(),
+            'auth' => $this->auth
         ]);
     }
 
@@ -67,59 +70,50 @@ class Status extends BaseController
             $acc6 = ($val['DateConverted'][5] != null) ? '<div>' . $val['DateConverted'][5] . '</div>' : '';
             $step7 = ($val['Step7'] != null) ? $val['Step7'] : '';
             $acc7 = ($val['DateConverted'][6] != null) ? '<div>' . $val['DateConverted'][6] . '</div>' : '';
-            $arrData[] = [
-                $key + 1,
-                '<a href="' . site_url('status/detail/'.$val['SPMBNo']) . '">' . $val['SPMBNo'] . '</a>',
-                $val['Site'],
-                $step1 . $acc1,
-                $step2 . $acc2,
-                $step3 . $acc3,
-                $step4 . $acc4,
-                $step5 . $acc5,
-                $step6 . $acc6,
-                $step7 . $acc7,
-            ];
+            if(session()->get('Fungsi') == 'Admin') {
+                $tbl = $this->db->table('SPMB_ACC');
+                $query = $tbl->select('Posisi')->where('SPMBNo', $val['SPMBNo'])->get();
+                if($query->getNumRows() > 0) {
+                    $options = [];
+                    foreach($query->getResult() as $r) {
+                        $options[] = '<option value="'.$r->Posisi.'">'.$r->Posisi.'</option>';
+                    }
+                    $select = '<select class="custom-form">' . implode('', $options) . '</select>';
+                } else {
+                    $select = '';
+                }
+                $arrData[] = [
+                    $key + 1,
+                    '<a href="' . site_url('status/detail/'.$val['SPMBNo']) . '">' . $val['SPMBNo'] . '</a>',
+                    $val['Site'],
+                    $step1 . $acc1,
+                    $step2 . $acc2,
+                    $step3 . $acc3,
+                    $step4 . $acc4,
+                    $step5 . $acc5,
+                    $step6 . $acc6,
+                    $step7 . $acc7,
+                    $select
+                ];
+            } else {
+                $arrData[] = [
+                    $key + 1,
+                    '<a href="' . site_url('status/detail/'.$val['SPMBNo']) . '">' . $val['SPMBNo'] . '</a>',
+                    $val['Site'],
+                    $step1 . $acc1,
+                    $step2 . $acc2,
+                    $step3 . $acc3,
+                    $step4 . $acc4,
+                    $step5 . $acc5,
+                    $step6 . $acc6,
+                    $step7 . $acc7,
+                ];
+            }
         }
 
         $response = $arrData;
 
         return $this->response->setJSON($response);
-    }
-
-    public function index()
-    {
-        try {
-            $data = "spReadSPMBStatus2014";
-            $query = $this->db->simpleQuery($data);
-            do {
-                $results = [];
-                while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
-                    // echo print_r($row, true);
-                    $row['DateConverted'] = [
-                        ($row['ACC1'] != null) ? $this->dateConverter($row['ACC1']) : null,
-                        ($row['ACC2'] != null) ? $this->dateConverter($row['ACC2']) : null,
-                        ($row['ACC3'] != null) ? $this->dateConverter($row['ACC3']) : null,
-                        ($row['ACC4'] != null) ? $this->dateConverter($row['ACC4']) : null,
-                        ($row['ACC5'] != null) ? $this->dateConverter($row['ACC5']) : null,
-                        ($row['ACC6'] != null) ? $this->dateConverter($row['ACC6']) : null,
-                        ($row['ACC7'] != null) ? $this->dateConverter($row['ACC7']) : null,
-                        ($row['ACC8'] != null) ? $this->dateConverter($row['ACC8']) : null,
-                        ($row['ACC9'] != null) ? $this->dateConverter($row['ACC9']) : null,
-                        ($row['ACC10'] != null) ? $this->dateConverter($row['ACC10']) : null
-                    ];
-                    $results[] = $row;
-                }
-            } while (sqlsrv_next_result($query));
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
-
-        return view('Status/main', [
-            'page_title' => 'Status',
-            'functions' => $this->getFungsi(),
-            'data' => $results,
-            'auth' => $this->auth
-        ]);
     }
 
     public function withParams()
@@ -198,6 +192,11 @@ class Status extends BaseController
 
     public function detail($id)
     {
+
+        $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
+        $this->breadcrumbs->add('Antrian', '/queue');
+        $this->breadcrumbs->add('Antrian ACC', '/queue');
+
         $route_query = "select Site, Route, DeptId from SPMB_ACC where SPMBNo='".$id."'";
         $exc_route_query = $this->db->simpleQuery($route_query);
         do {
@@ -249,14 +248,25 @@ class Status extends BaseController
             $route_otorisasi = [];
         }
 
-        $otorisasi_query = "select a.Acc, b.Nama, a.TglAcc, a.Posisi, isnull(a.Tolak,0) Tolak, isnull(a.Batal,0) Batal from SPMB_ACC a, SPMB_ACC_USER b where a.Acc is not null and a.SPMBNo='".$id."' and b.NIK=a.Acc";
-        $exc_otorisasi_query = $this->db->simpleQuery($otorisasi_query);
+        $auth_query_spmb_acc = "select Acc, TglAcc, Posisi, isnull(Tolak,0) Tolak, isnull(Batal,0) Batal from SPMB_ACC where SPMBNo='".$id."'";
+        $exc_auth_query = $this->db->simpleQuery($auth_query_spmb_acc);
         do {
-            $otorisasi_res = [];
-            while($otorisasi_row = sqlsrv_fetch_array($exc_otorisasi_query, SQLSRV_FETCH_ASSOC)) {
-                $otorisasi_res[] = $otorisasi_row;
+            $auth_res = [];
+            while($auth_row = sqlsrv_fetch_array($exc_auth_query, SQLSRV_FETCH_ASSOC)) {
+                $auth_res[] = $auth_row;
             }
-        } while (sqlsrv_next_result($exc_otorisasi_query));
+        } while (sqlsrv_next_result($exc_auth_query));
+
+        $auth_tbl = $this->db->table('SPMB_ACC_USER');
+        $auth_query = $auth_tbl->select('Nama')->where('NIK', $auth_res[0]['Acc'])->get();
+        if($auth_query->getNumRows() > 0) {
+            foreach ($auth_query->getResult() as $value) {
+                $nama = $value->Nama;
+            }
+            $otorisasi_res = $nama;
+        } else {
+            $otorisasi_res = '';
+        }
 
         $notes_query = "select Posisi, Catatan from SPMB_ACC where SPMBNo = '".$id."' order by NoUrut Desc";
         $exc_notes_query = $this->db->simpleQuery($notes_query);
@@ -266,6 +276,7 @@ class Status extends BaseController
                 $notes_res[] = $notes_row;
             }
         } while (sqlsrv_next_result($exc_notes_query));
+        // dd($this->auth);
 
         if(count($results) > 0) {
             return view('Status/detail', [
@@ -276,16 +287,35 @@ class Status extends BaseController
                 'routes' => $route_res,
                 'DeptName' => $DeptName,
                 'otorisasi' => $otorisasi_res,
+                'auth_res' => $auth_res,
                 'route_otorisasi' => implode(' > ', $route_otorisasi),
-                'notes' => $notes_res
+                'notes' => $notes_res,
+                'breadcrumbs' => $this->breadcrumbs->render(),
             ]);
         } else {
-            return view('Status/detail_not_found');
+            return view('Status/detail_not_found', [
+                'page_title' => 'ACC SPMB',
+                'functions' => $this->getFungsi(),
+                'auth' => $this->auth,
+                'breadcrumbs' => $this->breadcrumbs->render(),
+            ]);
         }
     }
 
-    public function acc($id)
+    public function deny($id)
     {
+        // $queue = (new \App\Controllers\Queue())->getQueue();
+        // $queue_val = array_map(function($val) {
+        //     return trim($val['SPMBNo']);
+        // }, $queue);
+        // if(count($queue) == 0 || ! in_array($id, $queue_val)) {
+        //     return redirect()->to('/');
+        // }
+
+        $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
+        $this->breadcrumbs->add('Antrian', '/queue');
+        $this->breadcrumbs->add('Antrian ACC', '/queue');
+
         $route_query = "select Site, Route, DeptId from SPMB_ACC where SPMBNo='".$id."'";
         $exc_route_query = $this->db->simpleQuery($route_query);
         do {
@@ -337,14 +367,37 @@ class Status extends BaseController
             $route_otorisasi = [];
         }
 
-        $otorisasi_query = "select a.Acc, b.Nama, a.TglAcc, a.Posisi, isnull(a.Tolak,0) Tolak, isnull(a.Batal,0) Batal from SPMB_ACC a, SPMB_ACC_USER b where a.Acc is not null and a.SPMBNo='".$id."' and b.NIK=a.Acc";
-        $exc_otorisasi_query = $this->db->simpleQuery($otorisasi_query);
+        // $otorisasi_query = "select a.Acc, b.Nama, a.TglAcc, a.Posisi, isnull(a.Tolak,0) Tolak, isnull(a.Batal,0) Batal from SPMB_ACC a, SPMB_ACC_USER b where a.Acc is not null and a.SPMBNo='".$id."' and b.NIK=a.Acc";
+        $auth_query_spmb_acc = "select Acc, TglAcc, Posisi, isnull(Tolak,0) Tolak, isnull(Batal,0) Batal from SPMB_ACC where SPMBNo='".$id."'";
+        $exc_auth_query = $this->db->simpleQuery($auth_query_spmb_acc);
         do {
-            $otorisasi_res = [];
-            while($otorisasi_row = sqlsrv_fetch_array($exc_otorisasi_query, SQLSRV_FETCH_ASSOC)) {
-                $otorisasi_res[] = $otorisasi_row;
+            $auth_res = [];
+            while($auth_row = sqlsrv_fetch_array($exc_auth_query, SQLSRV_FETCH_ASSOC)) {
+                $auth_res[] = $auth_row;
             }
-        } while (sqlsrv_next_result($exc_otorisasi_query));
+        } while (sqlsrv_next_result($exc_auth_query));
+
+        // Ambil yang atas aja
+
+        $auth_tbl = $this->db->table('SPMB_ACC_USER');
+        $auth_query = $auth_tbl->select('Nama')->where('NIK', $auth_res[0]['Acc'])->get();
+        if($auth_query->getNumRows() > 0) {
+            foreach ($auth_query->getResult() as $value) {
+                $nama = $value->Nama;
+            }
+            $otorisasi_res = $nama;
+        } else {
+            $otorisasi_res = '';
+        }
+        // $otorisasi_query = "select Nama from SPMB_ACC_USER where NIK='".$auth_res[0]['Acc']."'";
+        // $exc_otorisasi_query = $this->db->simpleQuery($otorisasi_query);
+        // do {
+        //     $otorisasi_res = [];
+        //     while($otorisasi_row = sqlsrv_fetch_array($exc_otorisasi_query, SQLSRV_FETCH_ASSOC)) {
+        //         $otorisasi_res[] = $otorisasi_row;
+        //     }
+        // } while (sqlsrv_next_result($exc_otorisasi_query));
+        // dd($otorisasi_res);
 
         $notes_query = "select Posisi, Catatan from SPMB_ACC where SPMBNo = '".$id."' order by NoUrut Desc";
         $exc_notes_query = $this->db->simpleQuery($notes_query);
@@ -355,14 +408,16 @@ class Status extends BaseController
             }
         } while (sqlsrv_next_result($exc_notes_query));
 
-        return view('Status/acc', [
+        return view('Status/deny', [
             'page_title' => 'ACC SPMB',
+            'breadcrumbs' => $this->breadcrumbs->render(),
             'functions' => $this->getFungsi(),
             'auth' => $this->auth,
             'data' => $results,
             'routes' => $route_res,
             'DeptName' => $DeptName,
             'otorisasi' => $otorisasi_res,
+            'auth_res' => $auth_res,
             'route_otorisasi' => implode(' > ', $route_otorisasi),
             'route_kode' => $results[0]['AuthRoute'],
             'notes' => $notes_res,
@@ -370,6 +425,135 @@ class Status extends BaseController
         ]);
     }
 
+    public function acc($id)
+    {
+        $queue = (new \App\Controllers\Queue())->getQueue();
+        $queue_val = array_map(function($val) {
+            return trim($val['SPMBNo']);
+        }, $queue);
+        if(count($queue) == 0 || ! in_array($id, $queue_val)) {
+            return redirect()->to('/');
+        }
+
+        $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
+        $this->breadcrumbs->add('Antrian', '/queue');
+        $this->breadcrumbs->add('Antrian ACC', '/queue');
+
+        $route_query = "select Site, Route, DeptId from SPMB_ACC where SPMBNo='".$id."'";
+        $exc_route_query = $this->db->simpleQuery($route_query);
+        do {
+            $route_res = [];
+            while($route_row = sqlsrv_fetch_array($exc_route_query, SQLSRV_FETCH_ASSOC)) {
+                $route_res[] = $route_row;
+            }
+        } while (sqlsrv_next_result($exc_route_query));
+
+        $dept_query = "select DeptName from SPMB_DEPT where DeptId='".$route_res[0]['DeptId']."'";
+        $exc_dept_query = $this->db->simpleQuery($dept_query);
+        if(sqlsrv_num_rows($exc_dept_query) > 0) {
+            do {
+                while($dept_row = sqlsrv_fetch_array($exc_dept_query, SQLSRV_FETCH_ASSOC)) {
+                    $dept_res = $dept_row;
+                }
+            } while (sqlsrv_next_result($exc_dept_query));
+            $DeptName = $dept_res['DeptName'];
+        } else {
+            $DeptName = '';
+        }
+
+        // $nls_table = $this->db3->table('Request_H');
+        // $query = $nls_table->select('a.ReqNo, a.ReqDate, a.CompId, a.DeptId, a.ReqDescription, a.AttachmentPath, b.AuthRoute, b.ReqSeqNo, b.ItemId, b.ItemQty, b.TargetDate, b.ReqNote, c.ItemName, d.UnitCode, b.AccountNo')->from('Request_H a')
+
+        $data = "select distinct a.ReqNo, a.ReqDate, a.CompId, a.DeptId, a.ReqDescription, a.AttachmentPath, b.AuthRoute, b.ReqSeqNo, b.ItemId, b.ItemQty, b.TargetDate, b.ReqNote, c.ItemName, d.UnitCode, b.AccountNo from Request_H a, Request_D b, Item c, Units d where a.ReqType='PR' and a.ReqType=b.ReqType and a.CompId=b.CompId  and a.ReqNo=b.ReqNo and b.ItemId=c.ItemId and c.CompId=rtrim(a.CompId) and c.UnitId=d.UnitId and rtrim(a.CompId)+'-'+CONVERT(VARCHAR,a.ReqNo) = '".$id."'";
+        $query = $this->db3->simpleQuery($data);
+        do {
+            $results = [];
+            while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
+                $results[] = $row;
+            }
+        } while (sqlsrv_next_result($query));
+
+        if(count($results) > 0) {
+            $route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";
+            $exc_route_auth = $this->db->simpleQuery($route_auth);
+            do {
+                $auth_res = [];
+                while($auth_row = sqlsrv_fetch_array($exc_route_auth, SQLSRV_FETCH_ASSOC)) {
+                    $auth_res[] = $auth_row;
+                }
+            } while (sqlsrv_next_result($exc_route_auth));
+
+            $route_otorisasi = [];
+            foreach ($auth_res[0] as $key => $value) {
+                if($key !== 'Kode' && $value !== null) {
+                    $route_otorisasi[] = $value;
+                }
+            }
+        } else {
+            $route_otorisasi = [];
+        }
+
+        // $otorisasi_query = "select a.Acc, b.Nama, a.TglAcc, a.Posisi, isnull(a.Tolak,0) Tolak, isnull(a.Batal,0) Batal from SPMB_ACC a, SPMB_ACC_USER b where a.Acc is not null and a.SPMBNo='".$id."' and b.NIK=a.Acc";
+        $auth_query_spmb_acc = "select Acc, TglAcc, Posisi, isnull(Tolak,0) Tolak, isnull(Batal,0) Batal from SPMB_ACC where SPMBNo='".$id."'";
+        $exc_auth_query = $this->db->simpleQuery($auth_query_spmb_acc);
+        do {
+            $auth_res = [];
+            while($auth_row = sqlsrv_fetch_array($exc_auth_query, SQLSRV_FETCH_ASSOC)) {
+                $auth_res[] = $auth_row;
+            }
+        } while (sqlsrv_next_result($exc_auth_query));
+
+        // Ambil yang atas aja
+
+        $auth_tbl = $this->db->table('SPMB_ACC_USER');
+        $auth_query = $auth_tbl->select('Nama')->where('NIK', $auth_res[0]['Acc'])->get();
+        if($auth_query->getNumRows() > 0) {
+            foreach ($auth_query->getResult() as $value) {
+                $nama = $value->Nama;
+            }
+            $otorisasi_res = $nama;
+        } else {
+            $otorisasi_res = '';
+        }
+        // $otorisasi_query = "select Nama from SPMB_ACC_USER where NIK='".$auth_res[0]['Acc']."'";
+        // $exc_otorisasi_query = $this->db->simpleQuery($otorisasi_query);
+        // do {
+        //     $otorisasi_res = [];
+        //     while($otorisasi_row = sqlsrv_fetch_array($exc_otorisasi_query, SQLSRV_FETCH_ASSOC)) {
+        //         $otorisasi_res[] = $otorisasi_row;
+        //     }
+        // } while (sqlsrv_next_result($exc_otorisasi_query));
+        // dd($otorisasi_res);
+
+        $notes_query = "select Posisi, Catatan from SPMB_ACC where SPMBNo = '".$id."' order by NoUrut Desc";
+        $exc_notes_query = $this->db->simpleQuery($notes_query);
+        do {
+            $notes_res = [];
+            while($notes_row = sqlsrv_fetch_array($exc_notes_query, SQLSRV_FETCH_ASSOC)) {
+                $notes_res[] = $notes_row;
+            }
+        } while (sqlsrv_next_result($exc_notes_query));
+
+        dd($results);
+
+        return view('Status/acc', [
+            'page_title' => 'ACC SPMB',
+            'breadcrumbs' => $this->breadcrumbs->render(),
+            'functions' => $this->getFungsi(),
+            'auth' => $this->auth,
+            'data' => $results,
+            'routes' => $route_res,
+            'DeptName' => $DeptName,
+            'otorisasi' => $otorisasi_res,
+            'auth_res' => $auth_res,
+            'route_otorisasi' => implode(' > ', $route_otorisasi),
+            'route_kode' => $results[0]['AuthRoute'],
+            'notes' => $notes_res,
+            'id' => $id
+        ]);
+    }
+
+    // ACC ANTRIAN PROSES
     public function accProcess()
     {
         $acc_notes = $this->request->getPost('acc_notes');
@@ -441,7 +625,7 @@ class Status extends BaseController
                                 ->with('warning', 'Field POSISI tidak ditemukan');
             }
 
-            $spmb_acc_back_tbl = $this->dbLocal->table('SPMB_ACC_BACK');
+            $spmb_acc_back_tbl = $this->db->table('SPMB_ACC_BACK');
             $data_acc_back = [
                 'NoSPMB' => $spmbno,
                 'BackTo' => $posisi
@@ -467,7 +651,7 @@ class Status extends BaseController
         }
         $nls_query = "sp_AccSPMB '".$statement."', ".$reqno.", ".$comp_id.",'PR', ''";
         if($this->db->simpleQuery($nls_query)) {
-            return redirect()->back()
+            return redirect()->to('/')
                             ->with('success', 'Antrian berhasil diupdate');
         } else {
             return redirect()->back()

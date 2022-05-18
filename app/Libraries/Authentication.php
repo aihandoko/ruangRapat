@@ -17,58 +17,58 @@ class Authentication
 
     public function login($nik, $password)
     {
-        if($nik === 'alfin' || $nik === '96462') {
-            $session = session();
-            $session->regenerate();
-            $session->set('selected_key', 0);
-            $session->set('NIK', '075716');
-            $session->set('Nama', 'Alfin Andri');
-            $session->set('Fungsi', 'Admin');
-            $session->set('Site', 'Palmerah');
-            $session->set('KodeSPMB', 'PBD#UBD');
-            $session->set('DeptId', '02071');
-            $session->set('CompId', '020');
-
-            return true;
-        } else {
-            return false;
-        }
-
-        // $query = "spGetPwdValidation '".$nik."', '".$password."'";
-        // $exc_query = $this->db2->simpleQuery($query);
-        // do {
-        //     $result = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC);
-        // } while (sqlsrv_next_result($exc_query));
-
-        // if(!is_array($result) || $result[''] === 'NA') {
-        //     return false;
-        // }
-
-        // $user_query = "select * from SPMB_ACC_USER where NIK='".$nik."'";
-        // $exc_user_query = $this->db->simpleQuery($user_query);
-        // if(sqlsrv_num_rows($exc_user_query) > 0) {
-        //     do {
-        //         $results = [];
-        //         while($row = sqlsrv_fetch_array($exc_user_query, SQLSRV_FETCH_ASSOC)) {
-        //             $results[] = $row;
-        //         }
-        //     } while (sqlsrv_next_result($exc_user_query));
-
+        // if($nik === 'alfin' || $nik === '96462') {
         //     $session = session();
         //     $session->regenerate();
         //     $session->set('selected_key', 0);
-        //     $session->set('NIK', $nik);
-        //     $session->set('Nama', $results[0]['Nama']);
-        //     $session->set('Fungsi', $results[0]['Fungsi']);
-        //     $session->set('Site', $results[0]['Site']);
-        //     $session->set('KodeSPMB', $results[0]['KodeSPMB']);
-        //     $session->set('DeptId', $results[0]['DeptId']);
-        //     $session->set('CompId', $results[0]['CompId']);
+        //     $session->set('NIK', '075716');
+        //     $session->set('Nama', 'Alfin Andri');
+        //     $session->set('Fungsi', 'Admin');
+        //     $session->set('Site', 'Palmerah');
+        //     $session->set('KodeSPMB', 'PBD#UBD');
+        //     $session->set('DeptId', '02071');
+        //     $session->set('CompId', '020');
+
+        //     return true;
         // } else {
         //     return false;
         // }
 
-        // return true;
+        $query = "spGetPwdValidation '".$nik."', '".$password."'";
+        $exc_query = $this->db2->simpleQuery($query);
+        do {
+            $result = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC);
+        } while (sqlsrv_next_result($exc_query));
+
+        if(!is_array($result) || $result[''] === 'NA') {
+            return false;
+        }
+
+        $user_query = "select * from SPMB_ACC_USER where NIK='".$nik."'";
+        $exc_user_query = $this->db->simpleQuery($user_query);
+        if(sqlsrv_num_rows($exc_user_query) > 0) {
+            do {
+                $results = [];
+                while($row = sqlsrv_fetch_array($exc_user_query, SQLSRV_FETCH_ASSOC)) {
+                    $results[] = $row;
+                }
+            } while (sqlsrv_next_result($exc_user_query));
+
+            $session = session();
+            $session->regenerate();
+            $session->set('selected_key', 0);
+            $session->set('NIK', $nik);
+            $session->set('Nama', $results[0]['Nama']);
+            $session->set('Fungsi', $results[0]['Fungsi']);
+            $session->set('Site', $results[0]['Site']);
+            $session->set('KodeSPMB', $results[0]['KodeSPMB']);
+            $session->set('DeptId', $results[0]['DeptId']);
+            $session->set('CompId', $results[0]['CompId']);
+        } else {
+            return false;
+        }
+
+        return true;
     }
 
     public function logout() {

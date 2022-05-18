@@ -6,6 +6,9 @@ use CodeIgniter\Model;
 
 class StatusModel extends Model
 {
-    protected $DBGroup = 'local';
-    protected $table = 'SPMB_ACC_USER';
+    protected $DBGroup = 'default';
+
+    public function getPosisi()
+    {
+    }
 }

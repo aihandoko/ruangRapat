@@ -174,7 +174,7 @@
 //endforeach;?>
 </div>
 
-<h3 class="subtitle mt-5">Catatan</h3>
+<h3 class="subtitle mt-5">Follow Up Terhadap SPMB Yang Ditolak</h3>
 
 <div class="notes-box">
     <?= form_open('status/accProcess');?>

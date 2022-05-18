@@ -10,11 +10,8 @@ class AdminFilter implements FilterInterface {
     public function before(RequestInterface $request, $arguments = null)
     {
         if ( session()->get('Fungsi') !== 'Admin' ) {
-            $response = service('response');
-            $response->setStatusCode(403);
-            $response->setBody('You do not allowed to access this resource.');
 
-            return $response;
+            return redirect()->to('/');
         }
     }
 

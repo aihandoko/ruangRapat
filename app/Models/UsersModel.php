@@ -6,12 +6,14 @@ use CodeIgniter\Model;
 
 class UsersModel extends Model
 {
-    protected $DBGroup = 'local';
+    protected $DBGroup = 'default';
     protected $table = 'SPMB_ACC_USER';
     protected $allowedFields = ['NIK', 'Nama', 'Fungsi', 'Site', 'KodeSPMB', 'DeptId', 'CompId'];
     protected $validationRules = [
         'NIK' => 'required',
         'Nama' => 'required',
+        'Fungsi' => 'required',
+        'Site' => 'required',
     ];
     protected $validationMessages = [
         'NIK'        => [
@@ -19,6 +21,12 @@ class UsersModel extends Model
         ],
         'Nama'        => [
             'required' => 'Field Nama harus diisi.',
+        ],
+        'Fungsi'        => [
+            'required' => 'Field Fungsi harus dipilih.',
+        ],
+        'Site'        => [
+            'required' => 'Field Site harus dipilih.',
         ],
     ];
 

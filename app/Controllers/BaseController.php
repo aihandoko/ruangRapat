@@ -59,7 +59,7 @@ class BaseController extends Controller
         $this->auth = service('auth');
         $this->db = \Config\Database::connect($group = null);
         $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
-        $this->db3 = \Config\Database::connect($group = 'nls');
+        $this->db3 = \Config\Database::connect('nls');
         $this->dbLocal = \Config\Database::connect($group = 'local');
 
         $this->breadcrumbs = new \App\Libraries\Breadcrumbs;
@@ -68,7 +68,7 @@ class BaseController extends Controller
     protected function getFungsi()
     {
         $query = "select * from SPMB_ACC_USER where NIK = '" . session()->get('NIK') . "'";
-        $exc_query = $this->dbLocal->simpleQuery($query);
+        $exc_query = $this->db->simpleQuery($query);
         do {
             $results = [];
             while($row = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC)) {

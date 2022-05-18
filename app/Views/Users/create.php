@@ -28,10 +28,10 @@ echo form_open('users/addProcess', $attributes);?>
                 <td>
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-12">
-                            <label for="nik" class="d-block">NIK</label>
+                            <label for="nik" class="d-block">NIK <span class="text-danger">*</span></label>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-12">
-                            <input type="text" class="form-control<?= (session()->has('error')) ? ' border-danger' : '';?>" value="<?= old('nik');?>" id="nik" name="nik" />
+                            <input type="text" class="form-control<?= (session()->has('error') && old('nik') == null) ? ' border-danger' : '';?>" value="<?= old('nik');?>" id="nik" name="nik" />
                         </div>
                     </div>
                 </td>
@@ -40,10 +40,10 @@ echo form_open('users/addProcess', $attributes);?>
                 <td>
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-12">
-                            <label for="nama" class="d-block">Nama</label>
+                            <label for="nama" class="d-block">Nama <span class="text-danger">*</span></label>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-12">
-                            <input type="text" class="form-control<?= (session()->has('error')) ? ' border-danger' : '';?>" value="<?= old('nama');?>" id="nama" name="nama" />
+                            <input type="text" class="form-control<?= (session()->has('error') && old('nama') == null) ? ' border-danger' : '';?>" value="<?= old('nama');?>" id="nama" name="nama" />
                         </div>
                     </div>
                 </td>
@@ -52,12 +52,13 @@ echo form_open('users/addProcess', $attributes);?>
                 <td>
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-12">
-                            <label class="d-block" for="fungsi">Fungsi</label>
+                            <label class="d-block" for="fungsi">Fungsi <span class="text-danger">*</span></label>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-12">
-                            <select name="fungsi" id="fungsi" class="custom-select">
+                            <select name="fungsi" id="fungsi" class="custom-select<?= (session()->has('error') && old('fungsi') == null) ? ' border-danger' : '';?>">
+                                <option value=""<?= (old('fungsi') == null) ? ' selected' : '';?>>--Pilih Fungsi--</option>
                                 <?php foreach ($user_fungsi['fungsi'] as $key => $func) : ?>
-                                    <option value="<?= $func;?>"><?= $func;?></option>
+                                    <option<?= ($func == old('fungsi')) ? ' selected' : '';?> value="<?= $func;?>"><?= $func;?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>
@@ -68,12 +69,13 @@ echo form_open('users/addProcess', $attributes);?>
                 <td>
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-12">
-                            <label for="site" class="d-block">Site</label>
+                            <label for="site" class="d-block">Site <span class="text-danger">*</span></label>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-12">
-                            <select readonly name="site" id="site" class="custom-select">
+                            <select name="site" id="site" class="custom-select<?= (session()->has('error') && old('site') == null) ? ' border-danger' : '';?>">
+                                <option value=""<?= (old('site') == null) ? ' selected' : '';?>>--Pilih Site--</option>
                                 <?php foreach ($user_fungsi['sites'] as $key => $site) : ?>
-                                    <option value="<?= $site;?>"><?= $site;?></option>
+                                    <option<?= ($site == old('site')) ? ' selected' : '';?> value="<?= $site;?>"><?= $site;?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>

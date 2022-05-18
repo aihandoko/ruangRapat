@@ -6,7 +6,10 @@
 
 <?= $this->section('content')?>
 
-<h1 class="page-title"><?= $page_title;?></h1>
+<?= $breadcrumbs?>
+<div class="page-title-wrapper">
+    <h3 class="page-title"><?= $page_title;?></h3>
+</div>
 
 <div class="subtitle">
 	Daftar SPMB Untuk Diproses <?= session()->get('Fungsi');?>

@@ -95,9 +95,9 @@ class Users extends BaseController
 
 	public function apiGetAll()
 	{
-        if($this->request->getMethod() != 'post') {
-            return redirect()->to('/');
-        }
+        // if($this->request->getMethod() != 'post') {
+        //     return redirect()->to('/');
+        // }
 
 		// if( ! $dataUsers = cache('dataUsers')) {
 
@@ -248,6 +248,9 @@ class Users extends BaseController
         $sites = [];
         if($model->getSites()->getNumRows() > 0) {
             foreach($model->getSites()->getResult() as $row) {
+                if($row->Site == '--') {
+                    continue;
+                }
                 $sites[] = $row->Site;
             }
         }

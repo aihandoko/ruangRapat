@@ -428,7 +428,15 @@ body.hidescroll {
 .status-box .stat-param {
   padding: 25px 20px 25px 20px;
 }
-.status-box .stat-param button[name="submit"]:disabled,
+.status-box .stat-param .caption {
+  font-weight: 500;
+  font-size: 85%;
+  color: rgba(0,0,0,.7);
+}
+.status-box .stat-param .caption.upp {
+  text-transform: uppercase;
+}
+.status-box .stat-param button:disabled,
 form[name="login"] button[name="submit"]:disabled,
 .addUserForm button[name="submit"]:disabled,
 .addUserForm button[name="cancel"]:disabled {
@@ -445,6 +453,9 @@ form[name="login"] button[name="submit"]:disabled,
 }
 .status-box .stat-param .forms .form-control {
   font-size: 14px;
+}
+.status-box .stat-param .forms .item-form {
+  flex: 1;
 }
 .status-box .stat-param .forms .separator {
   padding: 0 5px;
@@ -492,6 +503,19 @@ form[name="login"] button[name="submit"]:disabled,
 }
 .authorization-box .auth-item .signature {
   height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.authorization-box .auth-item .signature .icon {
+  font-size: 40px;
+  color: rgba(0,0,0,.5);
+}
+.authorization-box .auth-item .signature img {
+  width: 100%;
 }
 .authorization-box .auth-item .name {
   font-weight: 500;
@@ -618,6 +642,9 @@ form[name="login"] button[name="submit"]:disabled,
     top: -9999px;
     left: -9999px;
   }
+  tbody tr td {
+    min-height: 24px;
+  }
   tbody tr td::before {
     content: attr(data-label);
     float: left;
@@ -628,10 +655,18 @@ form[name="login"] button[name="submit"]:disabled,
     display: block;
     text-align: right;
   }
+  .status-box .stat-param .form-btn {
+    margin: 15px 0 0 0;
+  }
 }
 @media only screen and (max-width: 768px) {
   .addUserForm label {
     text-align: left;
+  }
+  .status-box .stat-param .caption.no,
+  .status-box .stat-param .caption.deptid {
+    display: block;
+    margin: 8px 0 0 0;
   }
 }
 @media only screen and (max-width: 680px) {

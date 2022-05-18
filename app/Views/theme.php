@@ -22,7 +22,6 @@
 
         <div class="overlay"></div>
         <div class="floating-msg">
-            <div class="alert alert-success">Data berhasil diubah</div>
         </div>
 
         <header class="header-wrapper">
@@ -142,10 +141,16 @@
     <script src="<?= site_url('third-party/bootstrap/js/popper.min.js'); ?>"></script>
     <script src="<?= site_url('third-party/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
-    <?php if(url_is('status/acc/*')) : ?>
+    <?php if(url_is('status/acc/*') || url_is('status/deny/*')) : ?>
         <script src="<?= site_url('js/MaxLength.min.js');?>"></script>
     <?php endif;?>
     <script src="<?= site_url('js/base.js'); ?>"></script>
+    <?php if(url_is('status') || url_is('status/*')) : ?>
+        <script src="<?= site_url('js/status.js');?>"></script>
+    <?php endif;?>
+    <?php if(url_is('/') || url_is('queue') || url_is('queue/*')) : ?>
+        <script src="<?= site_url('js/queue.js');?>"></script>
+    <?php endif;?>
     <?php if(url_is('users') || url_is('users/create')) : ?>
         <script src="<?= site_url('js/users.js');?>"></script>
     <?php endif;?>

@@ -13,8 +13,8 @@
 <div class="status-box mb-4">
     <div class="stat-param">
         <div class="row align-items-end">
-            <div class="col-4">
-                <div class="caption">Unit</div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="caption unit upp">Unit</div>
                 <div class="forms">
                     <div class="item-form">
                         <input type="text" class="form-control" name="unit">
@@ -25,8 +25,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="caption">No</div>
+            <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="caption no upp">No</div>
                 <div class="forms">
                     <div class="item-form">
                         <input type="text" class="form-control" name="no">
@@ -49,21 +49,23 @@
                     </div>
                 </div>
             </div> -->
-            <div class="col-2">
-                <div class="caption">DeptId</div>
+            <div class="col-lg-2 col-md-4 col-sm-12">
+                <div class="caption deptid">DeptId</div>
                 <div class="forms">
                     <div class="item-form">
                         <input type="text" class="form-control" name="deptId">
                     </div>
                 </div>
             </div>
-            <div class="col-3">
-                <button type="submit" name="submit" class="btn btn-primary">
-                    Tampilkan
-                </button>
-                <button type="button" class="btn btn-outline-primary clear">
-                    Clear
-                </button>
+            <div class="col-lg-3 col-md-12">
+                <div class="form-btn">
+                    <button type="submit" name="submit" class="btn btn-primary">
+                        Tampilkan
+                    </button>
+                    <button type="button" class="btn btn-outline-primary clear">
+                        Clear
+                    </button>
+                </div>
             </div>
         </div>
     </div>
