@@ -22,8 +22,8 @@ class Queue extends BaseController
             'breadcrumbs' => $this->breadcrumbs->render(),
 			'functions' => $this->getFungsi(),
 			'auth' => $this->auth,
-			'data' => $this->getQueue(),
-			'deny' => $this->getDenyQueue()
+			// 'data' => $this->getQueue(),
+			// 'deny' => $this->getDenyQueue()
 		]);
 	}
 

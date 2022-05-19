@@ -6,6 +6,7 @@
 
 <?= $this->section('content')?>
 
+<?= $breadcrumbs?>
 <div class="page-title-wrapper no-border mb-0">
     <h3 class="page-title"><?= $page_title;?></h3>
     <div class="filter-icon">

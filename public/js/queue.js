@@ -1,21 +1,21 @@
 $(function () {
-	let queueData;
-	let queueDenyData;
+  let queueData;
+  let queueDenyData;
 
 	$("#queueList").DataTable({
-		data: queueData,
-        columns: [
-            {title: "No"},
-            { title: "Site" },
-            { title: "SPMB" },
-            { title: "Unit Peminta" },
-            { title: "Detail" },
-        ],
-        columnDefs: [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
+    data: queueData,
+    columns: [
+      {title: "No"},
+      { title: "Site" },
+      { title: "SPMB" },
+      { title: "Unit Peminta" },
+      { title: "Detail" },
+    ],
+    columnDefs: [{
+      "searchable": false,
+      "orderable": false,
+      "targets": 0
+    }],
         order: [[ 1, 'asc' ]],
         createdRow: function (row, data, dataIndex) {
         	$(row).find("td:eq(0)").attr("data-label", "No");

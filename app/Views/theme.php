@@ -111,10 +111,10 @@
                     </ul>
                 <?php else : ?>
                     <ul>
-                        <li class="active">
+                        <li<?= (url_is('login')) ? ' class="active"' : '' ?>>
                             <a href="<?= site_url('login');?>">Login</a>
                         </li>
-                        <li>
+                        <li<?= (url_is('status')) ? ' class="active"' : '' ?>>
                             <a href="<?= site_url('status');?>">Status SPMB</a>
                         </li>
                     </ul>
@@ -124,8 +124,12 @@
 
         <footer class="app-footer">
             <div class="container">
-                <div class="copyright">
-                    &copy; <?= date("Y") ?> KG of Manufacture
+                <div class="row">
+                    <div class="col-12">
+                        <div class="copyright">
+                            &copy; <?= date("Y") ?> KG of Manufacture
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>

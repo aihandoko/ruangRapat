@@ -17,8 +17,20 @@ class Status extends BaseController
 
     public function index()
     {
+        // $tbl = $this->dbLocal->table('SPMB_ACC_USER');
+        // $query = $this->dbLocal->query("GetUsersByNIK '90233'")->getResult();
+        // dd($query);
+
+        $model = new \App\Models\StatusModel;
+        $query = $model->getAll();
+        dd($query);
+
+        $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
+        $this->breadcrumbs->add('Status', '/status');
+
         return view('Status/main', [
             'page_title' => 'Status',
+            'breadcrumbs' => $this->breadcrumbs->render(),
             'functions' => $this->getFungsi(),
             'auth' => $this->auth
         ]);
@@ -32,7 +44,6 @@ class Status extends BaseController
             do {
                 $results = [];
                 while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
-                    // echo print_r($row, true);
                     $row['DateConverted'] = [
                         ($row['ACC1'] != null) ? $this->dateConverter($row['ACC1']) : null,
                         ($row['ACC2'] != null) ? $this->dateConverter($row['ACC2']) : null,

@@ -394,7 +394,8 @@ body.hidescroll {
 .main-menu ul li.active a {
   text-decoration: none;
   padding: 3px 0 3px 25px;
-  opacity: .7;
+  /*opacity: .7;*/
+  color: #729be9;
 }
 .main-menu ul li a:hover:before,
 .main-menu ul li.active a:before {
@@ -589,8 +590,8 @@ form[name="login"] button[name="submit"]:disabled,
 .app-footer {
   width: calc(100% - 240px);
   margin-left: 240px;
-  margin-top: 60px;
-  padding: 0 40px;
+  margin-top: 30px;
+  padding: 0 20px;
 }
 .app-footer.to-sidebar-hide {
   margin-left: 0;
@@ -623,6 +624,12 @@ form[name="login"] button[name="submit"]:disabled,
   }
   .app-header .sidebar-nav-btn .burger-icon-mobile {
     display: inline-block;
+  }
+  .app-footer {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 60px;
+    padding: 0 20px;
   }
 }
 @media only screen and (max-width: 992px) {
