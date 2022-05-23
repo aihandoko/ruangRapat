@@ -194,65 +194,82 @@ $(function () {
 
   $('form[name="spmb_filter"]').on('submit', function(e) {
     e.preventDefault();
-    $([document.documentElement, document.body]).animate({
-        scrollTop: $("#subtitle").offset().top
-    }, 500);
     const unit = $('input[name="unit"]').val();
     const unit2 = $('input[name="unit2"]').val();
     const no = $('input[name="no"]').val();
     const no2 = $('input[name="no2"]').val();
     const deptId = $('input[name="deptId"]').val();
+    if(unit == '' || unit2 == '' || no == '' || no2 == '') {
+      $('#blankParams .modal-body').html('Parameter tidak boleh kosong.');
+      $('#blankParams').modal('show');
+    } else {
+      $([document.documentElement, document.body]).animate({
+          scrollTop: $("#subtitle").offset().top
+      }, 500);
 
-    $.ajax({
-      type: "POST",
-      url: `${HOST}/status/withParams`,
-      data: {unit, unit2, no, no2, deptId},
-      dataType: "JSON",
-      beforeSend: function () {
-        $('#statusList').DataTable().clear();
-        $('#statusList').DataTable().draw();
-      	$('.status-box .stat-param input, .status-box .stat-param button').attr('disabled', true)
-      	$('#statusList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
-      },
-      success: function (response) {
-      	$('#statusList').DataTable().clear();
-        $('#statusList').DataTable().rows.add(response);
-        $('#statusList').DataTable().draw();
-      },
-      error: function () {
-      	$('#statusList .dataTables_empty').html('Data gagal di retrieve.')
-      },
-      complete: function () {
-      	$('.status-box .stat-param input, .status-box .stat-param button').attr('disabled', false)
-      }
-    })
+      $.ajax({
+        type: "POST",
+        url: `${HOST}/status/withParams`,
+        data: {unit, unit2, no, no2, deptId},
+        dataType: "JSON",
+        beforeSend: function () {
+          $('#statusList').DataTable().clear();
+          $('#statusList').DataTable().draw();
+        	$('.status-box .stat-param input, .status-box .stat-param button').attr('disabled', true)
+        	$('#statusList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
+        },
+        success: function (response) {
+        	$('#statusList').DataTable().clear();
+          $('#statusList').DataTable().rows.add(response);
+          $('#statusList').DataTable().draw();
+        },
+        error: function () {
+        	$('#statusList .dataTables_empty').html('Data gagal di retrieve.')
+        },
+        complete: function () {
+        	$('.status-box .stat-param input, .status-box .stat-param button').attr('disabled', false)
+        }
+      })
+    }
+
   })
 
   $('form[name="spmb_filter"] .clear').on('click', function() {
-    $([document.documentElement, document.body]).animate({
-        scrollTop: $("#subtitle").offset().top
-    }, 500);
-  	$('form[name="spmb_filter"]')[0].reset();
-    $.ajax({
-      type: "POST",
-      url: `${HOST}/status/getAll`,
-      beforeSend: function () {
-        $('#statusList').DataTable().clear();
-        $('#statusList').DataTable().draw();
-        $('.dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
-        $('.status-box input, .status-box .stat-param button').attr('disabled', true)
-      },
-      success: function (response) {
-        $('#statusList').DataTable().clear();
-        $('#statusList').DataTable().rows.add(response);
-        $('#statusList').DataTable().draw();
-      },
-      error: function () {
-      	$('#statusList .dataTables_empty').html('Data gagal di retrieve.')
-      },
-      complete: function () {
-      	$('.status-box input, .status-box .stat-param button').attr('disabled', false)
-      }
-    })
+      const unit = $('input[name="unit"]').val();
+      const unit2 = $('input[name="unit2"]').val();
+      const no = $('input[name="no"]').val();
+      const no2 = $('input[name="no2"]').val();
+      const deptId = $('input[name="deptId"]').val();
+    if(unit == '' || unit2 == '' || no == '' || no2 == '') {
+      $('#blankParams .modal-body').html('Belum ada form untuk di clear.');
+      $('#blankParams').modal('show');
+    } else {
+      $([document.documentElement, document.body]).animate({
+          scrollTop: $("#subtitle").offset().top
+      }, 500);
+    	$('form[name="spmb_filter"]')[0].reset();
+      $.ajax({
+        type: "POST",
+        url: `${HOST}/status/apiGetAll`,
+        beforeSend: function () {
+          $('#statusList').DataTable().clear();
+          $('#statusList').DataTable().draw();
+          $('.dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
+          $('.status-box input, .status-box .stat-param button').attr('disabled', true)
+        },
+        success: function (response) {
+          $('#statusList').DataTable().clear();
+          $('#statusList').DataTable().rows.add(response);
+          $('#statusList').DataTable().draw();
+        },
+        error: function () {
+        	$('#statusList .dataTables_empty').html('Data gagal di retrieve.')
+        },
+        complete: function () {
+        	$('.status-box input, .status-box .stat-param button').attr('disabled', false)
+        }
+      })
+    }
+
   })
 });

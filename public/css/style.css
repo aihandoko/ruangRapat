@@ -385,9 +385,9 @@ body.hidescroll {
   position: absolute;
   font-weight: 900;
   left: 0;
-  top: 0;
-  opacity: .6;
-  content: "\f054";
+  top: 2px;
+  opacity: .5;
+  content: "\f101";
   transition: all 0.3s ease;
 }
 .main-menu ul li a:hover,
@@ -415,11 +415,30 @@ body.hidescroll {
   border-bottom: 1px solid #eee;
 }
 
-.status-box {
+.status-box,
+.detail-marks-box {
   background-color: #cadbf7;
+  overflow: hidden;
+}
+.detail-marks-box .item-mark {
+  display: flex;
+  margin: 0 0 5px 0;
+}
+.detail-marks-box .item-mark.cost-ctr {
+  margin: 0;
+}
+.detail-marks-box .item-mark .caption {
+  width: 170px;
+}
+.detail-marks-box .item-mark .colon {
+  width: 10px;
+}
+.detail-marks-box .item-mark .ctn {
+  flex: 1;
+}
+.status-box {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  overflow: hidden;
   transition: max-height .3s ease;
   max-height: 400px;
 }
@@ -474,35 +493,89 @@ form[name="login"] button[name="submit"]:disabled,
   background-color: rgba(255,255,255,.5);
 }
 
-.notes-box,
-.authorization-box {
-  padding: 40px;
+.stat-detail-section-box {
+  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 10px;  
+  border-radius: 5px;
+  margin: 0 0 30px 0;
 }
-.notes-box .note-item .position {
+.stat-detail-section-box .title {
+  margin: 0 0 20px 0;
+  padding: 0 0 15px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-bottom: 1px solid #ddd;
+}
+.stat-detail-section-box .no-notes {
+  position: relative;
+  padding: 0 0 0 15px;
+  font-size: 26px;
+  color: rgba(0,0,0,.2);
+  font-weight: 900;
+  font-style: italic;
+}
+.stat-detail-section-box .no-notes:before {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  font-size: 24px;
+  font-family: "Font Awesome 5 Free";
+  color: rgba(0,0,0,.07);
+  font-weight: 700;
+  content: '\f10e';
+}
+.stat-detail-section-box .note-item {
+  padding: 0 0 0 25px;
+  margin: 0 0 20px 0;
+  position: relative;
+}
+.stat-detail-section-box .note-item:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: "Font Awesome 5 Free";
+  color: rgba(0,0,0,.5);
+  font-weight: 400;
+  content: '\f328';
+}
+.stat-detail-section-box .note-item .position {
   margin: 0;
   padding: 0;
   font-weight: 700;
 }
-
-.authorization-box {
+.stat-detail-section-box .note-item .detail-notes {
+  padding: 5px 0 0 15px;
+  position: relative;
+}
+.stat-detail-section-box .note-item .detail-notes:before {
+  position: absolute;
+  left: 0;
+  top: -7px;
+  font-size: 20px;
+  font-family: "Font Awesome 5 Free";
+  color: rgba(0,0,0,.15);
+  font-weight: 700;
+  content: '\f10e';
+}
+.stat-detail-section-box .authorization {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
-.authorization-box .auth-item {
+.stat-detail-section-box .authorization .auth-item {
   border: 1px solid #eee;
-  min-width: 250px;
+  min-width: 230px;
+  margin: 10px 5px;
   text-align: center;
 }
-.authorization-box .auth-item .position {
+.stat-detail-section-box .authorization .auth-item .position {
   font-weight: 700;
 }
-.authorization-box .auth-item .date {
+.stat-detail-section-box .authorization .auth-item .date {
   font-size: 80%;
   color: #999;
 }
-.authorization-box .auth-item .signature {
+.stat-detail-section-box .authorization .auth-item .signature {
   height: 100px;
   margin-left: auto;
   margin-right: auto;
@@ -511,14 +584,14 @@ form[name="login"] button[name="submit"]:disabled,
   align-items: center;
   justify-content: center;
 }
-.authorization-box .auth-item .signature .icon {
+.stat-detail-section-box .authorization .auth-item .signature .icon {
   font-size: 40px;
   color: rgba(0,0,0,.5);
 }
-.authorization-box .auth-item .signature img {
+.stat-detail-section-box .authorization .auth-item .signature img {
   width: 100%;
 }
-.authorization-box .auth-item .name {
+.stat-detail-section-box .authorization .auth-item .name {
   font-weight: 500;
 }
 
@@ -665,6 +738,9 @@ form[name="login"] button[name="submit"]:disabled,
   .status-box .stat-param .form-btn {
     margin: 15px 0 0 0;
   }
+  .detail-marks-box .item-mark.cost-ctr {
+    margin: 0 0 5px 0;
+  }
 }
 @media only screen and (max-width: 768px) {
   .addUserForm label {
@@ -683,5 +759,21 @@ form[name="login"] button[name="submit"]:disabled,
   }
   .not-found-wrapper .not-found {
     width: 100%;
+  }
+  .detail-marks-box .item-mark {
+    flex-direction: column;
+  }
+  .detail-marks-box .item-mark,
+  .detail-marks-box .item-mark.cost-ctr {
+    margin: 0 0 10px 0;
+  }
+  .detail-marks-box .item-mark .colon {
+    display: none;
+  }
+  .detail-marks-box .item-mark .caption {
+    color: rgba(0,0,0,.7);
+  }
+  .detail-marks-box .item-mark .ctn {
+    font-weight: 500;
   }
 }

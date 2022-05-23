@@ -26,7 +26,6 @@ class Filters extends BaseConfig
         'login'         => \App\Filters\LoginFilter::class,
         'guest'         => \App\Filters\GuestFilter::class,
         'admin'         => \App\Filters\AdminFilter::class,
-        'dbcheck'         => \App\Filters\DBCheckFilter::class,
     ];
 
     /**
@@ -72,6 +71,7 @@ class Filters extends BaseConfig
         'guest' => [
             'before' => [
                 'login',
+                'auth/checkLogin',
             ]
         ],
         'login' => [
@@ -80,6 +80,8 @@ class Filters extends BaseConfig
                 'queue',
                 'status/detail/*',
                 'status/acc/*',
+                'auth/changeFungsi',
+                'auth/logout',
                 'users',
                 'users/*',
             ]

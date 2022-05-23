@@ -2,25 +2,8 @@
 
 namespace App\Controllers;
 
-// use App\Libraries\Common;
-// use CodeIgniter\I18n\Time;
-use Exception;
-
 class Auth extends BaseController
 {
-    // protected $db;
-    // protected $db2;
-    // protected $db3;
-    // protected $auth;
-
-    // public function __construct()
-    // {
-    //     $this->db = \Config\Database::connect($group = null);
-    //     $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
-    //     $this->db3 = \Config\Database::connect($group = 'nls');
-    //     $this->auth = service('auth');
-    // }
-
     public function login()
     {
         return view('login', [
@@ -40,8 +23,6 @@ class Auth extends BaseController
             $success = true;
             $msg = 'Login berhasil';
             unset($_SESSION['redirect_url']);
-            // return redirect()->to($redirect)
-            //                 ->with('info', 'Login berhasil.');
         } else {
             $redirect = '';
             $success = false;
@@ -64,5 +45,33 @@ class Auth extends BaseController
         service('auth')->logout();
 
         return redirect()->to('login');
+    }
+
+    public function changeFungsi()
+    {
+        $fungsi = (int)$this->request->getPost('key');
+
+        if($this->auth->changeFungsi(session()->get('NIK'), $fungsi)) {
+
+            session()->setFlashdata('flash_success', 'Fungsi diubah ke <strong>' . session()->get('Fungsi') . '</strong>.');
+
+            $response = [
+                'success' => true,
+                'selected_key' => $fungsi,
+                'Fungsi' => session()->get('Fungsi'),
+                'Site' => session()->get('Site'),
+                'current_url' => current_url()
+            ];
+        } else {
+            
+            session()->setFlashdata('flash_error', 'Fungsi gagal diubah');
+
+            $response = [
+                'success' => false,
+                'key' => $fungsi
+            ];
+        }
+
+        return $this->response->setJSON($response);
     }
 }

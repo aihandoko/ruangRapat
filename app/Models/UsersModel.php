@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class UsersModel extends Model
 {
-    // protected $DBGroup = 'default';
-    protected $DBGroup = 'local';
+    protected $DBGroup = 'default';
+    // protected $DBGroup = 'local';
     protected $table = 'SPMB_ACC_USER';
     protected $allowedFields = ['NIK', 'Nama', 'Fungsi', 'Site', 'KodeSPMB', 'DeptId', 'CompId'];
     protected $validationRules = [
@@ -70,6 +70,18 @@ class UsersModel extends Model
                     ->orderBy('Fungsi', 'asc')
                     ->distinct()
                     ->get();
+    }
+
+    public function getUserByNIK($nik)
+    {
+        $query = $this->where('NIK', $nik)
+                        ->get();
+
+        if($query->getNumRows() > 0) {
+            return $query->getResult();
+        }
+
+        return [];
     }
 
     public function getSites()

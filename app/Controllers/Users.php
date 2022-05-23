@@ -4,22 +4,39 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Libraries\Breadcrumbs;
+use App\Libraries\Common;
 
 class Users extends BaseController
 {
-	public function index()
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new UsersModel();
+    }
+
+	/**
+     * Method index yang ditampilkan /users
+     * 
+     * @return \CodeIgniter\View\View
+     */
+    public function index()
 	{
         $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
         $this->breadcrumbs->add('Users', '/users');
 
 		return view('Users/main', [
             'page_title' => 'Users',
-			'functions' => $this->getFungsi(),
 			'auth' => $this->auth,
             'breadcrumbs' => $this->breadcrumbs->render(),
 		]);
 	}
 
+    /**
+     * Method yang menampilkan halaman CREATE USER /users/create
+     * 
+     * @return \CodeIgniter\View\View
+     */
     public function create()
     {
         $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
@@ -29,32 +46,44 @@ class Users extends BaseController
         return view('Users/create', [
             'page_title' => 'Tambah user',
             'user_fungsi' => $this->getUsersFungsi(),
-            'functions' => $this->getFungsi(),
             'auth' => $this->auth,
             'breadcrumbs' => $this->breadcrumbs->render(),
         ]);
     }
 
+    /**
+     * Method yang menampilkan halaman EDIT USER /users/edit?
+     * 
+     * @param string  @nik
+     * @param string  @nama
+     * @param string  @fungsi
+     * @param string  @site
+     *
+     * @return \CodeIgniter\View\View
+     */
     public function edit()
     {
         $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
         $this->breadcrumbs->add('Users', '/users');
         $this->breadcrumbs->add('Edit', '/users/edit');
 
-        $nik = $this->base64urlDecode($this->request->getGet('nik'));
-        $nama = $this->base64urlDecode($this->request->getGet('nama'));
-        $fungsi = $this->base64urlDecode($this->request->getGet('fungsi'));
-        $site = $this->base64urlDecode($this->request->getGet('site'));
-        $model = new UsersModel();
-        $query = $model->getByParams($nik, $nama, $fungsi, $site);
+        $str_encoder = new Common();
+
+        $nik = $str_encoder->base64urlDecode($this->request->getGet('nik'));
+        $nama = $str_encoder->base64urlDecode($this->request->getGet('nama'));
+        $fungsi = $str_encoder->base64urlDecode($this->request->getGet('fungsi'));
+        $site = $str_encoder->base64urlDecode($this->request->getGet('site'));
+
+        $query = $this->model->getByParams($nik, $nama, $fungsi, $site);
+
         $data = [];
         $input_hidden = [];
         foreach ($query->getResult() as $key => $row) {
             $input_hidden = [
                 'NIK' => $row->NIK,
                 'Nama' => $row->Nama,
-                'Fungsi' => $row->Fungsi,
-                'Site' => $row->Site
+                'Fungsi' => $row->Fungsi ?? '',
+                'Site' => $row->Site ?? ''
             ];
             $data = [
                 'NIK' => $row->NIK,
@@ -69,7 +98,6 @@ class Users extends BaseController
         return view('Users/edit', [
             'page_title' => 'Edit user',
             'user_fungsi' => $this->getUsersFungsi(),
-            'functions' => $this->getFungsi(),
             'auth' => $this->auth,
             'data' => $data,
             'input_hidden' => $input_hidden,
@@ -77,14 +105,26 @@ class Users extends BaseController
         ]);
     }
 
+    /**
+     * Method yang menampilkan halaman DELETE USER /users/delete?
+     * 
+     * @param string  @nik
+     * @param string  @nama
+     * @param string  @fungsi
+     * @param string  @site
+     *
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
     public function delete()
     {
-        $nik = $this->base64urlDecode($this->request->getGet('nik'));
-        $nama = $this->base64urlDecode($this->request->getGet('nama'));
-        $fungsi = $this->base64urlDecode($this->request->getGet('fungsi'));
-        $site = $this->base64urlDecode($this->request->getGet('site'));
+        $str_encoder = new Common();
 
-        if((new UsersModel())->destroy($nik, $nama, $fungsi, $site)) {
+        $nik = $str_encoder->base64urlDecode($this->request->getGet('nik'));
+        $nama = $str_encoder->base64urlDecode($this->request->getGet('nama'));
+        $fungsi = $str_encoder->base64urlDecode($this->request->getGet('fungsi'));
+        $site = $str_encoder->base64urlDecode($this->request->getGet('site'));
+
+        if($this->model->destroy($nik, $nama, $fungsi, $site)) {
             return redirect()->to('users')
                         ->with('success', 'Data user berhasil di hapus.');
         } else {
@@ -93,25 +133,39 @@ class Users extends BaseController
         }
     }
 
-	public function apiGetAll()
+	/**
+     * API yang digunakan untuk me-retrieve data dari database
+     * untuk halaman /users
+     * 
+     * @param bool  @refresh
+     *
+     * @return \CodeIgniter\HTTP\ResponseInterface
+     */
+    public function apiGetAll()
 	{
-        // if($this->request->getMethod() != 'post') {
-        //     return redirect()->to('/');
-        // }
+        if($this->request->getMethod() != 'post') {
+            return redirect()->to('/');
+        }
 
-		// if( ! $dataUsers = cache('dataUsers')) {
+        if($this->request->getPost('refresh') != null && $this->request->getPost('refresh')) {
+            cache()->delete('dataUsers');
+        }
 
-            $dataUsers = (new UsersModel())->findAll();
+		if( ! $dataUsers = cache('dataUsers')) {
 
-        //     cache()->save('dataUsers', $dataUsers, 1200);
-        // }
+            $dataUsers = $this->model->findAll();
+
+            cache()->save('dataUsers', $dataUsers, 1200);
+        }
+
+        $str_encoder = new Common();
 
         $arrData = [];
         foreach ($dataUsers as $key => $val) {
-            $nik_enc = $this->base64urlEncode($val['NIK']);
-            $nama_enc = $this->base64urlEncode($val['Nama']);
-            $fungsi_enc = ($val['Fungsi'] != null) ? $this->base64urlEncode($val['Fungsi']) : $this->base64urlEncode('null');
-            $site_enc = ($val['Site'] != null) ? $this->base64urlEncode($val['Site']) : $this->base64urlEncode('null');
+            $nik_enc = $str_encoder->base64urlEncode($val['NIK']);
+            $nama_enc = $str_encoder->base64urlEncode($val['Nama']);
+            $fungsi_enc = ($val['Fungsi'] != null) ? $str_encoder->base64urlEncode($val['Fungsi']) : $str_encoder->base64urlEncode('null');
+            $site_enc = ($val['Site'] != null) ? $str_encoder->base64urlEncode($val['Site']) : $str_encoder->base64urlEncode('null');
             $edit = '<a href="' . site_url('users/edit?nik=' . $nik_enc . '&nama=' . $nama_enc . '&fungsi=' . $fungsi_enc . '&site=' . $site_enc) . '" title="Edit"><i class="far fa-edit"></i></a> ';
             $hapus = '<a href="' . site_url('users/delete?nik=' . $nik_enc . '&nama=' . $nama_enc . '&fungsi=' . $fungsi_enc . '&site=' . $site_enc) . '" onclick="return confirm(\'Apa Anda yakin menghapus user ini?\')" title="Delete"><i class="fas fa-trash-alt"></i></a>';
             $arrData[] = [
@@ -132,6 +186,12 @@ class Users extends BaseController
         return $this->response->setJSON($response);
 	}
 
+    /**
+     * Method yang digunakan untuk memproses penambahan user
+     * atau create user function
+     * 
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
     public function addProcess()
     {
         if($this->request->getMethod() != 'post') {
@@ -153,21 +213,19 @@ class Users extends BaseController
             'CompId' => $this->request->getPost('compid')
         ];
 
-        $model = new UsersModel();
-
-        if( ! $model->validate($data) ) {
+        if( ! $this->model->validate($data) ) {
             return redirect()->back()
                             ->withInput()
-                            ->with('error', '<p>' . implode('</p><p>', $model->errors()) . '</p>');
+                            ->with('error', '<p>' . implode('</p><p>', $this->model->errors()) . '</p>');
         }
 
-        if($model->getByParams($nik, $nama, $fungsi, $site)->getNumRows() > 0) {
+        if($this->model->getByParams($nik, $nama, $fungsi, $site)->getNumRows() > 0) {
             return redirect()->back()
                             ->withInput()
                             ->with('error', 'Data dengan NIK=' . $nik . ', Nama='. $nama . ', Fungsi='. $fungsi . ', Site='. $site . ' sudah exist di database.');
         }
 
-        if( $model->insert($data, false) ) {
+        if( $this->model->insert($data, false) ) {
             return redirect()->to('users')
                             ->with('success', 'Data user berhasil ditambahkan.');
         }
@@ -177,6 +235,12 @@ class Users extends BaseController
                         ->with('error', 'Terjadi kesalahan.');
     }
 
+    /**
+     * Method yang digunakan untuk memproses update user
+     * atau edit user function
+     * 
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
     public function editProcess()
     {
         if($this->request->getMethod() != 'post') {
@@ -205,15 +269,13 @@ class Users extends BaseController
             'CompId' => $this->request->getPost('compid')
         ];
 
-        $model = new UsersModel();
-
-        if( ! $model->validate($data) ) {
+        if( ! $this->model->validate($data) ) {
             return redirect()->back()
                             ->withInput()
-                            ->with('error', '<p>' . implode('</p><p>', $model->errors()) . '</p>');
+                            ->with('error', '<p>' . implode('</p><p>', $this->model->errors()) . '</p>');
         }
 
-        if( $model->getByParams($nik, $nama, $fungsi, $site)->getNumRows() > 0 &&
+        if( $this->model->getByParams($nik, $nama, $fungsi, $site)->getNumRows() > 0 &&
             ($nik !== $this->request->getPost('NIK') ||
                 $nama !== $this->request->getPost('Nama') ||
                 $fungsi !== $this->request->getPost('Fungsi') ||
@@ -225,7 +287,7 @@ class Users extends BaseController
                             ->with('error', 'Data dengan NIK=' . $nik . ', Nama='. $nama . ', Fungsi='. $fungsi . ', Site='. $site . ' sudah exist di database.');
         }
 
-        if( $model->updateByParams($params, $data) ) {
+        if( $this->model->updateByParams($params, $data) ) {
             return redirect()->to('users')
                             ->with('success', 'Data user berhasil diupdate.');
         }
@@ -237,17 +299,15 @@ class Users extends BaseController
 
     private function getUsersFungsi()
     {
-        $model = new UsersModel;
-
         $data = [];
-        if($model->getFungsi()->getNumRows() > 0) {
-            foreach($model->getFungsi()->getResult() as $row) {
+        if($this->model->getFungsi()->getNumRows() > 0) {
+            foreach($this->model->getFungsi()->getResult() as $row) {
                 $data[] = $row->Fungsi;
             }
         }
         $sites = [];
-        if($model->getSites()->getNumRows() > 0) {
-            foreach($model->getSites()->getResult() as $row) {
+        if($this->model->getSites()->getNumRows() > 0) {
+            foreach($this->model->getSites()->getResult() as $row) {
                 if($row->Site == '--') {
                     continue;
                 }
@@ -259,23 +319,5 @@ class Users extends BaseController
             'fungsi' => $data,
             'sites' => $sites
         ];
-    }
-
-    private function base64urlEncode(string $text): string
-    {
-        return str_replace(
-            ["+", "/", "="],
-            ["-", "_", ""],
-            base64_encode($text)
-        );
-    }
-
-    private function base64urlDecode(string $text): string
-    {
-        return base64_decode(str_replace(
-            ["-", "_"],
-            ["+", "/"],
-            $text)
-        );
     }
 }

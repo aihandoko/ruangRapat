@@ -21,7 +21,13 @@
     <div id="page">
 
         <div class="overlay"></div>
-        <div class="floating-msg">
+        <div class="floating-msg<?= (session()->has('flash_success') || session()->has('flash_error')) ? ' show' : '';?>">
+            <?php if(session()->has('flash_success')) : ?>
+                <div class="alert alert-success"><?= session()->get('flash_success');?></div>
+            <?php endif;?>
+            <?php if(session()->has('flash_error')) : ?>
+                <div class="alert alert-danger"><?= session()->get('flash_error');?></div>
+            <?php endif;?>
         </div>
 
         <header class="header-wrapper">
@@ -29,8 +35,8 @@
 
                 <div class="app-header">
                     <div class="sidebar-nav-btn">
-                        <span data-toggle="tooltip" data-placement="bottom" class="burger-icon active"><i class="fas fa-bars"></i></span>
-                        <span data-toggle="tooltip" data-placement="bottom" class="burger-icon-mobile"><i class="fas fa-bars"></i></span>
+                        <span data-placement="bottom" class="burger-icon active"><i class="fas fa-bars"></i></span>
+                        <span data-placement="bottom" class="burger-icon-mobile"><i class="fas fa-bars"></i></span>
                     </div>
                     <?php if($auth->isLoggedIn()) : ?>
                     <div class="switch-wrapper">
@@ -41,12 +47,12 @@
                                     <?= session()->get('Site') . ' - ' .session()->get('Fungsi');?>
                                 </div>
                                 <div class="dropdown-menu">
-                                    <?php foreach ($functions as $key => $value) :
+                                    <?php foreach ($auth->getFungsi() as $key => $value) :
                                         $selected = ($key == session()->get('selected_key')) ? ' selected' : '';
 
-                                        $active = ($value['Site'] == session()->get('Site') && $value['Fungsi'] == session()->get('Fungsi')) ? ' active' : '';
+                                        $active = ($value->Site == session()->get('Site') && $value->Fungsi == session()->get('Fungsi')) ? ' active' : '';
                                             ?>
-                                        <a href="#" data-key="<?= $key;?>" class="dropdown-item<?= $active;?>"><?= $value['Site'] . ' - ' . $value['Fungsi'];?></a>
+                                        <a href="#" data-key="<?= $key;?>" class="dropdown-item<?= $active;?>"><?= $value->Site . ' - ' . $value->Fungsi;?></a>
                                     <?php endforeach;?>
                                 </div>
                             </button>
@@ -148,17 +154,16 @@
     <?php if(url_is('status/acc/*') || url_is('status/deny/*')) : ?>
         <script src="<?= site_url('js/MaxLength.min.js');?>"></script>
     <?php endif;?>
-    <script src="<?= site_url('js/base.js'); ?>"></script>
+    <script src="<?= site_url('js/custom.js'); ?>"></script>
     <?php if(url_is('status') || url_is('status/*')) : ?>
         <script src="<?= site_url('js/status.js');?>"></script>
     <?php endif;?>
     <?php if(url_is('/') || url_is('queue') || url_is('queue/*')) : ?>
         <script src="<?= site_url('js/queue.js');?>"></script>
     <?php endif;?>
-    <?php if(url_is('users') || url_is('users/create')) : ?>
+    <?php if(url_is('users') || url_is('users/*')) : ?>
         <script src="<?= site_url('js/users.js');?>"></script>
     <?php endif;?>
-    <script src="<?= site_url('js/custom.js'); ?>"></script>
     <!-- -->
 
 </body>

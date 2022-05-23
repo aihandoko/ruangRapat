@@ -64,18 +64,4 @@ class BaseController extends Controller
 
         $this->breadcrumbs = new \App\Libraries\Breadcrumbs;
     }
-
-    protected function getFungsi()
-    {
-        $query = "select * from SPMB_ACC_USER where NIK = '" . session()->get('NIK') . "'";
-        $exc_query = $this->dbLocal->simpleQuery($query);
-        do {
-            $results = [];
-            while($row = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC)) {
-                $results[] = $row;
-            }
-        } while (sqlsrv_next_result($exc_query));
-
-        return $results;
-    }
 }

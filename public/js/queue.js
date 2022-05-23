@@ -4,13 +4,6 @@ $(function () {
 
 	$("#queueList").DataTable({
     data: queueData,
-    columns: [
-      {title: "No"},
-      { title: "Site" },
-      { title: "SPMB" },
-      { title: "Unit Peminta" },
-      { title: "Detail" },
-    ],
     columnDefs: [{
       "searchable": false,
       "orderable": false,
@@ -29,7 +22,7 @@ $(function () {
     $("#queueDenyList").DataTable({
     	data: queueDenyData,
     	columns: [
-    		{title: "No"},
+    		{title: "No", width: 25},
             { title: "Site" },
             { title: "SPMB" },
             { title: "Unit Peminta" },

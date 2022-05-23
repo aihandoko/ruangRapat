@@ -32,7 +32,7 @@ $(function () {
       $(row).find("td:eq(7)").attr("data-label", "DeptId");
     },
     initComplete: function () {
-      const btn = `<a href="${HOST}/users/create" class="btn btn-primary btn-add mr-2">Tambah User</a>`;
+      const btn = `<a href="#" data-toggle="tooltip" title="Reload data tanpa cache" class="btn btn-success reload-users"><i class="fas fa-sync"></i></a> <a href="${HOST}/users/create" class="btn btn-primary btn-add mr-2">Tambah User</a>`;
       $("#usersList_wrapper .dataTables_length").prepend(btn);
     },
   });
@@ -64,80 +64,34 @@ $(function () {
     });
   }).draw();
 
-	// $('#usersList_wrapper').on('click', '.addUserBtn', function(e) {
- //    e.preventDefault();
- //    $.ajax({
- //      type: "POST",
- //      url: `${HOST}/users/getUsersFungsi`,
- //      success: function (response) {
- //        let options = [];
- //        for(let i = 0;i < response.fungsi.length; i++) {
- //          options.push('<option value="' + response.fungsi[i] + '">' + response.fungsi[i] + '</option>')
- //        }
- //        $('select[name="fungsi"]').html(options.join(''));
- //        let options2 = [];
- //        for(let x = 0;x < response.sites.length; x++) {
- //          options2.push('<option value="' + response.sites[x] + '">' + response.sites[x] + '</option>')
- //        }
- //        $('select[name="site"]').html(options2.join(''));
- //      },
- //    })
- //    $('#addUserModal').modal({show: true, backdrop: 'static'})
- //  })
+  $('.reload-users').on('click', function(e) {
+    e.preventDefault();
+    const refresh = true;
+    $.ajax({
+      type: "POST",
+      url: `${HOST}/users/apiGetAll`,
+      dataType: 'JSON',
+      data: {refresh},
+      beforeSend: function() {
+        $('#usersList').DataTable().clear();
+        $('#usersList').DataTable().draw();
+        $('#usersList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
+      },
+      success: function (response) {
+        $('#usersList').DataTable().clear();
+        $('#usersList').DataTable().rows.add(response);
+        $('#usersList').DataTable().draw();
+      },
+      error: function() {
+        $('#usersList .dataTables_empty').html('Data gagal di retrieve.')
+      },
+      complete: function () {}
+    })
+  });
 
   $('.addUserForm').on('submit', function(e) {
   	$(".addUserForm input, .addUserForm select, .addUserForm option, .addUserForm textarea").prop('readonly',true);
   	$(".addUserForm button").prop('disabled',true);
-    // e.preventDefault();
-    // const nik = $('input[name="nik"]').val(),
-    //     nama = $('input[name="nama"]').val(),
-    //     fungsi = $('select[name="fungsi"]').val(),
-    //     site = $('select[name="site"]').val(),
-    //     kode_spmb = $('input[name="kode_spmb"]').val(),
-    //     compid = $('input[name="compid"]').val(),
-    //     deptid = $('input[name="deptid"]').val();
-
-    // $.ajax({
-    //   type: "POST",
-    //   url: `${HOST}/users/addProcess`,
-    //   data: { nik, nama, fungsi, site, kode_spmb, compid, deptid },
-    //   dataType: "JSON",
-    //   beforeSend: function () {
-    //     $("input, select, option, textarea, button", 'form[name="addUserForm"]').prop('disabled',true);
-    //     $('.submit-indicator').html('<span class="spinner-border spinner-border-sm" role="status"></span>Mengirimkan data...')
-    //   },
-    //   success: function (response) {
-    //     if(response.success) {
-    //       $('.floating-msg').addClass('show').html('<div class="alert alert-success">Data berhasil ditambahkan</div>');
-    //       $('#addUserModal').modal('hide')
-    //     } else {
-    //       $('#addUserModal .modal-body').prepend('<div class="alert alert-danger">' + response.msg + '</div>')
-    //       if(response.validation.hasOwnProperty('NIK')) {
-    //         $('form[name="addUserForm"] input[name="nik"]').addClass('border-danger');
-    //       }
-    //       if(response.validation.hasOwnProperty('Nama')) {
-    //         $('form[name="addUserForm"] input[name="nama"]').addClass('border-danger');
-    //       }
-    //     }
-    //   },
-    //   error: function () {},
-    //   complete: function () {
-    //     setTimeout(() => {
-    //     	$('.floating-msg').removeClass('show').html('');
-    //     }, 3000)
-    //       $('#addUserModal').modal('hide')
-    //       $("input, select, option, textarea, button", 'form[name="addUserForm"]').prop('disabled',false);
-    //       $('.submit-indicator').html('');
-    //       loadData({
-    //       	beforeSend: function() {},
-    //       	success: function (response) {
-    //       		$('#usersList').DataTable().clear();
-    //       		$('#usersList').DataTable().rows.add(response);
-    //       		$('#usersList').DataTable().draw();
-    //       	}
-    //       });
-    //   }
-    // })
   })
   $('#addUserModal').on('hide.bs.modal', function (event) {
     $('form[name="addUserForm"]')[0].reset();

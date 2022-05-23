@@ -166,8 +166,7 @@
     <?php endif;?>
 </div>
 
-
-<div class="stat-detail-section-box mb-0">
+<div class="stat-detail-section-box">
     <h3 class="title">Otorisasi</h3>
     <div class="authorization">
     <?php
@@ -197,8 +196,46 @@
             <div class="name"><?= $signature_name;?></div>
         </div>
     <?php
-    } ?>
+} ?>
     </div>
+</div>
+
+<div class="stat-detail-section-box mb-0">
+    <h3 class="title text-danger">Follow Up Terhadap SPMB Yang Ditolak</h3>
+    <?= form_open('queue/denyProcess');?>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <textarea placeholder="Beri catatan bila diperlukan..." name="acc_notes" id="acc_notes" class="form-control" rows="5"></textarea>
+            <div id="display_count"></div>
+            <input type="hidden" name="reqno" value="<?= $data[0]['ReqNo'];?>" />
+            <input type="hidden" name="compid" value="<?= $data[0]['CompId'];?>" />
+            <input type="hidden" name="spmbno" value="<?= $SPMBNo;?>" />
+            <input type="hidden" name="kode_route" value="<?= $route_kode;?>" />
+            <input type="hidden" name="site" value="<?= $routes[0]->Site;?>" />
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="radio" name="approval" id="approval_acc" value="acc" checked>
+                <label class="form-check-label" for="approval_acc">
+                    ACC
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="approval" id="approval_tolak" value="tolak">
+                <label class="form-check-label" for="approval_tolak">
+                    Tolak <span class="font-italic text-danger">(perlu follow up)</span>
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="approval" id="approval_batal" value="batal">
+                <label class="form-check-label" for="approval_batal">
+                    Batal <span class="font-italic text-danger">(tidak perlu follow up)</span>
+                </label>
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary mt-3">Proses</button>
+        </div>
+    </div>
+    </form>
 </div>
 
 <?= $this->endSection()?>

@@ -56,7 +56,11 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-12">
                             <select name="fungsi" id="fungsi" class="custom-select">
-                                <?php foreach ($user_fungsi['fungsi'] as $key => $func) :
+                                <?php
+                                if($data['Fungsi'] == '') : ?>
+                                    <option selected value="">--Pilih Fungsi--</option>
+                                <?php endif;
+                                foreach ($user_fungsi['fungsi'] as $key => $func) :
                                     $selected = ($func == $data['Fungsi']) ? ' selected' : '';?>
                                     <option<?= $selected;?> value="<?= $func;?>"><?= $func;?></option>
                                 <?php endforeach;?>
@@ -73,7 +77,11 @@ echo form_open('users/editProcess', $attributes, $input_hidden);?>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-12">
                             <select name="site" id="site" class="custom-select">
-                                <?php foreach ($user_fungsi['sites'] as $key => $func) :
+                                <?php
+                                if($data['Site'] == '' || $data['Site'] == '--') : ?>
+                                    <option selected value="">--Pilih Site--</option>
+                                <?php endif;
+                                foreach ($user_fungsi['sites'] as $key => $func) :
                                     $selected = ($func == $data['Site']) ? ' selected' : '';?>
                                     <option<?= $selected;?> value="<?= $func;?>"><?= $func;?></option>
                                 <?php endforeach;?>

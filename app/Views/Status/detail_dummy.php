@@ -23,7 +23,7 @@
                     :
                 </div>
                 <div class="ctn font-weight-bold">
-                    <?= $routes[0]->Site;?>
+                    PALMERAH
                 </div>
             </div>
             <div class="item-mark">
@@ -34,7 +34,7 @@
                     :
                 </div>
                 <div class="ctn">
-                    <?= $data[0]['ReqNo'];?>
+                    10783
                 </div>
             </div>
             <div class="item-mark">
@@ -45,7 +45,7 @@
                     :
                 </div>
                 <div class="ctn">
-                    <?= $data[0]['ReqDate'];?>
+                    2019-01-09 00:00:00.000
                 </div>
             </div>
             <div class="item-mark">
@@ -56,7 +56,7 @@
                     :
                 </div>
                 <div class="ctn">
-                    <?= $data[0]['CompId'];?>
+                    020
                 </div>
             </div>
             <div class="item-mark cost-ctr">
@@ -67,7 +67,7 @@
                     :
                 </div>
                 <div class="ctn">
-                    <?= $DeptName;?> (<?= $routes[0]->DeptId;?>)
+                    PAL Pre Press (62001)
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
                     :
                 </div>
                 <div class="ctn">
-                    <?= $DeptName;?> (<?= $routes[0]->DeptId;?>)
+                    PAL Pre Press (62001)
                 </div>
             </div>
             <div class="item-mark">
@@ -90,9 +90,7 @@
                 <div class="colon">
                     :
                 </div>
-                <div class="ctn">
-                    <?= $data[0]['ReqDescription'];?>
-                </div>
+                <div class="ctn"></div>
             </div>
             <div class="item-mark">
                 <div class="caption">
@@ -102,7 +100,7 @@
                     :
                 </div>
                 <div class="ctn">
-                    <?= $route_otorisasi;?>
+                    Manager Peminta > GM Peminta > Manager Logistic > GM GA > Manager AB > GM AB > Director > PPSU  
                 </div>
             </div>
             <div class="item-mark mb-0">
@@ -112,12 +110,12 @@
                 <div class="colon">
                     :
                 </div>
-                <div class="ctn">
-                    &nbsp;
-                </div>
+                <div class="ctn"></div>
             </div>
         </div>
     </div>
+
+    
 </div>
 
 <table class="table table-bordered table-striped mb-5">
@@ -132,85 +130,73 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($data as $key => $val) : ?>
             <tr>
-                <td data-label="No Item"><?= $val['ItemId'];?></td>
-                <td data-label="Nama Barang"><?= $val['ItemName'];?></td>
-                <td data-label="No Account"><?= $val['AccountNo'];?></td>
-                <td data-label="Sat"><?= $val['UnitCode'];?></td>
-                <td data-label="Qty"><?= $val['ItemQty'];?></td>
-                <td data-label="Target"><?= $val['TargetDate'];?></td>
+                <td data-label="No Item">ZA201595</td>
+                <td data-label="Nama Barang">GEMBOK ATS 30mm</td>
+                <td data-label="Sat">620-01-44110</td>
+                <td data-label="Qty">BH</td>
+                <td data-label="Qty">1</td>
+                <td data-label="Target">2019-01-09 00:00:00.000</td>
             </tr>
-        <?php endforeach;?>
     </tbody>
 </table>
 
 <div class="stat-detail-section-box">
-    <h3 class="title">Catatan-catatan</h3>
-    <?php if(count($notes) > 0) :
-        foreach($notes as $key => $note) :
-            $mb = ($key == count($notes) - 1) ? ' mb-0' : '';
-            if($note->Catatan != null || $note->Catatan != '') : ?>
-            <div class="note-item<?= $mb;?>">
-                <div class="position"><?= $note->Posisi;?></div>
+<h3 class="title">Catatan-catatan</h3>
+    <!-- <div class="no-notes">
+        Tidak ada catatan.
+    </div> -->
+            <div class="note-item">
+                <div class="position">Manager Peminta</div>
                 <div class="detail-notes">
-                    <?= $note->Catatan;?>
+                    Ini note dari manager peminta
                 </div>
             </div>
-            <?php endif;
-        endforeach;
-    else : ?>
-        <div class="no-notes">
-            Tidak ada catatan.
-        </div>
-    <?php endif;?>
+            <div class="note-item mb-0">
+                <div class="position">Logistic</div>
+                <div class="detail-notes">
+                    Ini note dari logistic
+                </div>
+            </div>
 </div>
 
 <div class="stat-detail-section-box">
-    <h3 class="title">Otorisasi</h3>
-    <div class="authorization">
-    <?php
-    if($signature_name !== '') {
-        if($signatures[0]->Tolak == 0 && $signatures[0]->Batal == 0) {
-            $signature = $signatures[0]->Acc;
-        } else {
-            if($signatures[0]->Tolak == 1) {
-                $signature = 'tolak';
-            } else {
-                $signature = 'batal';
-            }
-        }
-        ?>
+<h3 class="title">Otorisasi</h3>
+<div class="authorization">
         <div class="auth-item">
-            <div class="position"><?= $signatures[0]->Posisi;?></div>
-            <div class="date"><?= $signatures[0]->TglAcc;?></div>
+            <div class="position">Logistic</div>
+            <div class="date">2019-01-09 15:13:57.000</div>
             <div class="signature">
-                <?php if(file_exists("http://10.14.80.203/paraf/<?= $signature;?>.gif")) : ?>
-                    <img src="http://10.14.80.203/paraf/<?= $signature;?>.gif" />
-                <?php else : ?>
-                    <div class="icon">
-                        <i class="fas fa-ban"></i>
-                    </div>
-                <?php endif;?>
+                <div class="icon">
+                    <i class="fas fa-ban"></i>
+                </div>
             </div>
-            <div class="name"><?= $signature_name;?></div>
+            <div class="name">PANCA</div>
         </div>
-    <?php
-} ?>
+        <div class="auth-item">
+            <div class="position">Manager peminta</div>
+            <div class="date">2019-01-09 15:13:57.000</div>
+            <div class="signature">
+                <div class="icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+            </div>
+            <div class="name">PANCA 2</div>
+        </div>
     </div>
 </div>
 
-<div class="stat-detail-section-box mb-0">
+<div class="stat-detail-section-box">
     <h3 class="title">Catatan</h3>
-    <?= form_open('queue/accProcess');?>
+    <?= form_open('status/accProcess');?>
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <textarea placeholder="Beri catatan bila diperlukan..." name="acc_notes" id="acc_notes" class="form-control" rows="5"></textarea>
             <div id="display_count"></div>
-            <input type="hidden" name="reqno" value="<?= $data[0]['ReqNo'];?>" />
-            <input type="hidden" name="compid" value="<?= $data[0]['CompId'];?>" />
-            <input type="hidden" name="spmbno" value="<?= $SPMBNo;?>" />
-            <input type="hidden" name="kode_route" value="<?= $route_kode;?>" />
+            <input type="hidden" name="reqno" value="" />
+            <input type="hidden" name="compid" value="" />
+            <input type="hidden" name="spmbno" value="" />
+            <input type="hidden" name="kode_route" value="" />
         </div>
         <div class="col-lg-6 col-md-12">
             <div class="form-check mt-3">

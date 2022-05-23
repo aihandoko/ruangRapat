@@ -1,13 +1,18 @@
-// const HOST = document.location.origin;
+const HOST = document.location.origin;
 
 $(function () {
 
+  $('[data-toggle="tooltip"]').tooltip();
   $('.sidebar-nav-btn .burger-icon').tooltip({
     title: function() {
       return ($(this).hasClass('active')) ? 'Hide sidebar' : 'Show sidebar'
     },
   });
   $('.sidebar-nav-btn .burger-icon-mobile').tooltip({title: 'Show sidebar'});
+
+  setTimeout(() => {
+    $('.floating-msg').html('').removeClass('show');
+  }, 3000);
 
   $('form[name="login"]').on('submit', function(e) {
     e.preventDefault();
@@ -67,31 +72,27 @@ $(function () {
 	$('.switch-nav .dropdown-item').on('click', function(e) {
 		e.preventDefault();
 		const key = $(this).attr('data-key');
+    console.log(key)
 		$.ajax({
 			type: "POST",
-			url: `${HOST}/fungsi/changeFungsi`,
+			url: `${HOST}/auth/changeFungsi`,
 			data: {key},
 			dataType: "JSON",
 			beforeSend: function () {
 				$('.overlay').addClass('show')
 			},
 			success: function (data) {
-				$('.overlay').removeClass('show')
+        console.log(window.location.href);
 				if(data.success) {
 					$('.switch-nav .fungsi').html(data.Site + ' - ' + data.Fungsi)
 					$('.switch-nav .dropdown-item').removeClass('active')
 					$('.switch-nav .dropdown-item:nth-child('+(data.selected_key + 1)+')').addClass('active')
-					$('.floating-msg').html('<div class="alert alert-success">Fungsi berhasil diubah</div>').addClass('show')
-          window.location.reload();
-				} else {
-					$('.floating-msg').html('<div class="alert alert-success">Fungsi berhasil diubah</div>').addClass('show')
 				}
 			},
 			error: function () {},
-			complete: function () {
-				setTimeout(function() {
-					$('.floating-msg').html('').removeClass('show');
-				}, 3000)
+			complete: function (complete) {
+        $('.overlay').removeClass('show')
+        location.reload();
 			}
 		})
 	});
