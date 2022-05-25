@@ -28,7 +28,7 @@ $(function () {
       },
       success: function(response) {
         if(response.success) {
-          window.location.href = response.redirect;
+          window.location.href = HOST;
         } else {
           $('form[name="login"] input[name="nik"], form[name="login"] input[name="password"]').addClass('border-danger')
         }
