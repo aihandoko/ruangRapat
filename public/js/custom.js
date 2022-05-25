@@ -22,7 +22,7 @@ $(function () {
       type: 'POST',
       url: `${HOST}/auth/checkLogin`,
       dataType: 'JSON',
-      data: {nik, password},
+      data: { nik, password },
       beforeSend: function() {
         $('form[name="login"] button[name="submit"], form[name="login"] input[name="nik"], form[name="login"] input[name="password"]').attr('disabled', true);
       },
