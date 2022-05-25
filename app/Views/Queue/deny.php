@@ -205,8 +205,8 @@
     <?= form_open('queue/denyProcess');?>
     <div class="row">
         <div class="col-lg-6 col-md-12">
-            <textarea placeholder="Beri catatan bila diperlukan..." name="acc_notes" id="acc_notes" class="form-control" rows="5"></textarea>
-            <div id="display_count"></div>
+            <textarea maxlength="255" placeholder="Beri catatan bila diperlukan..." name="acc_notes" id="acc_notes" class="form-control" rows="5"></textarea>
+            <div class="text-danger"><span id="current">255</span> karakter lagi</div>
             <input type="hidden" name="reqno" value="<?= $data[0]['ReqNo'];?>" />
             <input type="hidden" name="compid" value="<?= $data[0]['CompId'];?>" />
             <input type="hidden" name="spmbno" value="<?= $SPMBNo;?>" />

@@ -1,5 +1,3 @@
-const HOST = document.location.origin;
-
 $(function () {
 
   $('[data-toggle="tooltip"]').tooltip();
@@ -97,12 +95,20 @@ $(function () {
 		})
 	});
 
-	if (/\/status\/acc\/.*/.test(window.location.href) || /\/status\/deny\/.*/.test(window.location.href)) {
-    $("[id*=acc_notes]").MaxLength({
-      MaxLength: 255,
-  		CharacterCountControl: $('#display_count')
-  	});
-  }
+  $('[id*=acc_notes]').on('keyup', function() {
 
-  
+    const maxlength = $(this).attr('maxlength');
+
+    const characterCount = $(this).val().length;
+    const current = $('#current');
+    const maximum = parseInt(maxlength) - parseInt(characterCount);
+    current.text(maximum);
+  });
+
+	// if (/\/status\/acc\/.*/.test(window.location.href) || /\/status\/deny\/.*/.test(window.location.href)) {
+ //    $("[id*=acc_notes]").MaxLength({
+ //      MaxLength: 255,
+ //  		CharacterCountControl: $('#display_count')
+ //  	});
+ //  }  
 });

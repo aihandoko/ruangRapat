@@ -150,10 +150,10 @@
         src="<?= site_url('third-party/DataTables/DataTables-1.11.3/js/dataTables.bootstrap4.min.js');?>"></script>
     <script src="<?= site_url('third-party/bootstrap/js/popper.min.js'); ?>"></script>
     <script src="<?= site_url('third-party/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script type="text/javascript">
+        const HOST = "<?= base_url();?>"
+    </script>
 
-    <?php if(url_is('status/acc/*') || url_is('status/deny/*')) : ?>
-        <script src="<?= site_url('js/MaxLength.min.js');?>"></script>
-    <?php endif;?>
     <script src="<?= site_url('js/custom.js'); ?>"></script>
     <?php if(url_is('status') || url_is('status/*')) : ?>
         <script src="<?= site_url('js/status.js');?>"></script>
