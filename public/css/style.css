@@ -188,9 +188,24 @@ body.hidescroll {
   justify-content: right;
 }
 .switch-wrapper .switch-nav.show .dropdown-toggle {
-  background-color: rgba(255,255,255,.7);
-  border: 1px solid rgba(255,255,255,.7);
+  background-color: rgba(255,255,255,1);
+  border: 1px solid rgba(0,0,0,.15);
   color: #222;
+  border-radius: 0;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.switch-wrapper .switch-nav.show .dropdown-menu {
+  border-radius: 0;
+  border: 0;
+  border-left: 1px solid rgba(0,0,0,.15);
+  border-right: 1px solid rgba(0,0,0,.15);
+  border-bottom: 1px solid rgba(0,0,0,.15);
+  font-size: inherit;
+}
+.switch-wrapper .switch-nav.show .dropdown-menu.show {
+  top: -3px !important;
+  left: -1px !important;
 }
 .switch-wrapper .switch-nav .dropdown-toggle {
   border: 1px solid rgba(255,255,255,.3);
@@ -220,7 +235,7 @@ body.hidescroll {
   background-color: transparent;
   color: inherit;
   font-weight: 700;
-  padding-left: 40px;
+  padding-left: 25px;
   position: relative;
 }
 .switch-wrapper .switch-nav .dropdown-toggle .dropdown-menu.show .dropdown-item.active:before {
@@ -228,8 +243,10 @@ body.hidescroll {
   position: absolute;
   font-weight: 900;
   left: 7px;
-  top: 3px;
-  content: "\f00c";
+  top: 8px;
+  font-size: 80%;
+  color: rgba(0,0,0,.5);
+  content: "\f08d";
 }
 .switch-wrapper .switch-nav .dropdown-toggle .dropdown-menu.show .dropdown-item:hover {
   background-color: transparent;
