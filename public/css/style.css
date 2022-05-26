@@ -195,6 +195,9 @@ body.hidescroll {
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
 }
+.switch-wrapper .switch-nav.show .dropdown-toggle:hover {
+  border: 1px solid rgba(0,0,0,.15);
+}
 .switch-wrapper .switch-nav.show .dropdown-menu {
   border-radius: 0;
   border: 0;
@@ -202,10 +205,10 @@ body.hidescroll {
   border-right: 1px solid rgba(0,0,0,.15);
   border-bottom: 1px solid rgba(0,0,0,.15);
   font-size: inherit;
+  background-clip: inherit;
 }
 .switch-wrapper .switch-nav.show .dropdown-menu.show {
   top: -3px !important;
-  left: -1px !important;
 }
 .switch-wrapper .switch-nav .dropdown-toggle {
   border: 1px solid rgba(255,255,255,.3);
@@ -476,7 +479,8 @@ body.hidescroll {
 .status-box .stat-param button:disabled,
 form[name="login"] button[name="submit"]:disabled,
 .addUserForm button[name="submit"]:disabled,
-.addUserForm button[name="cancel"]:disabled {
+.addUserForm button[name="cancel"]:disabled,
+.reload-btn:disabled {
   background-color: #ccc;
   color: #999;
   border-color: #999;

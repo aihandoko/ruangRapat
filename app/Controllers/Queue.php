@@ -31,6 +31,16 @@ class Queue extends BaseController
 
 	public function apiGetProcess()
 	{
+        if($this->request->getMethod() != 'post') {
+            return redirect()->to('/');
+        }
+
+        if($this->request->getPost('reload') != null && $this->request->getPost('reload')) {
+            $clear_cache = true;
+        } else {
+            $clear_cache = false;
+        }
+
 		$fungsi = (session()->get('Fungsi') != null) ? session()->get('Fungsi') : '';
 		$kode_spmb = (session()->get('KodeSPMB') != null) ? session()->get('KodeSPMB') : '';
 		$site = session()->get('Site');
@@ -39,13 +49,23 @@ class Queue extends BaseController
 
 		$sp = "spSPMBQueue '".$fungsi."','".$kode_spmb."','".$site."','".$comp_id."','".$dept_id."'";
 
-        $response = $this->model->getQueues($sp);
+        $response = $this->model->getQueues($sp, true, $clear_cache);
 
         return $this->response->setJSON($response);
     }
 
 	public function apiGetDeny()
 	{
+        if($this->request->getMethod() != 'post') {
+            return redirect()->to('/');
+        }
+        
+        if($this->request->getPost('reload') != null && $this->request->getPost('reload')) {
+            $clear_cache = true;
+        } else {
+            $clear_cache = false;
+        }
+
 		$fungsi = (session()->get('Fungsi') != null) ? session()->get('Fungsi') : '';
 		$kode_spmb = (session()->get('KodeSPMB') != null) ? session()->get('KodeSPMB') : '';
 		$site = session()->get('Site');
@@ -54,7 +74,7 @@ class Queue extends BaseController
 
 		$sp = "spSPMBQueueTolak '".$fungsi."','".$kode_spmb."','".$site."','".$comp_id."','".$dept_id."'";
 
-        $response = $this->model->getQueues($sp, false);
+        $response = $this->model->getQueues($sp, false, $clear_cache);
 
         return $this->response->setJSON($response);
 	}

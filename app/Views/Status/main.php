@@ -64,10 +64,10 @@
             </div>
             <div class="col-lg-3 col-md-12">
                 <div class="form-btn">
-                    <button type="submit" name="submit" class="btn btn-primary">
+                    <button type="submit" name="submit" class="btn btn-primary show">
                         Tampilkan
                     </button>
-                    <button type="button" class="btn btn-outline-primary clear">
+                    <button type="button" class="btn btn-outline-primary clear" disabled="disabled">
                         Clear
                     </button>
                 </div>

@@ -32,7 +32,7 @@ $(function () {
       $(row).find("td:eq(7)").attr("data-label", "DeptId");
     },
     initComplete: function () {
-      const btn = `<a href="#" data-toggle="tooltip" title="Reload data tanpa cache" class="btn btn-success reload-users"><i class="fas fa-sync"></i></a> <a href="${HOST}/users/create" class="btn btn-primary btn-add mr-2">Tambah User</a>`;
+      const btn = `<button type="button" data-toggle="tooltip" title="Reload data tanpa cache" class="btn btn-success reload-btn reload-users"><i class="fas fa-sync"></i></button> <a href="${HOST}/users/create" class="btn btn-primary btn-add mr-2">Tambah User</a>`;
       $("#usersList_wrapper .dataTables_length").prepend(btn);
     },
   });
@@ -43,6 +43,7 @@ $(function () {
       type: "POST",
       url: `${HOST}/users/apiGetAll`,
       beforeSend: function() {
+        $('.reload-users').attr('disabled', true);
         $('#usersList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
       },
       success: function (response) {
@@ -53,7 +54,9 @@ $(function () {
       error: function() {
         $('#usersList .dataTables_empty').html('Data gagal di retrieve.')
       },
-      complete: function () {}
+      complete: function () {
+        $('.reload-users').attr('disabled', false);
+      }
     })
     }, 50)
   }
@@ -66,13 +69,14 @@ $(function () {
 
   $('.reload-users').on('click', function(e) {
     e.preventDefault();
-    const refresh = true;
+    const reload = true;
     $.ajax({
       type: "POST",
       url: `${HOST}/users/apiGetAll`,
       dataType: 'JSON',
-      data: {refresh},
+      data: { reload },
       beforeSend: function() {
+        $('.reload-users').attr('disabled', true);
         $('#usersList').DataTable().clear();
         $('#usersList').DataTable().draw();
         $('#usersList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
@@ -85,7 +89,9 @@ $(function () {
       error: function() {
         $('#usersList .dataTables_empty').html('Data gagal di retrieve.')
       },
-      complete: function () {}
+      complete: function () {
+        $('.reload-users').attr('disabled', false);
+      }
     })
   });
 

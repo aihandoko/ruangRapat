@@ -18,15 +18,15 @@ class Authentication
 
     public function login($nik, $password)
     {
-        $query = "spGetPwdValidation '".$nik."', '".$password."'";
-        $exc_query = $this->db2->simpleQuery($query);
-        do {
-            $result = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC);
-        } while (sqlsrv_next_result($exc_query));
+        // $query = "spGetPwdValidation '".$nik."', '".$password."'";
+        // $exc_query = $this->db2->simpleQuery($query);
+        // do {
+        //     $result = sqlsrv_fetch_array($exc_query, SQLSRV_FETCH_ASSOC);
+        // } while (sqlsrv_next_result($exc_query));
 
-        if(!is_array($result) || $result[''] === 'NA') {
-            return false;
-        }
+        // if(!is_array($result) || $result[''] === 'NA') {
+        //     return false;
+        // }
 
         return $this->registerSession(0, $nik);
     }

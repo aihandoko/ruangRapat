@@ -1,6 +1,6 @@
 $(function () {
 
-	// STATUS DUMMY
+  // STATUS DUMMY
   $('.filter-icon').tooltip({
     title: function() {
       return ($(this).hasClass('hide')) ? 'Show filter' : 'Hide filter'
@@ -163,6 +163,10 @@ $(function () {
       $(row).find("td:eq(8)").attr("data-label", "Step6");
       $(row).find("td:eq(9)").attr("data-label", "Step7");
     },
+    initComplete: function () {
+      const btn = `<button type="button" data-toggle="tooltip" title="Reload data tanpa cache" class="btn btn-success reload-btn reload-status mr-2"><i class="fas fa-sync"></i></button>`;
+      $("#statusList_wrapper .dataTables_length").prepend(btn);
+    },
   });
 
   if(window.location.href == `${HOST}/status` || window.location.href == `${HOST}/status/`) {
@@ -171,6 +175,7 @@ $(function () {
 	      type: "POST",
 	      url: `${HOST}/status/apiGetAll`,
 	      beforeSend: function () {
+          $('.reload-status').attr('disabled', true);
 	        $('#statusList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
 	    },
 	      success: function (response) {
@@ -181,7 +186,9 @@ $(function () {
 	      error: function () {
 	      	$('#statusList .dataTables_empty').html('Data gagal di retrieve.')
 	      },
-	      complete: function () {}
+	      complete: function () {
+          $('.reload-status').attr('disabled', false);
+        }
 	    })
 	}, 50)
   }
@@ -213,6 +220,7 @@ $(function () {
         data: {unit, unit2, no, no2, deptId},
         dataType: "JSON",
         beforeSend: function () {
+          $('.reload-status').attr('disabled', true);
           $('#statusList').DataTable().clear();
           $('#statusList').DataTable().draw();
         	$('.status-box .stat-param input, .status-box .stat-param button').attr('disabled', true)
@@ -266,10 +274,39 @@ $(function () {
         	$('#statusList .dataTables_empty').html('Data gagal di retrieve.')
         },
         complete: function () {
-        	$('.status-box input, .status-box .stat-param button').attr('disabled', false)
+          $('.reload-status').attr('disabled', false);
+        	$('.status-box input, .status-box .stat-param button.show').attr('disabled', false)
         }
       })
     }
-
   })
+
+  $('.reload-status').on('click', function(e) {
+    e.preventDefault();
+    const reload = true;
+    $.ajax({
+      type: "POST",
+      url: `${HOST}/status/apiGetAll`,
+      dataType: 'JSON',
+      data: { reload },
+      beforeSend: function() {
+        $('.reload-status').attr('disabled', true);
+        $('#statusList').DataTable().clear();
+        $('#statusList').DataTable().draw();
+        $('#statusList .dataTables_empty').html('<div class="spinner-icon"><span class="spinner-grow text-info"></span><span class="caption">Fetching data...</span></div>')
+      },
+      success: function (response) {
+        $('#statusList').DataTable().clear();
+        $('#statusList').DataTable().rows.add(response);
+        $('#statusList').DataTable().draw();
+      },
+      error: function() {
+        $('#statusList .dataTables_empty').html('Data gagal di retrieve.')
+      },
+      complete: function () {
+        $('.reload-status').attr('disabled', false);
+      }
+    })
+  });
+
 });

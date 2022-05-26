@@ -9,19 +9,27 @@ class QueueModel extends Model
     // protected $DBGroup = 'local';
     protected $DBGroup = 'default';
 
-    public function getQueues($sp, $queue_on_process = true)
+    public function getQueues($sp, $queue_on_process = true, $clear_cache = false)
     {
-    	$query = $this->db->simpleQuery($sp);
-
-        do {
-            $results = [];
-            while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
-                $results[] = $row;
+    	if($queue_on_process) {
+            if($clear_cache) {
+                cache()->delete('dataQueue');
             }
-        } while (sqlsrv_next_result($query));
-
-        if($queue_on_process) {
-        	$arr_fungsi = ['PPSU', 'Perbekalan', 'CFM'];
+            if( ! $dataQueue = cache('dataQueue')) {
+                $dataQueue = $this->queueQuery($sp);
+                cache()->save('dataQueue', $dataQueue, 1200);
+            }
+            $results = $dataQueue;
+            $arr_fungsi = ['PPSU', 'Perbekalan', 'CFM'];
+        } else {
+            if($clear_cache) {
+                cache()->delete('dataDenyQueue');
+            }
+            if( ! $dataDenyQueue = cache('dataDenyQueue')) {
+                $dataDenyQueue = $this->queueQuery($sp);
+                cache()->save('dataDenyQueue', $dataDenyQueue, 1200);
+            }
+            $results = $dataDenyQueue;            
         }
 
         $arrData = [];
@@ -51,5 +59,18 @@ class QueueModel extends Model
         }
 
         return $arrData;
+    }
+
+    private function queueQuery($sp)
+    {
+        $query = $this->db->simpleQuery($sp);
+        do {
+            $results = [];
+            while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
+                $results[] = $row;
+            }
+        } while (sqlsrv_next_result($query));
+
+        return $results;
     }
 }

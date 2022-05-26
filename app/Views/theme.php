@@ -154,7 +154,6 @@
         const HOST = "<?= base_url();?>"
     </script>
 
-    <script src="<?= site_url('js/custom.js'); ?>"></script>
     <?php if(url_is('status') || url_is('status/*')) : ?>
         <script src="<?= site_url('js/status.js');?>"></script>
     <?php endif;?>
@@ -164,6 +163,7 @@
     <?php if(url_is('users') || url_is('users/*')) : ?>
         <script src="<?= site_url('js/users.js');?>"></script>
     <?php endif;?>
+    <script src="<?= site_url('js/custom.js'); ?>"></script>
     <!-- -->
 
 </body>

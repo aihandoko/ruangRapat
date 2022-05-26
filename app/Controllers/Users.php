@@ -125,6 +125,9 @@ class Users extends BaseController
         $site = $str_encoder->base64urlDecode($this->request->getGet('site'));
 
         if($this->model->destroy($nik, $nama, $fungsi, $site)) {
+
+            cache()->delete('dataUsers');
+
             return redirect()->to('users')
                         ->with('success', 'Data user berhasil di hapus.');
         } else {
@@ -147,7 +150,7 @@ class Users extends BaseController
             return redirect()->to('/');
         }
 
-        if($this->request->getPost('refresh') != null && $this->request->getPost('refresh')) {
+        if($this->request->getPost('reload') != null && $this->request->getPost('reload')) {
             cache()->delete('dataUsers');
         }
 
@@ -226,6 +229,9 @@ class Users extends BaseController
         }
 
         if( $this->model->insert($data, false) ) {
+
+            cache()->delete('dataUsers');
+
             return redirect()->to('users')
                             ->with('success', 'Data user berhasil ditambahkan.');
         }
@@ -288,6 +294,9 @@ class Users extends BaseController
         }
 
         if( $this->model->updateByParams($params, $data) ) {
+
+            cache()->delete('dataUsers');
+            
             return redirect()->to('users')
                             ->with('success', 'Data user berhasil diupdate.');
         }

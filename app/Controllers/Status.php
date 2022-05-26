@@ -39,6 +39,10 @@ class Status extends BaseController
      */
     public function apiGetAll()
     {
+        if($this->request->getMethod() != 'post') {
+            return redirect()->to('/');
+        }
+
         if($this->request->getPost('reload') != null && $this->request->getPost('reload')) {
             $clear_cache = true;
         } else {
@@ -50,6 +54,11 @@ class Status extends BaseController
         return $this->response->setJSON($response);
     }
 
+    /**
+     * Method ini digunakan sebagai prototipe untuk merekonstruk
+     * 
+     * @return JSON
+     */
     public function withParams()
     {
         if($this->request->getMethod() != 'post') {
