@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class UsersModel extends Model
 {
-    // protected $DBGroup = 'default';
-    protected $DBGroup = 'local';
+    protected $DBGroup = 'default';
+    // protected $DBGroup = 'local';
     protected $table = 'SPMB_ACC_USER';
     protected $allowedFields = ['NIK', 'Nama', 'Fungsi', 'Site', 'KodeSPMB', 'DeptId', 'CompId'];
     protected $validationRules = [

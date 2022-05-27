@@ -34,7 +34,7 @@
                     :
                 </div>
                 <div class="ctn">
-                    <?= $data[0]['ReqNo'];?>
+                    <?= $SPMBNo;?>
                 </div>
             </div>
             <div class="item-mark">
@@ -186,8 +186,10 @@
             <div class="position"><?= $signatures[0]->Posisi;?></div>
             <div class="date"><?= $signatures[0]->TglAcc;?></div>
             <div class="signature">
-                <?php if(file_exists("http://10.14.80.203/paraf/<?= $signature;?>.gif")) : ?>
-                    <img src="http://10.14.80.203/paraf/<?= $signature;?>.gif" />
+                <?php
+                $paraf = "http://10.14.80.203/paraf/" . $signature . ".gif";
+                if(stripos(get_headers($paraf)[0],"200 OK")) : ?>
+                    <img src="<?= $paraf;?>" />
                 <?php else : ?>
                     <div class="icon">
                         <i class="fas fa-ban"></i>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Libraries\Common;
 
 class StatusModel extends Model
 {
@@ -159,23 +160,7 @@ class StatusModel extends Model
 
     private function nullToDateConverted($acc)
     {
-    	return ($acc != null) ? '<div>' . $this->dateConverter($acc) . '</div>' : '';
-    }
-
-    private function dateConverter($date, $dateOnly = false)
-    {
-        $day = substr($date, 8, 2);
-        $month = substr($date, 5, 2);
-        $year = substr($date, 2, 2);
-        $yearfull = substr($date, 2, 4);
-        $hour = substr($date, 11, 2);
-        $min = substr($date, 14, 2);
-
-        if($dateOnly) {
-            return $day . '-' . $month . '-' . $year;
-        }
-
-        return $day . '/' . $month . '/' . $year . ' ' . $hour . ':' . $min;
+    	return ($acc != null) ? '<div>' . (new Common())->dateConverter($acc) . '</div>' : '';
     }
 
     // public function getAll()

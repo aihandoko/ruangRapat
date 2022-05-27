@@ -19,6 +19,10 @@ class Auth extends BaseController
         $auth = service('auth');
 
         if($auth->login($nik, $password)) {
+            cache()->delete('dataStatus');
+            cache()->delete('dataQueue');
+            cache()->delete('dataDenyQueue');
+            cache()->delete('dataUsers');
             $redirect = session('redirect_url') ?? '/';
             $success = true;
             $msg = 'Login berhasil';
@@ -42,6 +46,11 @@ class Auth extends BaseController
     }
 
     public function logout() {
+        cache()->delete('dataStatus');
+        cache()->delete('dataQueue');
+        cache()->delete('dataDenyQueue');
+        cache()->delete('dataUsers');
+
         service('auth')->logout();
 
         return redirect()->to('login');
@@ -52,6 +61,11 @@ class Auth extends BaseController
         $fungsi = (int)$this->request->getPost('key');
 
         if($this->auth->changeFungsi(session()->get('NIK'), $fungsi)) {
+            
+            cache()->delete('dataStatus');
+            cache()->delete('dataQueue');
+            cache()->delete('dataDenyQueue');
+            cache()->delete('dataUsers');
 
             session()->setFlashdata('flash_success', 'Fungsi diubah ke <strong>' . session()->get('Fungsi') . '</strong>.');
 

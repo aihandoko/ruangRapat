@@ -110,6 +110,7 @@ $(function () {
 
   $('.reload-queue').on('click', function(e) {
     e.preventDefault();
+    $(this).tooltip("hide");
     const reload = true;
     $.ajax({
       type: "POST",
@@ -138,6 +139,7 @@ $(function () {
 
   $('.reload-deny-queue').on('click', function(e) {
     e.preventDefault();
+    $(this).tooltip("hide");
     const reload = true;
     $.ajax({
       type: "POST",

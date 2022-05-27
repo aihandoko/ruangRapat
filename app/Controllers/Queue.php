@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\QueueModel;
+use App\Libraries\Common;
 
 class Queue extends BaseController
 {
@@ -94,6 +95,7 @@ class Queue extends BaseController
         $this->breadcrumbs->add('Antrian ACC', '/queue');
 
         $status_model = new \App\Models\StatusModel();
+        $common = new Common;
 
         /*
         * Select Dari DB NLS
@@ -103,7 +105,23 @@ class Queue extends BaseController
         do {
             $results = [];
             while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
-                $results[] = $row;
+                $results[] = [
+                    'ReqNo' => $row['ReqNo'],
+                    'ReqDate' => $common->dateConverter($row['ReqDate'], true),
+                    'CompId' => $row['CompId'],
+                    'DeptId' => $row['DeptId'],
+                    'ReqDescription' => $row['ReqDescription'],
+                    'AttachmentPath' => $row['AttachmentPath'],
+                    'AuthRoute' => $row['AuthRoute'],
+                    'ReqSeqNo' => $row['ReqSeqNo'],
+                    'ItemId' => $row['ItemId'],
+                    'ItemQty' => $row['ItemQty'],
+                    'TargetDate' => $common->dateConverter($row['TargetDate'], true),
+                    'ReqNote' => $row['ReqNote'],
+                    'ItemName' => $row['ItemName'],
+                    'UnitCode' => $row['UnitCode'],
+                    'AccountNo' => $row['AccountNo'],
+                ];
             }
         } while (sqlsrv_next_result($query));
 
@@ -305,6 +323,7 @@ class Queue extends BaseController
         $this->breadcrumbs->add('Antrian ACC', '/queue');
 
         $status_model = new \App\Models\StatusModel();
+        $common = new Common;
 
         /*
         * Select Dari DB NLS
@@ -314,7 +333,23 @@ class Queue extends BaseController
         do {
             $results = [];
             while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
-                $results[] = $row;
+                $results[] = [
+                    'ReqNo' => $row['ReqNo'],
+                    'ReqDate' => $common->dateConverter($row['ReqDate'], true),
+                    'CompId' => $row['CompId'],
+                    'DeptId' => $row['DeptId'],
+                    'ReqDescription' => $row['ReqDescription'],
+                    'AttachmentPath' => $row['AttachmentPath'],
+                    'AuthRoute' => $row['AuthRoute'],
+                    'ReqSeqNo' => $row['ReqSeqNo'],
+                    'ItemId' => $row['ItemId'],
+                    'ItemQty' => $row['ItemQty'],
+                    'TargetDate' => $common->dateConverter($row['TargetDate'], true),
+                    'ReqNote' => $row['ReqNote'],
+                    'ItemName' => $row['ItemName'],
+                    'UnitCode' => $row['UnitCode'],
+                    'AccountNo' => $row['AccountNo'],
+                ];
             }
         } while (sqlsrv_next_result($query));
 

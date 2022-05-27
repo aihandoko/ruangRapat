@@ -283,6 +283,7 @@ $(function () {
 
   $('.reload-status').on('click', function(e) {
     e.preventDefault();
+    $(this).tooltip("hide");
     const reload = true;
     $.ajax({
       type: "POST",

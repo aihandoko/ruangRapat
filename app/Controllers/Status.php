@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\I18n\Time;
 use App\Models\StatusModel;
+use App\Libraries\Common;
 
 class Status extends BaseController
 {
@@ -86,6 +87,7 @@ class Status extends BaseController
         $this->breadcrumbs->add('Antrian ACC', '/queue');
 
         $status_model = new StatusModel;
+        $common = new Common;
 
         /*
         * Select Dari DB NLS
@@ -95,7 +97,23 @@ class Status extends BaseController
         do {
             $results = [];
             while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
-                $results[] = $row;
+                $results[] = [
+                    'ReqNo' => $row['ReqNo'],
+                    'ReqDate' => $common->dateConverter($row['ReqDate'], true),
+                    'CompId' => $row['CompId'],
+                    'DeptId' => $row['DeptId'],
+                    'ReqDescription' => $row['ReqDescription'],
+                    'AttachmentPath' => $row['AttachmentPath'],
+                    'AuthRoute' => $row['AuthRoute'],
+                    'ReqSeqNo' => $row['ReqSeqNo'],
+                    'ItemId' => $row['ItemId'],
+                    'ItemQty' => $row['ItemQty'],
+                    'TargetDate' => $common->dateConverter($row['TargetDate'], true),
+                    'ReqNote' => $row['ReqNote'],
+                    'ItemName' => $row['ItemName'],
+                    'UnitCode' => $row['UnitCode'],
+                    'AccountNo' => $row['AccountNo'],
+                ];
             }
         } while (sqlsrv_next_result($query));
 
@@ -170,6 +188,7 @@ class Status extends BaseController
             'signatures' => $signatures,
             'route_otorisasi' => implode(' > ', $route_otorisasi),
             'notes' => $notes,
+            'SPMBNo' => $SPMBNo,
             'breadcrumbs' => $this->breadcrumbs->render(),
         ]);
     }
@@ -196,21 +215,5 @@ class Status extends BaseController
             return redirect()->back()
                             ->with('error', 'SPMB ' . $SPMBNo . ' berhasil diupdate');
         }
-    }    
-
-    private function dateConverter($date, $dateOnly = false)
-    {
-        $day = substr($date, 8, 2);
-        $month = substr($date, 5, 2);
-        $year = substr($date, 2, 2);
-        $yearfull = substr($date, 2, 4);
-        $hour = substr($date, 11, 2);
-        $min = substr($date, 14, 2);
-
-        if($dateOnly) {
-            return $day . '-' . $month . '-' . $year;
-        }
-
-        return $day . '/' . $month . '/' . $year . ' ' . $hour . ':' . $min;
     }
 }
