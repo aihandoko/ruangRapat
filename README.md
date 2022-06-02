@@ -6,6 +6,7 @@ Untuk instalasi:
 
 - Clone project dengan perintah `git clone https://github.com/alfisahr/goman-mis-spmb.git`
 - Akan ada folder `goman-mis-spmb`. Silahkan rename folder tsb sesuai yang dikehendaki, misalkan `spmb`
+- Jalankan perintah `composer install` untuk menginstall dependency
 - Jika ingin me-running aplikasi dengan subfolder, contohnya `http://localhost/spmb` atau `http://10.14.83.2/spmb` silahkan terlebih dahulu ubah `baseURL` config di `app/Config/App.php` dengan url yang dikehendaki. Setelahnya ubah file `.htaccess` di `public/.htaccess` menjadi spt ini:
 ```
 # spmb/public/.htacess

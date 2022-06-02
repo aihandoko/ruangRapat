@@ -1,8 +1,8 @@
 {
-    "name": "SPMB",
+    "name": "codeigniter4/appstarter",
     "type": "project",
-    "description": "SPMB of KG Manufacture internal app",
-    "homepage": "https://gramediaprinting.com",
+    "description": "CodeIgniter4 starter app",
+    "homepage": "https://codeigniter.com",
     "license": "MIT",
     "require": {
         "php": "^7.3 || ^8.0",
