@@ -183,7 +183,7 @@
         ?>
         <div class="auth-item">
             <div class="position"><?= $signatures[0]->Posisi;?></div>
-            <div class="date"><?= $signatures[0]->TglAcc;?></div>
+            <div class="date"><?= $TglAcc;?></div>
             <div class="signature">
                 <?php
                 $paraf = "http://10.14.80.203/paraf/" . $signature . ".gif";

@@ -80,6 +80,11 @@ class Status extends BaseController
         return $this->response->setJSON($response);
     }
 
+    /**
+     * Method ini digunakan sebagai prototipe untuk merekonstruk
+     * 
+     * @return JSON
+     */
     public function detail($SPMBNo)
     {
         $this->breadcrumbs->add('<i class="fas fa-home"></i>', '/');
@@ -186,6 +191,7 @@ class Status extends BaseController
             'DeptName' => $dept_name,
             'signature_name' => $signature_name,
             'signatures' => $signatures,
+            'TglAcc' => $common->dateConverter($signatures[0]->TglAcc),
             'route_otorisasi' => implode(' > ', $route_otorisasi),
             'notes' => $notes,
             'SPMBNo' => $SPMBNo,
@@ -193,6 +199,11 @@ class Status extends BaseController
         ]);
     }
 
+    /**
+     * Method ini digunakan sebagai prototipe untuk merekonstruk
+     * 
+     * @return JSON
+     */
     public function updateAcc()
     {
         $SPMBNo = $this->request->getPost('SPMBNo');
