@@ -45,6 +45,31 @@ class Auth extends BaseController
         return $this->response->setJSON($response);
     }
 
+    public function verifyLogin()
+    {
+        $nik = $this->request->getPost('nik');
+        $password = $this->request->getPost('password');
+
+        $auth = service('auth');
+
+        if($auth->login($nik, $password)) {
+            cache()->delete('dataStatus');
+            cache()->delete('dataQueue');
+            cache()->delete('dataDenyQueue');
+            cache()->delete('dataUsers');
+            $redirect = session('redirect_url') ?? '/';
+            unset($_SESSION['redirect_url']);
+            return redirect()->to($redirect);
+        } else {
+            $redirect = '';
+            $success = false;
+            $msg = 'Email atau password salah';
+            return redirect()->back()
+                            ->withInput()
+                            ->with('error', 'Email atau password salah.');
+        }
+    }
+
     public function logout() {
         cache()->delete('dataStatus');
         cache()->delete('dataQueue');
