@@ -37,4 +37,35 @@ RewriteEngine On
 RewriteRule (.*) public/$1 [L]
 ```
 
+- Buat file `.env` dengan kode kurang lebih spt ini
+```
+CI_ENVIRONMENT = production
+
+database.default.DSN = sqlsrv:Server=PRINTING,5000;Database=BekalDB
+database.default.hostname = PRINTING
+database.default.database = BekalDB
+database.default.username = ITDev
+database.default.password = ITDev#2022
+database.default.DBDriver = sqlsrv
+database.default.port = 5000
+database.default.DBPrefix =
+
+database.orderEntryDb.hostname = PRINTING
+database.orderEntryDb.database = OrderEntryDB
+database.orderEntryDb.username = ITDev
+database.orderEntryDb.password = ITDev#2022
+database.orderEntryDb.DBDriver = SQLSRV
+database.orderEntryDb.port = 5000
+database.orderEntryDb.DBPrefix =
+
+database.nls.DSN = sqlsrv:Server=10.9.61.26,5000;Database=LogisticDb
+database.nls.hostname = 10.9.61.26
+database.nls.database = LogisticDb
+database.nls.username = interface
+database.nls.password = interface
+database.nls.DBDriver = SQLSRV
+database.nls.port = 5000
+database.nls.DBPrefix =
+```
+
 - Untuk melakukan update atau sync aplikasi terbaru (paling mutakhir) jalankan melalui perintah `git pull origin main`
