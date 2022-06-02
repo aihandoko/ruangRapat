@@ -6,7 +6,7 @@
     <title><?= $this->renderSection('title'); ?> :: SPMB</title>
     <meta name="description" content="SPMB app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="<?= site_url('favicon.ico');?>" />
     <link rel="stylesheet" href="<?= site_url('third-party/fontawesome/css/all.min.css'); ?>" />
 
     <link rel="stylesheet" href="<?= site_url('third-party/bootstrap/css/bootstrap.min.css'); ?>" />
