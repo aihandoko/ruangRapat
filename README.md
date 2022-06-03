@@ -14,6 +14,9 @@ CI_ENVIRONMENT = production
 # Masukkan URL
 app.baseURL = 'http://10.14.83.119/spmb/'
 
+# Iframe untuk link di bawah, true untuk mengaktifkan
+app.bottomFrame = false
+
 database.default.DSN = sqlsrv:Server=PRINTING,5000;Database=BekalDB
 database.default.hostname = PRINTING
 database.default.database = BekalDB

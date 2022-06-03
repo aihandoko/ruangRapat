@@ -105,6 +105,15 @@ $(function () {
     current.text(maximum);
   });
 
+  $.ajax({
+    type: 'GET',
+    url: `http://10.14.80.200/bottom.htm`,
+    crossDomain: true,
+    success: function(response) {
+      console.log(response);
+    }
+  })
+
 	// if (/\/status\/acc\/.*/.test(window.location.href) || /\/status\/deny\/.*/.test(window.location.href)) {
  //    $("[id*=acc_notes]").MaxLength({
  //      MaxLength: 255,

@@ -33,6 +33,9 @@ Options All -Indexes
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule ^([\s\S]*)$ index.php/$1 [L,NC,QSA]
 
+	Header set Access-Control-Allow-Origin "*"
+	Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+
 	# Ensure Authorization header is passed along
 	RewriteCond %{HTTP:Authorization} .
 	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
