@@ -122,6 +122,8 @@ class Status extends BaseController
             }
         } while (sqlsrv_next_result($query));
 
+        //dd($results);
+
         if(count($results) == 0) {
             return view('Status/detail_not_found', [
                 'page_title' => 'ACC SPMB',
@@ -131,9 +133,21 @@ class Status extends BaseController
         }
 
         /*
-        * Req Dept dan Route dari DB PRINTING 
-        * Route => select Route, DeptId from SPMB_ACC where SPMBNo=@SPMB
-        * DeptName => select DeptName from SPMB_DEPT where DeptId=@DeptId
+        * Ambil Dept ID  Cost Ctr dari DB NLS
+        */
+        $data_cct = "select distinct a.DeptId from Request_H a, Request_D b, Item c, Units d where a.ReqType='PR' and a.ReqType=b.ReqType and a.CompId=b.CompId  and a.ReqNo=b.ReqNo and b.ItemId=c.ItemId and c.CompId=rtrim(a.CompId) and c.UnitId=d.UnitId and rtrim(a.CompId)+'-'+CONVERT(VARCHAR,a.ReqNo) = '" . $SPMBNo . "'";
+        $query_cct = $this->db3->simpleQuery($data_cct);
+        do {
+            while($row_cct = sqlsrv_fetch_array($query_cct, SQLSRV_FETCH_ASSOC)) {
+                $dept_cct = $row_cct['DeptId'];
+            }
+            $dept_name_cct = $status_model->getDeptNameByDeptId( $dept_cct );
+        } while (sqlsrv_next_result($query_cct));
+
+        //dd($dept_cct);
+       
+        /*
+        * Dept ID Req Dept dan Kode Routing dari DB PRINTING
         */
         $routes = $status_model->getRoutesBySPMBNo( $SPMBNo );
 
@@ -148,7 +162,8 @@ class Status extends BaseController
         * dari select Site, Route, DeptId from SPMB_ACC where SPMBNo = @SPMBNo
         */        
         if(count($results) > 0) {
-            $route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";
+            //$route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";  <- msh dari NLS
+            $route_auth = "select * from SPMB_ACC_ROUTE where Kode= '" . $routes[0]->Route . "'";
             $exc_route_auth = $this->db->simpleQuery($route_auth);
             do {
                 $auth_res = [];
@@ -189,6 +204,8 @@ class Status extends BaseController
             'data' => $results,
             'routes' => $routes,
             'DeptName' => $dept_name,
+            'DeptNameCCt' => $dept_name_cct ,
+            'DeptCCt' => $dept_cct ,
             'signature_name' => $signature_name,
             'signatures' => $signatures,
             'TglAcc' => $common->dateConverter($signatures[0]->TglAcc),

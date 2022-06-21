@@ -726,6 +726,11 @@ form[name="login"] button[name="submit"]:disabled,
   color: rgba(0,0,0,.5);
 }
 
+
+#queueList a:visited{
+  color:#2f375c;
+}
+
 @media only screen and (max-width: 1120px) {
   .sidebar {
     left: -240px;

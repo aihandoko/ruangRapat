@@ -4,15 +4,14 @@ namespace App\Controllers;
 
 use App\Models\QueueModel;
 use App\Libraries\Common;
+use CodeIgniter\I18n\Time; 
 
 class Queue extends BaseController
 {
-    protected $db;
     private $model;
 
     public function __construct()
     {
-        $this->db = \Config\Database::connect($group = null);
         $this->model = new QueueModel();
     }
 
@@ -133,10 +132,24 @@ class Queue extends BaseController
             ]);
         }
 
+
         /*
-        * Req Dept dan Route dari DB PRINTING 
-        * Route => select Route, DeptId from SPMB_ACC where SPMBNo=@SPMB
-        * DeptName => select DeptName from SPMB_DEPT where DeptId=@DeptId
+        * Ambil Dept ID  Cost Ctr dari DB NLS
+        */
+        $data_cct = "select distinct a.DeptId from Request_H a, Request_D b, Item c, Units d where a.ReqType='PR' and a.ReqType=b.ReqType and a.CompId=b.CompId  and a.ReqNo=b.ReqNo and b.ItemId=c.ItemId and c.CompId=rtrim(a.CompId) and c.UnitId=d.UnitId and rtrim(a.CompId)+'-'+CONVERT(VARCHAR,a.ReqNo) = '" . $SPMBNo . "'";
+        $query_cct = $this->db3->simpleQuery($data_cct);
+        do {
+            while($row_cct = sqlsrv_fetch_array($query_cct, SQLSRV_FETCH_ASSOC)) {
+                $dept_cct = $row_cct['DeptId'];
+            }
+            $dept_name_cct = $status_model->getDeptNameByDeptId( $dept_cct );
+        } while (sqlsrv_next_result($query_cct));
+
+        //dd($dept_cct);
+
+      
+        /*
+        * Dept ID Req Dept dan Kode Routing dari DB PRINTING
         */
         $routes = $status_model->getRoutesBySPMBNo( $SPMBNo );
 
@@ -151,7 +164,8 @@ class Queue extends BaseController
         * dari select Site, Route, DeptId from SPMB_ACC where SPMBNo = @SPMBNo
         */        
         if(count($results) > 0) {
-            $route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";
+            //$route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";  <- msh dari NLS
+            $route_auth = "select * from SPMB_ACC_ROUTE where Kode= '" . $routes[0]->Route . "'";
             $exc_route_auth = $this->db->simpleQuery($route_auth);
             do {
                 $auth_res = [];
@@ -193,6 +207,8 @@ class Queue extends BaseController
             'data' => $results,
             'routes' => $routes,
             'DeptName' => $dept_name,
+            'DeptNameCCt' => $dept_name_cct ,
+            'DeptCCt' => $dept_cct ,
             'signature_name' => $signature_name,
             'signatures' => $signatures,
             'TglAcc' => $common->dateConverter($signatures[0]->TglAcc),
@@ -210,7 +226,7 @@ class Queue extends BaseController
         $approval = $this->request->getPost('approval');
         $reqno = (int)$this->request->getPost('reqno');
         $compid = (int)$this->request->getPost('compid');
-        $spmbno = (int)$this->request->getPost('spmbno');
+        $spmbno = $this->request->getPost('spmbno');
         $kode_route = (int)$this->request->getPost('kode_route');
 
         if($approval == 'acc') {
@@ -225,6 +241,8 @@ class Queue extends BaseController
         }
 
         $now = (Time::now())->toDateTimeString();
+  
+             
         $spmb_acc_tbl = $this->db->table('SPMB_ACC');
         $data = [
             'TglAcc' => $now,
@@ -299,14 +317,18 @@ class Queue extends BaseController
         } else {
             $statement = 'BATAL';
         }
-        $nls_query = "sp_AccSPMB '".$statement."', ".$reqno.", ".$comp_id.",'PR', ''";
-        if($this->db->simpleQuery($nls_query)) {
+        $nls_query = "sp_AccSPMB '".$statement."', ".$reqno.", ".$compid.",'PR', ''";
+        if($this->db3->simpleQuery($nls_query)) {
+
+            cache()->delete('dataQueue');
+
             return redirect()->to('/')
                             ->with('success', 'Antrian berhasil diupdate');
         } else {
             return redirect()->back()
                             ->with('error', 'Gagal mengupdate NLS data');
         }
+
     }
 
     public function deny($SPMBNo)
@@ -363,9 +385,21 @@ class Queue extends BaseController
         }
 
         /*
-        * Req Dept dan Route dari DB PRINTING 
-        * Route => select Route, DeptId from SPMB_ACC where SPMBNo=@SPMB
-        * DeptName => select DeptName from SPMB_DEPT where DeptId=@DeptId
+        * Ambil Dept ID  Cost Ctr dari DB NLS
+        */
+        $data_cct = "select distinct a.DeptId from Request_H a, Request_D b, Item c, Units d where a.ReqType='PR' and a.ReqType=b.ReqType and a.CompId=b.CompId  and a.ReqNo=b.ReqNo and b.ItemId=c.ItemId and c.CompId=rtrim(a.CompId) and c.UnitId=d.UnitId and rtrim(a.CompId)+'-'+CONVERT(VARCHAR,a.ReqNo) = '" . $SPMBNo . "'";
+        $query_cct = $this->db3->simpleQuery($data_cct);
+        do {
+            while($row_cct = sqlsrv_fetch_array($query_cct, SQLSRV_FETCH_ASSOC)) {
+                $dept_cct = $row_cct['DeptId'];
+            }
+            $dept_name_cct = $status_model->getDeptNameByDeptId( $dept_cct );
+        } while (sqlsrv_next_result($query_cct));
+
+        //dd($dept_cct);
+       
+        /*
+        * Dept ID Req Dept dan Kode Routing dari DB PRINTING
         */
         $routes = $status_model->getRoutesBySPMBNo( $SPMBNo );
 
@@ -380,7 +414,8 @@ class Queue extends BaseController
         * dari select Site, Route, DeptId from SPMB_ACC where SPMBNo = @SPMBNo
         */        
         if(count($results) > 0) {
-            $route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";
+            //$route_auth = "select * from SPMB_ACC_ROUTE where Kode='".$results[0]['AuthRoute']."'";  <- msh dari NLS
+            $route_auth = "select * from SPMB_ACC_ROUTE where Kode= '" . $routes[0]->Route . "'";
             $exc_route_auth = $this->db->simpleQuery($route_auth);
             do {
                 $auth_res = [];
@@ -422,6 +457,8 @@ class Queue extends BaseController
             'data' => $results,
             'routes' => $routes,
             'DeptName' => $dept_name,
+            'DeptNameCCt' => $dept_name_cct ,
+            'DeptCCt' => $dept_cct ,
             'signature_name' => $signature_name,
             'signatures' => $signatures,
             'TglAcc' => $common->dateConverter($signatures[0]->TglAcc),
@@ -566,7 +603,10 @@ class Queue extends BaseController
             $statement = 'BATAL';
         }
         $nls_query = "sp_AccSPMB '".$statement."', ".$reqno.", ".$comp_id.",'PR', ''";
-        if($this->db->simpleQuery($nls_query)) {
+        if($this->db3->simpleQuery($nls_query)) {
+
+            cache()->delete('dataQueue');
+            
             return redirect()->to('/')
                             ->with('success', 'Antrian berhasil diupdate');
         } else {

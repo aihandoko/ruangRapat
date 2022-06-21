@@ -11,7 +11,7 @@ Login
         <div class="login-box">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title">Login</h2>
+                    <h2 class="title">Login ..</h2>
                 </div>
             </div>
             <div class="row mb-3">

@@ -61,7 +61,7 @@
             </div>
             <div class="item-mark cost-ctr">
                 <div class="caption">
-                    Cost Ctr
+                    Req Dept
                 </div>
                 <div class="colon">
                     :
@@ -74,13 +74,13 @@
         <div class="col-lg-7 col-md-12">
             <div class="item-mark">
                 <div class="caption">
-                    Req Dept
+                    Cost Ctr
                 </div>
                 <div class="colon">
                     :
                 </div>
                 <div class="ctn">
-                    <?= $DeptName;?> (<?= $routes[0]->DeptId;?>)
+                <?= $DeptNameCCt;?> (<?= $DeptCCt;?>)
                 </div>
             </div>
             <div class="item-mark">
