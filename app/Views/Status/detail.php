@@ -166,28 +166,31 @@
     <?php endif;?>
 </div>
 
-
 <div class="stat-detail-section-box mb-0">
     <h3 class="title">Otorisasi</h3>
     <div class="authorization">
     <?php
+    foreach ($signatures as $key => $signature) {
+            if($signature == null) continue;
+            
+            $signature_name = $status_model->getSignatureName( $signature->Acc );
     if($signature_name !== '') {
-        if($signatures[0]->Tolak == 0 && $signatures[0]->Batal == 0) {
-            $signature = $signatures[0]->Acc;
+        if($signature->Tolak == 0 && $signature->Batal == 0) {
+            $ttd = $signature->Acc;
         } else {
-            if($signatures[0]->Tolak == 1) {
-                $signature = 'tolak';
+            if($signature->Tolak == 1) {
+                $ttd = 'tolak';
             } else {
-                $signature = 'batal';
+                $ttd = 'batal';
             }
         }
         ?>
         <div class="auth-item">
-            <div class="position"><?= $signatures[0]->Posisi;?></div>
-            <div class="date"><?= $TglAcc;?></div>
+            <div class="position"><?= $signature->Posisi;?></div>
+            <div class="date"><?= $signature->TglAcc;?></div>
             <div class="signature">
                 <?php
-                $paraf = "http://10.14.80.203/paraf/" . $signature . ".gif";
+                $paraf = "http://10.14.80.203/paraf/" . $ttd . ".gif";
                 if(stripos(get_headers($paraf)[0],"200 OK")) : ?>
                     <img src="<?= $paraf;?>" />
                 <?php else : ?>
@@ -199,7 +202,8 @@
             <div class="name"><?= $signature_name;?></div>
         </div>
     <?php
-    } ?>
+    }
+    }?>
     </div>
 </div>
 

@@ -78,7 +78,7 @@ class Filters extends BaseConfig
             'before' => [
                 '/',
                 'queue',
-                'status/detail/*',
+                //'status/detail/*',
                 'status/acc/*',
                 'auth/changeFungsi',
                 'auth/logout',

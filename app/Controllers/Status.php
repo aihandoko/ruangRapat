@@ -190,13 +190,14 @@ class Status extends BaseController
         *
         */
         $signatures = $status_model->getSignatures( $SPMBNo );
-        $signature_name = $status_model->getSignatureName( $signatures[0]->Acc );
+       // $signature_name = $status_model->getSignatureName( $signatures[0]->Acc );
 
         /*
         * CATATAN-CATATAN
         * dari select Posisi, Catatan from SPMB_ACC where SPMBNo =@SPMB order by NoUrut Desc
         */
         $notes = $status_model->getNotes( $SPMBNo );
+
 
         return view('Status/detail', [
             'page_title' => 'ACC SPMB',
@@ -206,7 +207,8 @@ class Status extends BaseController
             'DeptName' => $dept_name,
             'DeptNameCCt' => $dept_name_cct ,
             'DeptCCt' => $dept_cct ,
-            'signature_name' => $signature_name,
+            // 'signature_name' => $signature_name,
+            'status_model' => $status_model,
             'signatures' => $signatures,
             'TglAcc' => $common->dateConverter($signatures[0]->TglAcc),
             'route_otorisasi' => implode(' > ', $route_otorisasi),
@@ -214,6 +216,9 @@ class Status extends BaseController
             'SPMBNo' => $SPMBNo,
             'breadcrumbs' => $this->breadcrumbs->render(),
         ]);
+
+
+
     }
 
     /**
