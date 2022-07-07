@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\QueueModel;
 use App\Libraries\Common;
-use CodeIgniter\I18n\Time; 
+use CodeIgniter\I18n\Time;
 
 class Queue extends BaseController
 {

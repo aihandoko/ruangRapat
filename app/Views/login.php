@@ -8,6 +8,7 @@ Login
 
 <div class="login-wrapper">
     <form name="login">
+    <?php //echo form_open('auth/verifyLogin');?>
         <div class="login-box">
             <div class="row">
                 <div class="col-12">

@@ -6,7 +6,7 @@
     <title><?= $this->renderSection('title'); ?> :: SPMB</title>
     <meta name="description" content="SPMB app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="<?= site_url('favicon.ico');?>" />
     <link rel="stylesheet" href="<?= site_url('third-party/fontawesome/css/all.min.css'); ?>" />
 
     <link rel="stylesheet" href="<?= site_url('third-party/bootstrap/css/bootstrap.min.css'); ?>" />
@@ -128,7 +128,7 @@
             </div>
         </section>
 
-        <footer class="app-footer">
+        <footer class="app-footer<?= (env('app.bottomFrame')) ? ' with-margin' : '';?>">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -139,6 +139,28 @@
                 </div>
             </div>
         </footer>
+
+        <?php
+        if(env('app.bottomFrame')) : 
+        $client = \Config\Services::curlrequest();
+        $response = $client->request('GET', 'http://10.14.80.200/bottom.htm');
+        function getRelativeContent($url) {
+            $page = file_get_contents($url);
+            if (substr($url, -1, 1) != "/") {
+                $url .= "http://10.14.80.200/";
+            }
+            $mainurl = "http://10.14.80.200/";
+            
+            $page = preg_replace('/src="(\/)?([\w_\-\/\.\?&=@%#]*)"/i','src="' . $mainurl . '$2"', $page);
+            $page = preg_replace('/href="(\/)?([\w_\-\/\.\?&=@%#]*)"/i','href="' . $mainurl . '$2"', $page);
+
+            return $page;
+        }
+        ?>
+        <div class="frame-bottom">
+            <?= getRelativeContent('http://10.14.80.200/bottom.htm');?>
+        </div>
+        <?php endif;?>
 
     </div>
 

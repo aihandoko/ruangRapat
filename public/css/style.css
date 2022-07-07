@@ -715,6 +715,9 @@ form[name="login"] button[name="submit"]:disabled,
   margin-top: 30px;
   padding: 0 20px;
 }
+.app-footer.with-margin {
+  margin-bottom: 90px;
+}
 .app-footer.to-sidebar-hide {
   margin-left: 0;
   width: 100%;
@@ -726,10 +729,6 @@ form[name="login"] button[name="submit"]:disabled,
   color: rgba(0,0,0,.5);
 }
 
-
-#queueList a:visited{
-  color:#2f375c;
-}
 
 @media only screen and (max-width: 1120px) {
   .sidebar {
