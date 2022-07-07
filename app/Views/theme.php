@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" type="text/css" href="<?= site_url('third-party/DataTables/datatables.min.css');?>" />
 
-    <link rel="stylesheet" type="text/css" href="<?= site_url('css/style.css'); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?= site_url('css/style.css?'.time()); ?>" />
 </head>
 
 <body>

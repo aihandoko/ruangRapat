@@ -1,21 +1,18 @@
-# SPMB
+# ACC-SPMB
 
 ## Instalasi
 
 Untuk instalasi:
 
 - Clone project dengan perintah `git clone https://github.com/alfisahr/goman-mis-spmb.git`
-- Akan ada folder `goman-mis-spmb`. Silahkan rename folder tsb sesuai yang dikehendaki, misalkan `spmb`
+- Akan ada folder `ACC-SPMB`. Silahkan rename folder tsb sesuai yang dikehendaki, misalkan `spmb`
 - Jalankan perintah `composer install` untuk menginstall dependency
 - Buat file `.env` dengan kode kurang lebih spt ini
 ```
 CI_ENVIRONMENT = production
 
-# Masukkan URL
+# Masukkan URL (silahkan sesuaikan)
 app.baseURL = 'http://10.14.83.119/spmb/'
-
-# Iframe untuk link di bawah, true untuk mengaktifkan
-app.bottomFrame = false
 
 database.default.DSN = sqlsrv:Server=PRINTING,5000;Database=BekalDB
 database.default.hostname = PRINTING
