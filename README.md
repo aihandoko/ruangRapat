@@ -4,7 +4,7 @@
 
 Untuk instalasi:
 
-- Clone project dengan perintah `git clone https://github.com/alfisahr/goman-mis-spmb.git`
+- Clone project dengan perintah `git clone https://github.com/mitraedukasinusantarateam/ACC-SPMB.git`
 - Akan ada folder `ACC-SPMB`. Silahkan rename folder tsb sesuai yang dikehendaki, misalkan `spmb`
 - Jalankan perintah `composer install` untuk menginstall dependency
 - Buat file `.env` dengan kode kurang lebih spt ini
@@ -12,7 +12,7 @@ Untuk instalasi:
 CI_ENVIRONMENT = production
 
 # Masukkan URL (silahkan sesuaikan)
-app.baseURL = 'http://10.14.83.119/spmb/'
+app.baseURL = 'http://localhost/spmb/'
 
 database.default.DSN = sqlsrv:Server=PRINTING,5000;Database=BekalDB
 database.default.hostname = PRINTING
@@ -40,6 +40,7 @@ database.nls.DBDriver = SQLSRV
 database.nls.port = 5000
 database.nls.DBPrefix =
 ```
+- Buka console persis di directory project ini dan jalankan `php spark serve` untuk menstartup local web server
 - Jika ingin me-running aplikasi dengan subfolder, contohnya `http://localhost/spmb` atau `http://10.14.83.2/spmb` silahkan ubah file `.htaccess` di `public/.htaccess` menjadi spt ini:
 ```
 # spmb/public/.htacess
