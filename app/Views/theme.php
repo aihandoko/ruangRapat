@@ -51,9 +51,11 @@
                                         $selected = ($key == session()->get('selected_key')) ? ' selected' : '';
 
                                         $active = ($value->Site == session()->get('Site') && $value->Fungsi == session()->get('Fungsi')) ? ' active' : '';
+                                        $switch_link = ($value->Site == session()->get('Site') && $value->Fungsi == session()->get('Fungsi')) ? '#' : site_url('auth/changeFungsi/'.$key);
                                             ?>
-                                        <a href="#" data-key="<?= $key;?>" class="dropdown-item<?= $active;?>"><?= $value->Site . ' - ' . $value->Fungsi;?></a>
+                                        <a href="<?= $switch_link;?>" data-key="<?= $key;?>" class="dropdown-item<?= $active;?>"><?= $value->Site . ' - ' . $value->Fungsi;?></a>
                                     <?php endforeach;?>
+                                    <!-- <a href="#" data-key="1" class="dropdown-item">Pal - Logistic</a> -->
                                 </div>
                             </button>
                         </div>
