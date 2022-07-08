@@ -57,7 +57,7 @@ class Authentication
 
         if(count($query) > 0) {
             $session = session();
-            $session->regenerate();
+            // $session->regenerate();
             $session->set('selected_key', $key);
             $session->set('NIK', $query[$key]->NIK);
             $session->set('Nama', $query[$key]->Nama);
@@ -66,6 +66,8 @@ class Authentication
             $session->set('KodeSPMB', $query[$key]->KodeSPMB);
             $session->set('DeptId', $query[$key]->DeptId);
             $session->set('CompId', $query[$key]->CompId);
+
+            // session_write_close();
 
             return true;
         }

@@ -67,32 +67,32 @@ $(function () {
     $('body').removeClass('hidescroll');
   });
 
-	$('.switch-nav .dropdown-item.active').on('click', function(e) {
+	$('.switch-nav .dropdown-item').on('click', function(e) {
 		e.preventDefault();
-	// 	const key = $(this).attr('data-key');
- //    console.log(key)
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: `${HOST}/auth/changeFungsi`,
-	// 		data: {key},
-	// 		dataType: "JSON",
-	// 		beforeSend: function () {
-	// 			$('.overlay').addClass('show')
-	// 		},
-	// 		success: function (data) {
- //        console.log(window.location.href);
-	// 			if(data.success) {
-	// 				$('.switch-nav .fungsi').html(data.Site + ' - ' + data.Fungsi)
-	// 				$('.switch-nav .dropdown-item').removeClass('active')
-	// 				$('.switch-nav .dropdown-item:nth-child('+(data.selected_key + 1)+')').addClass('active')
-	// 			}
-	// 		},
-	// 		error: function () {},
-	// 		complete: function (complete) {
- //        $('.overlay').removeClass('show')
- //        location.reload();
-	// 		}
-	// 	})
+		const key = $(this).attr('data-key');
+    console.log(key)
+		$.ajax({
+			type: "POST",
+			url: `${HOST}/auth/changeFungsi`,
+			data: {key},
+			dataType: "JSON",
+			beforeSend: function () {
+				$('.overlay').addClass('show')
+			},
+			success: function (data) {
+        console.log(window.location.href);
+				if(data.success) {
+					$('.switch-nav .fungsi').html(data.Site + ' - ' + data.Fungsi)
+					$('.switch-nav .dropdown-item').removeClass('active')
+					$('.switch-nav .dropdown-item:nth-child('+(data.selected_key + 1)+')').addClass('active')
+				}
+			},
+			error: function () {},
+			complete: function (complete) {
+        $('.overlay').removeClass('show')
+        location.reload();
+			}
+		})
 	});
 
   $('[id*=acc_notes]').on('keyup', function() {
