@@ -7,12 +7,15 @@ Login
 <?= $this->section('content')?>
 
 <div class="login-wrapper">
-    <form name="login">
-    <?php //echo form_open('auth/verifyLogin');?>
+    <!-- <form name="login"> -->
+    <?= form_open('auth/checkLogin');?>
         <div class="login-box">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title">Login ..</h2>
+                    <h2 class="title">Login</h2>
+                    <?php if(session()->has('error')) : ?>
+                    <div class="alert alert-danger"><?= session()->get('error');?></div>
+                    <?php endif;?>
                 </div>
             </div>
             <div class="row mb-3">

@@ -23,51 +23,28 @@ class Auth extends BaseController
             cache()->delete('dataQueue');
             cache()->delete('dataDenyQueue');
             cache()->delete('dataUsers');
-            $redirect = session('redirect_url') ?? '/';
-            $success = true;
-            $msg = 'Login berhasil';
-            unset($_SESSION['redirect_url']);
+
+            return redirect()->to('/');
+            // $redirect = session('redirect_url') ?? '/';
+            // $success = true;
+            // $msg = 'Login berhasil';
+            // unset($_SESSION['redirect_url']);
         } else {
-            $redirect = '';
-            $success = false;
-            $msg = 'Email atau password salah';
-            // return redirect()->back()
-            //                 ->withInput()
-            //                 ->with('error', 'Email atau password salah.');
-        }
-
-        $response = [
-            'success' => $success,
-            'redirect' => $redirect,
-            'msg' => $msg
-        ];
-
-        return $this->response->setJSON($response);
-    }
-
-    public function verifyLogin()
-    {
-        $nik = $this->request->getPost('nik');
-        $password = $this->request->getPost('password');
-
-        $auth = service('auth');
-
-        if($auth->login($nik, $password)) {
-            cache()->delete('dataStatus');
-            cache()->delete('dataQueue');
-            cache()->delete('dataDenyQueue');
-            cache()->delete('dataUsers');
-            $redirect = session('redirect_url') ?? '/';
-            unset($_SESSION['redirect_url']);
-            return redirect()->to($redirect);
-        } else {
-            $redirect = '';
-            $success = false;
-            $msg = 'Email atau password salah';
             return redirect()->back()
                             ->withInput()
-                            ->with('error', 'Email atau password salah.');
+                            ->with('error', 'NIK atau password salah.');
+            // $redirect = '';
+            // $success = false;
+            // $msg = 'Email atau password salah';
         }
+
+        // $response = [
+        //     'success' => $success,
+        //     'redirect' => $redirect,
+        //     'msg' => $msg
+        // ];
+
+        // return $this->response->setJSON($response);
     }
 
     public function logout() {

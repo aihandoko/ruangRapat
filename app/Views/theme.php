@@ -140,28 +140,6 @@
             </div>
         </footer>
 
-        <?php
-        if(env('app.bottomFrame')) : 
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', 'http://10.14.80.200/bottom.htm');
-        function getRelativeContent($url) {
-            $page = file_get_contents($url);
-            if (substr($url, -1, 1) != "/") {
-                $url .= "http://10.14.80.200/";
-            }
-            $mainurl = "http://10.14.80.200/";
-            
-            $page = preg_replace('/src="(\/)?([\w_\-\/\.\?&=@%#]*)"/i','src="' . $mainurl . '$2"', $page);
-            $page = preg_replace('/href="(\/)?([\w_\-\/\.\?&=@%#]*)"/i','href="' . $mainurl . '$2"', $page);
-
-            return $page;
-        }
-        ?>
-        <div class="frame-bottom">
-            <?= getRelativeContent('http://10.14.80.200/bottom.htm');?>
-        </div>
-        <?php endif;?>
-
     </div>
 
     <!-- SCRIPTS -->
