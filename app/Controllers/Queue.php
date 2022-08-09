@@ -664,22 +664,5 @@ class Queue extends BaseController
         return $deny_res;
     }
 
-    //untuk hapus SPMB yg tidak ada di NLS dan belum ACC
-    public function spmbNoNLS()
-    {
-        // Ambil semua PR NLS
-        $queryNLS = "select CompId +'-'+ string(ReqNo) NoPR from Request_H where ReqType='PR' and CompId in ('020','422','425','500','527','645','650','660','663','672','674') order by NoPR ";
-        $exc_queryNLS = $this->db3->simpleQuery($queryNLS);
-       
-        do {
-            $resultsNLS = [];
-            while($rowNLS = sqlsrv_fetch_array($exc_queryNLS, SQLSRV_FETCH_ASSOC)) {
-                $resultsNLS[] = $rowNLS;
-            }
-        } while (sqlsrv_next_result($exc_queryNLS));
-
-        return $resultsNLS;
-        //belum selesai
-    }
 
 }
