@@ -126,7 +126,7 @@ class Queue extends BaseController
 
         if(count($results) == 0) {
 
-            $query = $this->db->query("delete SPMB_ACC where Kode= '" . $SPMBNo . "' and isnull(Acc,'-') = '-' ");
+            $query = $this->db->query("update SPMB_ACC set Batal=1 where SPMBNo= '" . $SPMBNo . "'");
             $result_array = $query->getResultArray();
             return $result_array;
 
@@ -382,7 +382,7 @@ class Queue extends BaseController
 
         if(count($results) == 0) {
 
-            $query = $this->db->query("delete SPMB_ACC where Kode= '" . $SPMBNo . "' and isnull(Acc,'-') = '-' ");
+            $query = $this->db->query("update SPMB_ACC set Batal=1 where SPMBNo= '" . $SPMBNo . "'");
             $result_array = $query->getResultArray();
             return $result_array;
             
