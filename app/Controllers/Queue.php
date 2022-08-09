@@ -125,6 +125,11 @@ class Queue extends BaseController
         } while (sqlsrv_next_result($query));
 
         if(count($results) == 0) {
+
+            $query = $this->db->query("delete SPMB_ACC where Kode= '" . $SPMBNo . "' and isnull(Acc,'-') = '-' ");
+            $result_array = $query->getResultArray();
+            return $result_array;
+
             return view('Status/detail_not_found', [
                 'page_title' => 'ACC SPMB',
                 'auth' => $this->auth,
@@ -147,7 +152,6 @@ class Queue extends BaseController
 
         //dd($dept_cct);
 
-      
         /*
         * Dept ID Req Dept dan Kode Routing dari DB PRINTING
         */
@@ -377,6 +381,11 @@ class Queue extends BaseController
         } while (sqlsrv_next_result($query));
 
         if(count($results) == 0) {
+
+            $query = $this->db->query("delete SPMB_ACC where Kode= '" . $SPMBNo . "' and isnull(Acc,'-') = '-' ");
+            $result_array = $query->getResultArray();
+            return $result_array;
+            
             return view('Status/detail_not_found', [
                 'page_title' => 'ACC SPMB',
                 'auth' => $this->auth,
@@ -550,7 +559,7 @@ class Queue extends BaseController
         // Jika radio-button tolak
         if($approval == 'tolak') {
             $query_no_urut = $spmb_acc_tbl->select('NoUrut')
-                                ->where('SPMBNo', 'U1117415')
+                                ->where('SPMBNo', $spmbno)
                                 ->where('Acc', NULL)
                                 ->where('Posisi', 'CFM')
                                 ->get();
@@ -565,7 +574,7 @@ class Queue extends BaseController
             }
 
             $query_posisi = $spmb_acc_tbl->select('Posisi')
-                                        ->where('SPMBNo', 'U1117415')
+                                        ->where('SPMBNo', $spmbno)
                                         ->where('NoUrut', $no_urut)
                                         ->get();
             if($query_posisi->getNumRows() > 0) {
@@ -654,4 +663,23 @@ class Queue extends BaseController
 
         return $deny_res;
     }
+
+    //untuk hapus SPMB yg tidak ada di NLS dan belum ACC
+    public function spmbNoNLS()
+    {
+        // Ambil semua PR NLS
+        $queryNLS = "select CompId +'-'+ string(ReqNo) NoPR from Request_H where ReqType='PR' and CompId in ('020','422','425','500','527','645','650','660','663','672','674') order by NoPR ";
+        $exc_queryNLS = $this->db3->simpleQuery($queryNLS);
+       
+        do {
+            $resultsNLS = [];
+            while($rowNLS = sqlsrv_fetch_array($exc_queryNLS, SQLSRV_FETCH_ASSOC)) {
+                $resultsNLS[] = $rowNLS;
+            }
+        } while (sqlsrv_next_result($exc_queryNLS));
+
+        return $resultsNLS;
+        //belum selesai
+    }
+
 }

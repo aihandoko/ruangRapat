@@ -125,6 +125,11 @@ class Status extends BaseController
         //dd($results);
 
         if(count($results) == 0) {
+
+            $query = $this->db->query("delete SPMB_ACC where Kode= '" . $SPMBNo . "' and isnull(Acc,'-') = '-' ");
+            $result_array = $query->getResultArray();
+            return $result_array;
+            
             return view('Status/detail_not_found', [
                 'page_title' => 'ACC SPMB',
                 'auth' => $this->auth,
