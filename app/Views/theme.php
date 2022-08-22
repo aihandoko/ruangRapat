@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $this->renderSection('title'); ?> :: SPMB</title>
+    <title><?= $this->renderSection('title'); ?> :: Ruang Rapat</title>
     <meta name="description" content="SPMB app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="<?= site_url('favicon.ico');?>" />
@@ -38,26 +38,8 @@
                         <span data-placement="bottom" class="burger-icon active"><i class="fas fa-bars"></i></span>
                         <span data-placement="bottom" class="burger-icon-mobile"><i class="fas fa-bars"></i></span>
                     </div>
-                    <?php if($auth->isLoggedIn()) : ?>
-                    <div class="switch-wrapper">
-                        <div class="caption">Switch fungsi</div>
-                        <div class="switch-nav dropdown">
-                            <button type="button" class="dropdown-toggle" data-toggle="dropdown">
-                                <div class="fungsi">
-                                    <?= session()->get('Site') . ' - ' .session()->get('Fungsi');?>
-                                </div>
-                                <div class="dropdown-menu">
-                                    <?php foreach ($auth->getFungsi() as $key => $value) :
-                                        $selected = ($key == session()->get('selected_key')) ? ' selected' : '';
 
-                                        $active = ($value->Site == session()->get('Site') && $value->Fungsi == session()->get('Fungsi')) ? ' active' : '';
-                                            ?>
-                                        <a href="#" data-key="<?= $key;?>" class="dropdown-item<?= $active;?>"><?= $value->Site . ' - ' . $value->Fungsi;?></a>
-                                    <?php endforeach;?>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
+                    <?php if($auth->isLoggedIn()) : ?>
                         <div class="top-nav">
                             <div class="top-right-nav">
                                 <div class="icon">
@@ -92,39 +74,41 @@
 
         <section class="sidebar">
             <div class="app-title-box">
-                <h1 class="app-title">
-                    SPMB
-                </h1>
+                <p class="app-title">
+                    RuangRapat
+                </p>
             </div>
 
             <div class="main-menu">
                 <?php if($auth->isLoggedIn()) : ?>
                     <ul>
-                        <li class="<?= (url_is('/') || url_is('queue') || url_is('queue/*')) ? 'active' : '' ?>">
-                            <a href="<?= site_url('queue');?>">Antrian SPMB</a>
+                        <li >
+                            <a href="<?= site_url('queue/input');?>">Form Peminjaman</a>
                         </li>
-                        <li class="<?= (url_is('status') || url_is('status/*')) ? 'active' : '' ?>">
-                            <a href="<?= site_url('status');?>">Status SPMB</a>
+
+                        <li>
+                            <a href="<?= site_url('queue/index');?>">Jadwal Peminjaman</a>
                         </li>
-                        <?php if(session()->get('Fungsi') === 'Admin') : ?>
-                            <li class="<?= (url_is('users') || url_is('users/*')) ? 'active' : '' ?>">
-                                <a href="<?= site_url('users');?>">Users</a>
-                            </li>
-                        <?php endif;?>
+
+                        <li >
+                            <a href="<?= site_url('queue/antrian');?>">Antrian Peminjaman</a>
+                        </li>
+
+
                         <li>
                             <a href="<?= site_url('logout');?>" onclick="return confirm('Anda yakin untuk Logout?')">Logout</a>
                         </li>
+
                     </ul>
+
                 <?php else : ?>
                     <ul>
                         <li<?= (url_is('login')) ? ' class="active"' : '' ?>>
                             <a href="<?= site_url('login');?>">Login</a>
                         </li>
-                        <li<?= (url_is('status')) ? ' class="active"' : '' ?>>
-                            <a href="<?= site_url('status');?>">Status SPMB</a>
-                        </li>
                     </ul>
                 <?php endif;?>
+
             </div>
         </section>
 
@@ -133,7 +117,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="copyright">
-                            &copy; <?= date("Y") ?> KG of Manufacture
+                            &copy; <?= date("Y") ?> Group of Manufacture
                         </div>
                     </div>
                 </div>

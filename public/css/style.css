@@ -78,7 +78,7 @@ body.hidescroll {
 }
 
 .common-header {
-  background-color: #729be9;
+  background-color: #94805B;
   color: #fff;
   border-bottom: 3px solid #fff;
 }
@@ -114,9 +114,9 @@ body.hidescroll {
 
 .app-title {
   margin: 0 0 -16px 0;
-  font-weight: 900;
+  font-weight: 400;
   padding: 40px 0 0 20px;
-  font-size: 58px;
+  font-size: 30px;
 }
 
 .header-wrapper {
@@ -145,7 +145,7 @@ body.hidescroll {
   }
 }
 .header-wrapper .app-header {
-  background-color: #729be9;
+  background-color: #94805B;
   color: #fff;
   padding: 10px 20px;
   border-bottom-left-radius: 5px;
@@ -257,7 +257,7 @@ body.hidescroll {
 }
 
 .app-header .top-nav {
-  background-color: #729be9;
+  background-color: #94805B;
   padding: 0;
   color: #fff;
   border-bottom-right-radius: 5px;
@@ -281,7 +281,7 @@ body.hidescroll {
   left: 0;
   top: 0;
   width: 240px;
-  background-color: #cadbf7;
+  background-color: #FCE4D4;
   height: 100%;
   transition: left .3s ease;
 }
@@ -351,7 +351,7 @@ body.hidescroll {
   font-weight: 700;
 }
 .filter-icon {
-  background-color: #cadbf7;
+  background-color: #FCE4D4;
   padding: 6px 15px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -372,17 +372,25 @@ body.hidescroll {
 }
 
 .app-title-box {
-  background-color: #729be9;
+  background-color: #94805B;
   border-bottom: 2px solid #fff;
-  padding: 40px 0 0 20px;
+  padding: 40px 0 0 15px;
   overflow: hidden;
 }
 .app-title-box .app-title {
-  font-weight: 900;
-  margin: 0 0 -16px 0;
+  font-weight: 800;
+  margin: 0 0 -2px 0;
   padding: 0;
-  font-size: 58px;
+  font-size: 38px;
   color: #fff;
+}
+
+.app-title-box .app-title2 {
+  font-weight: 800;
+  margin: 0 0 -2px 0;
+  padding: 0;
+  font-size: 38px;
+  color: rgb(3, 23, 65);
 }
 
 .main-menu {
@@ -416,7 +424,7 @@ body.hidescroll {
   text-decoration: none;
   padding: 3px 0 3px 25px;
   /*opacity: .7;*/
-  color: #729be9;
+  color: #94805B;
 }
 .main-menu ul li a:hover:before,
 .main-menu ul li.active a:before {
@@ -438,7 +446,7 @@ body.hidescroll {
 
 .status-box,
 .detail-marks-box {
-  background-color: #cadbf7;
+  background-color: #FCE4D4;
   overflow: hidden;
 }
 .detail-marks-box .item-mark {
@@ -511,7 +519,7 @@ form[name="login"] button[name="submit"]:disabled,
   background-color: #fff;
 }
 .status-box .clear:hover {
-  color: #007bff;
+  color: #5C4F38;
   background-color: rgba(255,255,255,.5);
 }
 

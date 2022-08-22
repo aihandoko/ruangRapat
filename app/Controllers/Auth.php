@@ -53,36 +53,4 @@ class Auth extends BaseController
         return redirect()->to('login');
     }
 
-    public function changeFungsi()
-    {
-        $fungsi = (int)$this->request->getPost('key');
-
-        if($this->auth->changeFungsi(session()->get('NIK'), $fungsi)) {
-            
-            cache()->delete('dataStatus');
-            cache()->delete('dataQueue');
-            cache()->delete('dataDenyQueue');
-            cache()->delete('dataUsers');
-
-            session()->setFlashdata('flash_success', 'Fungsi diubah ke <strong>' . session()->get('Fungsi') . '</strong>.');
-
-            $response = [
-                'success' => true,
-                'selected_key' => $fungsi,
-                'Fungsi' => session()->get('Fungsi'),
-                'Site' => session()->get('Site'),
-                'current_url' => current_url()
-            ];
-        } else {
-            
-            session()->setFlashdata('flash_error', 'Fungsi gagal diubah');
-
-            $response = [
-                'success' => false,
-                'key' => $fungsi
-            ];
-        }
-
-        return $this->response->setJSON($response);
-    }
 }

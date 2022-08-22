@@ -59,8 +59,6 @@ class BaseController extends Controller
         $this->auth = service('auth');
         $this->db = \Config\Database::connect($group = null);
         $this->db2 = \Config\Database::connect($group = 'orderEntryDb');
-        $this->db3 = \Config\Database::connect('nls');
-        $this->dbLocal = \Config\Database::connect($group = 'local');
 
         $this->breadcrumbs = new \App\Libraries\Breadcrumbs;
     }

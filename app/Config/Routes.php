@@ -38,7 +38,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Queue::index');
 $routes->get('login', 'Auth::login');
 $routes->get('logout', 'Auth::logout');
-$routes->get('switch', 'Fungsi::switch');
+
 
 
 

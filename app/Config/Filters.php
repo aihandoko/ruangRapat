@@ -77,20 +77,15 @@ class Filters extends BaseConfig
         'login' => [
             'before' => [
                 '/',
-                'queue',
+                'pinjam',
                 //'status/detail/*',
-                'status/acc/*',
-                'auth/changeFungsi',
-                'auth/logout',
-                'users',
-                'users/*',
+                //'status/acc/*',
+                //'auth/changeFungsi',
+                //'auth/logout',
+                //'users',
+                //'users/*',
             ]
         ],
-        'admin' => [
-            'before' => [
-                'users',
-                'users/*',
-            ]
-        ]
+        
     ];
 }

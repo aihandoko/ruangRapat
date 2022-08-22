@@ -16,6 +16,7 @@ class Authentication
         $this->model = new UsersModel();
     }
 
+
     public function login($nik, $password)
     {
         $query = "spGetPwdValidation '".$nik."', '".$password."'";
@@ -31,25 +32,16 @@ class Authentication
         return $this->registerSession(0, $nik);
     }
 
+
     public function logout() {
         session()->destroy();
     }
+
 
     public function isLoggedIn() {
         return session()->has('NIK');
     }
 
-    public function getFungsi()
-    {
-        $results = $this->model->getUserByNIK( session()->get('NIK') );
-
-        return $results;
-    }
-
-    public function changeFungsi($nik, $key)
-    {
-        return $this->registerSession($key, $nik);
-    }
 
     private function registerSession(int $key, $nik)
     {
@@ -58,15 +50,8 @@ class Authentication
         if(count($query) > 0) {
             $session = session();
             // $session->regenerate();
-            $session->set('selected_key', $key);
-            $session->set('NIK', $query[$key]->NIK);
-            $session->set('Nama', $query[$key]->Nama);
-            $session->set('Fungsi', $query[$key]->Fungsi);
-            $session->set('Site', $query[$key]->Site);
-            $session->set('KodeSPMB', $query[$key]->KodeSPMB);
-            $session->set('DeptId', $query[$key]->DeptId);
-            $session->set('CompId', $query[$key]->CompId);
-
+            $session->set('NIK', $query[$key]->UserID);
+            $session->set('Nama', $query[$key]->NamaLengkap);
             // session_write_close();
 
             return true;

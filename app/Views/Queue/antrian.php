@@ -7,7 +7,7 @@
 <?= $this->section('content')?>
 
 <div class="subtitle">
-	Jadwal Pemakaian Ruang
+	Antrian Peminjaman Ruang
 </div>
 
 <table  class="table table-bordered table-striped" style="width: 100%">
@@ -16,11 +16,11 @@
 			<th scope="col" width=20>No</th>
             <th scope="col" width=80>Ruang</th>
             <th scope="col" width=110>Tanggal</th>
-            <th scope="col" width=50>Mulai</th>
-            <th scope="col" width=20>Durasi</th>
+            <th scope="col" width=30>Mulai</th>
+            <th scope="col" width=10>Dur</th>
             <th scope="col" width=500>Acara</th>
             <th scope="col" width=300>Unit</th>
-            <th scope="col" width=80></th>
+            <th scope="col" width=125></th>
         </tr>
     </thead>
     <tbody>
@@ -33,8 +33,9 @@
             <td><?php echo round($value['durasi'], 2)   ?></td>
             <td><?php echo $value['acara'] ?></td>
             <td><?php echo $value['bag'] ?></td>
-            <td><?php //echo ?>
-        
+            <td> 
+            <button type="button" class="btn btn-success btn-sm">Acc</button>  
+            <button type="button" class="btn btn-danger btn-sm">Del</button>  
             </td>
         </tr>
         <?php endforeach; ?>
