@@ -15,10 +15,10 @@ class Queue extends BaseController
         $this->model = new PinjamModel();
     }
 
-	// JADWAL - tampilkan yg sudah ACC
+	// tampilkan list yg sudah ACC
 	public function index() 
 	{
-        $data = $this->model->getPinjam('S');
+        $data = $this->model->getList('S');
 		//dd ($data);
 		return view('Queue/main', [
 			'page_title' => 'Jadwal',
@@ -27,10 +27,11 @@ class Queue extends BaseController
 		]);
 	}
 
-	// ANTRIAN - tampilkan yg blm ACC
+
+	// tampilkan list yg blm ACC
 	public function antrian() 
 	{
-        $data = $this->model->getPinjam('-');
+        $data = $this->model->getList('-');
 		//dd ($data);
 		return view('Queue/antrian', [
 			'page_title' => 'Antrian',
@@ -39,6 +40,32 @@ class Queue extends BaseController
 		]);
 	}
 
+	// tampilkan detil peminjaman
+	public function detil($no) 
+	{
+        $data = $this->model->getPinjam($no);
+		//dd ($data);
+		return view('Queue/detil', [
+			'page_title' => 'Detil',
+			'auth' => $this->auth,
+			'pinjam' => $data
+		]);
+	}
+
+
+	// form input
+	public function input()
+    {
+		$data = $this->model->getList('-');
+		//dd ($data);
+		return view('Queue/input', [
+			'page_title' => 'Form Input',
+			'auth' => $this->auth,
+			'pinjam' => $data
+		]);
+
+		
+    }
 
 
     

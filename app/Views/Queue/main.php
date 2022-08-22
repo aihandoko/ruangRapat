@@ -30,12 +30,10 @@
             <td><?php echo $value['ruang'] ?></td>
             <td><?php echo date("d-m-Y", strtotime($value['tgl'])); ?></td>
             <td><?php echo $value['mulai'] ?></td>
-            <td><?php echo round($value['durasi'], 2)   ?></td>
-            <td><?php echo $value['acara'] ?></td>
+            <td><?php echo round($value['no'], 2)   ?></td>
+            <td><a href="<?php echo base_url('/queue/detil/'. $value['no']);?>"><?php echo $value['acara'] ?></a> </td>
             <td><?php echo $value['bag'] ?></td>
-            <td><?php //echo ?>
-        
-            </td>
+            <td><button type="button" class="btn btn-danger btn-sm">X</button></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

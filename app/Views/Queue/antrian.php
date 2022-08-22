@@ -20,7 +20,7 @@
             <th scope="col" width=10>Dur</th>
             <th scope="col" width=500>Acara</th>
             <th scope="col" width=300>Unit</th>
-            <th scope="col" width=125></th>
+            <th scope="col" width=125>ACC</th>
         </tr>
     </thead>
     <tbody>
@@ -34,8 +34,8 @@
             <td><?php echo $value['acara'] ?></td>
             <td><?php echo $value['bag'] ?></td>
             <td> 
-            <button type="button" class="btn btn-success btn-sm">Acc</button>  
-            <button type="button" class="btn btn-danger btn-sm">Del</button>  
+            <button type="button" class="btn btn-success btn-sm">Y</button>  
+            <button type="button" class="btn btn-danger btn-sm">T</button>  
             </td>
         </tr>
         <?php endforeach; ?>
