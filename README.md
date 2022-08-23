@@ -1,27 +1,17 @@
-# ACC-SPMB
+# Ruang Rapat
 
 ## Instalasi
 
 Untuk instalasi:
 
-- Clone project dengan perintah `git clone https://github.com/mitraedukasinusantarateam/ACC-SPMB.git`
-- Akan ada folder `ACC-SPMB`. Silahkan rename folder tsb sesuai yang dikehendaki, misalkan `spmb`
+- Clone project dengan perintah `git clone https://github.com/aihandoko/ruangRapat.git`
 - Jalankan perintah `composer install` untuk menginstall dependency
 - Buat file `.env` dengan kode kurang lebih spt ini
 ```
 CI_ENVIRONMENT = production
 
 # Masukkan URL (silahkan sesuaikan)
-app.baseURL = 'http://localhost/spmb/'
-
-database.default.DSN = sqlsrv:Server=PRINTING,5000;Database=BekalDB
-database.default.hostname = PRINTING
-database.default.database = BekalDB
-database.default.username = 
-database.default.password = 
-database.default.DBDriver = sqlsrv
-database.default.port = 5000
-database.default.DBPrefix =
+app.baseURL = 'http://localhost/ruangrapat/'
 
 database.orderEntryDb.hostname = PRINTING
 database.orderEntryDb.database = OrderEntryDB
@@ -31,19 +21,11 @@ database.orderEntryDb.DBDriver = SQLSRV
 database.orderEntryDb.port = 5000
 database.orderEntryDb.DBPrefix =
 
-database.nls.DSN = sqlsrv:Server=0.0.0.0,5000;Database=LogisticDb
-database.nls.hostname = 10.9.61.26
-database.nls.database = LogisticDb
-database.nls.username = 
-database.nls.password = 
-database.nls.DBDriver = SQLSRV
-database.nls.port = 5000
-database.nls.DBPrefix =
 ```
 - Buka console persis di directory project ini dan jalankan `php spark serve` untuk menstartup local web server
-- Jika ingin me-running aplikasi dengan subfolder, contohnya `http://localhost/spmb` atau `http://10.14.83.2/spmb` silahkan ubah file `.htaccess` di `public/.htaccess` menjadi spt ini:
+- Jika ingin me-running aplikasi dengan subfolder, contohnya `http://localhost/ruangrapat` silahkan ubah file `.htaccess` di `public/.htaccess` menjadi spt ini:
 ```
-# spmb/public/.htacess
+# public/.htacess
 
 RewriteEngine on
 
