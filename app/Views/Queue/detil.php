@@ -10,7 +10,6 @@
 
   <table class="table table-bordered table-striped" >
     <tr> 
-      <td></td>
       <td colspan="3" valign="top"> 
         <table width="81%">
           <tr valign="middle"> 
@@ -74,9 +73,8 @@
           </tr>
         </table></td>
     </tr>
-    <tr valign="middle"> 
-        <td height="30" valign="middle"><a href="<?php echo base_url('/Queue/index');?>" class="btn btn-primary">Kembali</a></td>
-    </tr>
   </table>
+
+  <div><a onClick="history.go(-1);" class="btn btn-primary">Kembali</a></div>
 
 <?= $this->endSection()?>

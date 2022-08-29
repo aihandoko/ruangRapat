@@ -15,7 +15,8 @@ class Queue extends BaseController
         $this->model = new PinjamModel();
     }
 
-	// tampilkan list yg sudah ACC
+
+	// tampilkan list yg sudah ACC //////////////////////////////////////////////////////
 	public function index() 
 	{
         $data = $this->model->getList('S');
@@ -28,7 +29,7 @@ class Queue extends BaseController
 	}
 
 
-	// tampilkan list yg blm ACC
+	// tampilkan list yg blm ACC  //////////////////////////////////////////////////////
 	public function antrian() 
 	{
         $data = $this->model->getList('-');
@@ -40,7 +41,30 @@ class Queue extends BaseController
 		]);
 	}
 
-	// tampilkan detil peminjaman
+	// tampilkan report peminjaman  //////////////////////////////////////////////////////
+	public function laporan()
+	{
+		$request = $this->request->getVar();
+		if( isset($request['dari']) && isset($request['sd']) ) {
+			$dari = $request['dari'];
+			$sd = $request['sd'];
+		} else {
+			$dari = date('m-01-Y'); 
+			$sd = date('m-t-Y');
+		}
+
+		$data = $this->model->getReport($dari, $sd);
+
+		return view('Queue/report', [
+			'page_title' => 'Laporan',
+			'auth' => $this->auth,
+			'pinjam' => $data,
+			'tgl1' => $dari,
+			'tgl2' => $sd
+		]);
+	}
+
+	// tampilkan detil peminjaman  //////////////////////////////////////////////////////
 	public function detil($no) 
 	{
         $data = $this->model->getPinjam($no);
@@ -53,21 +77,52 @@ class Queue extends BaseController
 	}
 
 
-	// form input
+	// acc peminjaman   //////////////////////////////////////////////////////
+	public function acc() 
+	{
+		$request = $this->request->getVar();
+		$data = $this->model->accPinjam($request['no']);
+		
+		session()->setFlashdata('pesan','Persetujuan Peminjaman Berhasil');
+        return redirect()->to('Queue/antrian');
+	}
+	
+
+	// penolakan peminjaman   //////////////////////////////////////////////////////
+	public function tolak() 
+	{
+		$request = $this->request->getVar();
+		$data = $this->model->batalPinjam($request['no']);
+		
+		session()->setFlashdata('pesan','Penolakan Peminjaman Berhasil');
+        return redirect()->to('Queue/antrian');
+	}
+
+
+	// batalkan peminjaman   //////////////////////////////////////////////////////
+	public function batal() 
+	{
+		$request = $this->request->getVar();
+		$data = $this->model->batalPinjam($request['no']);
+		
+		session()->setFlashdata('pesan','Pembatalan Peminjaman Berhasil');
+        return redirect()->to('Queue/index');
+	}
+
+
+	// form input   //////////////////////////////////////////////////////
 	public function input()
     {
-		$data = $this->model->getList('-');
+		//$data = $this->model->getList('-');
+		$data['validation'] = \Config\Services::validation();
 		//dd ($data);
-		return view('Queue/input', [
+		return view('Queue/formInput', [
 			'page_title' => 'Form Input',
 			'auth' => $this->auth,
-			'pinjam' => $data
+			'pinjam' => $data,
+			'validation' =>$data['validation'],
 		]);
-
-		
     }
 
-
-    
 
 }

@@ -8,18 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="<?= site_url('favicon.ico');?>" />
     <link rel="stylesheet" href="<?= site_url('third-party/fontawesome/css/all.min.css'); ?>" />
-
     <link rel="stylesheet" href="<?= site_url('third-party/bootstrap/css/bootstrap.min.css'); ?>" />
-
     <link rel="stylesheet" type="text/css" href="<?= site_url('third-party/DataTables/datatables.min.css');?>" />
-
     <link rel="stylesheet" type="text/css" href="<?= site_url('css/style.css?'.time()); ?>" />
 </head>
 
 <body>
 
     <div id="page">
-
+        
         <div class="overlay"></div>
         <div class="floating-msg<?= (session()->has('flash_success') || session()->has('flash_error')) ? ' show' : '';?>">
             <?php if(session()->has('flash_success')) : ?>
@@ -92,6 +89,10 @@
 
                         <li >
                             <a href="<?= site_url('queue/antrian');?>">Antrian Peminjaman</a>
+                        </li>
+
+                        <li >
+                            <a href="<?= site_url('queue/laporan');?>">Laporan Peminjaman</a>
                         </li>
 
 
