@@ -21,9 +21,8 @@
         <tr>
 			<th scope="col" width=20>No</th>
             <th scope="col" width=80>Ruang</th>
-            <th scope="col" width=110>Tanggal</th>
-            <th scope="col" width=50>Mulai</th>
-            <th scope="col" width=20>Durasi</th>
+            <th scope="col" width=105>Tanggal</th>
+            <th scope="col" width=110>Jam</th>
             <th scope="col" width=500>Acara</th>
             <th scope="col" width=300>Unit</th>
             <?php if(session()->get('NIK') == '96462' || session()->get('NIK') == '04040') : ?>
@@ -37,8 +36,7 @@
             <th scope="row"><?php echo $key+1; ?></th>
             <td><?php echo $value['ruang'] ?></td>
             <td><?php echo date("d-m-Y", strtotime($value['tgl'])); ?></td>
-            <td><?php echo $value['mulai'] ?></td>
-            <td><?php echo round($value['durasi'], 2)   ?></td>
+            <td><?php echo $value['mulai']; echo("-"); echo $value['selesai'];?></td>
             <td><a href="<?php echo base_url('/queue/detil/'. $value['no']);?>"><?php echo $value['acara'] ?></a> </td>
             <td><?php echo ucfirst(strtolower($value['bag'])) ?></td>
             <?php if(session()->get('NIK') == '96462' || session()->get('NIK') == '04040') : ?>

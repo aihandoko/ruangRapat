@@ -57,10 +57,10 @@ class Pinjam extends BaseController
                 ]
             ],
 
-			'durasi'=> [
+			'selesai'=> [
                 'rules' => 'required',
                 'errors' => [
-                    'required' => 'Silakan isi Durasi',
+                    'required' => 'Silakan isi Jam Selesai',
                 ]
             ],
 
@@ -184,7 +184,8 @@ class Pinjam extends BaseController
             'peminjam' => session()->get('NIK'),
             'tgl' => $request['tgl'],
             'mulai' => $request['mulai'],
-            'durasi' => $request['durasi'],
+            'selesai' => $request['selesai'],
+            //'durasi' => $request['durasi'],
             'inex' => $request['inex'],
         ];
 

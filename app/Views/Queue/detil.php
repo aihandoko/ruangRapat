@@ -25,8 +25,8 @@
             <td width="415" valign="middle"> : <?= $pinjam[0]['nama'];?></td>
           </tr>
           <tr valign="middle"> 
-            <td width="123" height="28" valign="middle"> Jam / Durasi</td>
-            <td colspan="2" valign="middle">: <?= $pinjam[0]['mulai'];?> / <?= round($pinjam[0]['durasi'],1);?> jam </td>
+            <td width="123" height="28" valign="middle"> Jam </td>
+            <td colspan="2" valign="middle">: <?php echo $pinjam[0]['mulai']; echo("-"); echo $pinjam[0]['selesai'];?> </td>
             <td width="126" valign="middle"> Jumlah Peserta </td>
             <td width="415" valign="middle"> : <?= $pinjam[0]['peserta'];?></td>
           </tr>

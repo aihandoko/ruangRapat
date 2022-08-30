@@ -49,10 +49,10 @@
             <td valign="middle">
             <input type="time" name="mulai" id="mulai" class="form-control" value="<?php echo old('mulai');?>">
             </td>
-            <td valign="middle" width="200">  WIB</td>
-            <td valign="middle"> Durasi (jam)</td>
+            <td valign="middle" width="200"> </td>
+            <td valign="middle"> Jam Selesai </td>
             <td valign="middle">
-            <input type="number" name="durasi" id="durasi" class="form-control" value="<?php echo old('durasi');?>">
+            <input type="time" name="selesai" id="selesai" class="form-control" value="<?php echo old('selesai');?>">
             </td>
           </tr>
           <tr valign="middle"> 
