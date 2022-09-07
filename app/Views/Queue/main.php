@@ -16,7 +16,7 @@
 	Jadwal Pemakaian Ruang
 </div>
 
-<table  class="table table-bordered table-striped">
+<table  class="table table-striped table-hover">
     <thead>
         <tr>
 			<th scope="col" width=20>No</th>

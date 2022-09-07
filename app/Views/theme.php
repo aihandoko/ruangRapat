@@ -92,9 +92,12 @@
                         </li>
 
                         <li >
-                            <a href="<?= site_url('queue/laporan');?>">Laporan Peminjaman</a>
+                            <a href="<?= site_url('queue/jadwalHarian');?>">Jadwal Harian</a>
                         </li>
 
+                        <li >
+                            <a href="<?= site_url('queue/laporan');?>">Laporan Peminjaman</a>
+                        </li>
 
                         <li>
                             <a href="<?= site_url('logout');?>" onclick="return confirm('Anda yakin untuk Logout?')">Logout</a>

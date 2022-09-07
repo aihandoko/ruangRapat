@@ -124,5 +124,26 @@ class Queue extends BaseController
 		]);
     }
 
+	
+	// tampilkan tabel harian  //////////////////////////////////////////////////////
+	public function jadwalHarian()
+	{
+		$request = $this->request->getVar();
+		if( isset($request['tgl']) ) {
+			$tanggal = $request['tgl'];
+		} else {
+			$tanggal = date('m-d-Y');
+		}
+
+		$data = $this->model->getTable($tanggal);
+		//dd($tanggal); 
+		
+		return view('Queue/tabel', [
+			'page_title' => 'Jadwal Harian',
+			'auth' => $this->auth,
+			'pinjam' => $data,
+			'tgl' => $tanggal
+		]);
+	}
 
 }

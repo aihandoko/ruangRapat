@@ -40,7 +40,7 @@ class PinjamModel extends Model
         return $result_array;
     }
 
-    public function getReport($dari, $sampai) //belum dibuat controler & viewnya
+    public function getReport($dari, $sampai) 
     {
         $sql = "SELECT b.NamaLengkap nama, a.* FROM RR_Pinjam a, UserPass b  where a.peminjam=b.UserID and a.status ='S' and a.tgl between '".$dari."' and '".$sampai."' order by tgl";
         $query = $this->db->query($sql);
@@ -49,5 +49,17 @@ class PinjamModel extends Model
         return $result_array;
     }
    
+    public function getTable($tgl)
+    {
+        $query = $this->db->simpleQuery("spRRJadwalHarian '".$tgl."'");
+        do {
+            $results = [];
+            while($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
+                $results[] = $row;
+            }
+        } while (sqlsrv_next_result($query));
+
+        return $results;
+    }
 
 }
