@@ -77,22 +77,22 @@
             </div>
 
             <div class="main-menu">
+                <ul>
+                    <li>
+                        <a href="<?= site_url('queue/index');?>">Jadwal Peminjaman</a>
+                    </li>
+                    <li >
+                        <a href="<?= site_url('queue/jadwalHarian');?>">Jadwal Harian</a>
+                    </li>
+                </ul>
                 <?php if($auth->isLoggedIn()) : ?>
                     <ul>
                         <li >
                             <a href="<?= site_url('queue/input');?>">Form Peminjaman</a>
                         </li>
 
-                        <li>
-                            <a href="<?= site_url('queue/index');?>">Jadwal Peminjaman</a>
-                        </li>
-
                         <li >
                             <a href="<?= site_url('queue/antrian');?>">Antrian Peminjaman</a>
-                        </li>
-
-                        <li >
-                            <a href="<?= site_url('queue/jadwalHarian');?>">Jadwal Harian</a>
                         </li>
 
                         <li >
