@@ -79,7 +79,7 @@
             <div class="main-menu">
                 <ul>
                     <li>
-                        <a href="<?= site_url('queue/index');?>">Jadwal Peminjaman</a>
+                        <a href="<?= site_url('queue/index');?>">Jadwal Pemakaian</a>
                     </li>
                     <li >
                         <a href="<?= site_url('queue/jadwalHarian');?>">Jadwal Harian</a>
